@@ -358,9 +358,92 @@
   @media (max-width: 600px) {
     .site-footer-nav { flex-direction: column; gap: 12px; padding: 16px 20px; }
   }
+  /* ── Site nav bar (hamburger, added) ── */
+  .site-nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--blue);
+  }
+  .site-nav-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+  }
+  .site-nav-logo {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  .site-nav-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 28px;
+    height: 20px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .site-nav-toggle span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .site-nav-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+  .site-nav-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  .site-nav-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+  .site-nav-menu {
+    max-height: 0;
+    overflow: hidden;
+    background: var(--blue-mid);
+    transition: max-height 0.25s ease;
+  }
+  .site-nav-menu.open { max-height: 260px; }
+  .site-nav-menu a {
+    display: block;
+    padding: 13px 20px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: #fff;
+    text-decoration: none;
+    border-top: 1px solid rgba(255,255,255,.16);
+  }
+  .site-nav-menu a:hover { background: rgba(255,255,255,.08); }
 </style>
 </head>
 <body>
+<div class="site-nav-bar">
+  <div class="site-nav-inner">
+    <span class="site-nav-logo">BuildPath</span>
+    <button class="site-nav-toggle" id="siteNavToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="site-nav-menu" id="siteNavMenu" aria-label="BuildPath site links">
+    <a href="index.html">Home</a>
+    <a href="buildpath-estimator-tool.html">Try the tool</a>
+    <a href="get-started.html">Get started</a>
+    <a href="terms-privacy.html">Terms &amp; Privacy</a>
+  </nav>
+</div>
 
 <div class="top-strip"></div>
 
@@ -585,5 +668,16 @@ document.getElementById('getStartedForm').addEventListener('submit', async (e) =
   <a href="terms-privacy.html">Terms &amp; Privacy</a>
 </nav>
 
+<script>
+(function(){
+  var btn = document.getElementById('siteNavToggle');
+  var menu = document.getElementById('siteNavMenu');
+  if (!btn || !menu) return;
+  btn.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
 </body>
 </html>

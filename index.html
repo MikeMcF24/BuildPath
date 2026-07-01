@@ -182,6 +182,32 @@
   }
 
   /* ── How it works — steps ── */
+  .track-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin: 0 0 14px;
+  }
+  .track-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 30px 0 26px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .track-divider::before,
+  .track-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
   .steps {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -450,9 +476,92 @@
   @media (max-width: 600px) {
     .site-footer-nav { flex-direction: column; gap: 12px; padding: 16px 20px; }
   }
+  /* ── Site nav bar (hamburger, added) ── */
+  .site-nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--blue);
+  }
+  .site-nav-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+  }
+  .site-nav-logo {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  .site-nav-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 28px;
+    height: 20px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .site-nav-toggle span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .site-nav-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+  .site-nav-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  .site-nav-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+  .site-nav-menu {
+    max-height: 0;
+    overflow: hidden;
+    background: var(--blue-mid);
+    transition: max-height 0.25s ease;
+  }
+  .site-nav-menu.open { max-height: 260px; }
+  .site-nav-menu a {
+    display: block;
+    padding: 13px 20px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: #fff;
+    text-decoration: none;
+    border-top: 1px solid rgba(255,255,255,.16);
+  }
+  .site-nav-menu a:hover { background: rgba(255,255,255,.08); }
 </style>
 </head>
 <body>
+<div class="site-nav-bar">
+  <div class="site-nav-inner">
+    <span class="site-nav-logo">BuildPath</span>
+    <button class="site-nav-toggle" id="siteNavToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="site-nav-menu" id="siteNavMenu" aria-label="BuildPath site links">
+    <a href="index.html">Home</a>
+    <a href="buildpath-estimator-tool.html">Try the tool</a>
+    <a href="get-started.html">Get started</a>
+    <a href="terms-privacy.html">Terms &amp; Privacy</a>
+  </nav>
+</div>
 
 <div class="top-strip"></div>
 
@@ -477,19 +586,42 @@
   <!-- ── HOW IT WORKS ── -->
   <section class="section">
     <p class="section-label">How it works</p>
+
+    <p class="track-label">For you &mdash; the contractor</p>
     <div class="steps">
       <div class="step">
         <div class="step-num">01</div>
-        <p class="step-title">Customer answers a few quick questions</p>
-        <p class="step-body">Job type, rough size, site access, timeline, and photos if they have them &mdash; under two minutes, no app or login required.</p>
+        <p class="step-title">You want a smarter first step for enquiries</p>
+        <p class="step-body">Instead of guessing over the phone or writing quotes that go nowhere, you want a tool that filters and qualifies enquiries before they reach you.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
+        <p class="step-title">You choose Standard or Premium and sign up</p>
+        <p class="step-body">Pick the tier that fits your business, tell us about your job types and rates, and we get to work setting it up.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <p class="step-title">BuildPath sets it up on your site</p>
+        <p class="step-body">We configure your branded tool with your rates and job categories, then get it live on your website.</p>
+      </div>
+    </div>
+
+    <div class="track-divider"><span>Then, on your live site</span></div>
+
+    <p class="track-label">For your customers</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">04</div>
+        <p class="step-title">Customer visits your site and tries the tool</p>
+        <p class="step-body">Job type, rough size, site access, timeline, and photos if they have them &mdash; under two minutes, no app or login required.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
         <p class="step-title">They get a clear ballpark range</p>
         <p class="step-body">Clearly labelled as a ballpark, not a quote. Pricing is guided by trade-rate settings, risk rules, GST, and contingency logic &mdash; handled consistently every time.</p>
       </div>
       <div class="step">
-        <div class="step-num">03</div>
+        <div class="step-num">06</div>
         <p class="step-title">You get a better-qualified lead</p>
         <p class="step-body">Customers who want to move forward leave their name, phone, and email. Complex or unclear jobs are flagged for a real conversation instead of receiving a guessed number.</p>
       </div>
@@ -505,6 +637,7 @@
   </section>
 
   <!-- ── TRUST ── -->
+
   <section class="section">
     <p class="section-label">Built to protect your reputation</p>
     <div class="trust-grid">
@@ -614,5 +747,16 @@
   </div>
 </div>
 
+<script>
+(function(){
+  var btn = document.getElementById('siteNavToggle');
+  var menu = document.getElementById('siteNavMenu');
+  if (!btn || !menu) return;
+  btn.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
 </body>
 </html>
