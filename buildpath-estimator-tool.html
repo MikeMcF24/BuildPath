@@ -38,6 +38,17 @@
     --font-mono:    'IBM Plex Mono', monospace;
     --radius:       8px;
   }
+  .demo-banner {
+    display: none;
+    background: var(--blue-soft);
+    border: 1px solid var(--blue-border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    color: var(--ink-mid);
+    line-height: 1.5;
+  }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -616,6 +627,10 @@
 
 <div class="wrap">
 
+  <div class="demo-banner" id="demoBanner">
+    This is the same type of form your customers will use on your website. Right now, it runs on general industry rates so you can test the flow for yourself. Once BuildPath is set up for your business, the ballpark range is guided by your own pricing, job categories, GST, and risk rules.
+  </div>
+
   <div class="hero">
     <h1>Get a clear ballpark range before you book a quote.</h1>
     <p class="subhead">Tell us about your project, add a photo if you have one, and we'll give you a rough starting range. Final pricing is confirmed after a proper review.</p>
@@ -875,6 +890,10 @@ const CONFIG = {
   contactPerson: "[Insert Your Name]",
   contactPhone: "", // leave blank until a real number is added — see callContact() below
   workerUrl: "https://estimator-workerjs.mikey-mcf.workers.dev",
+  // Set to false once this file is configured with a real contractor's rates
+  // and job categories and goes live on their website — this hides the
+  // "general industry rates" demo banner above the form.
+  isDemo: true,
   // Originally Gav's real UltraBuild service lines from the pilot test. Decided to
   // keep this as the default generic builder list going forward — broad enough to
   // cover most building contractors without needing a swap per customer.
@@ -892,6 +911,11 @@ const CONFIG = {
 };
 
 document.querySelectorAll('.ctaName').forEach(el => el.textContent = CONFIG.contactPerson);
+
+if (CONFIG.isDemo) {
+  document.getElementById('demoBanner').style.display = 'block';
+}
+
 
 const jobTypeSelect = document.getElementById('jobType');
 CONFIG.jobTypes.forEach(jt => {
