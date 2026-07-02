@@ -175,32 +175,6 @@
   }
 
   /* ── How it works — steps ── */
-  .track-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin: 0 0 14px;
-  }
-  .track-divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 30px 0 26px;
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-  }
-  .track-divider::before,
-  .track-divider::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--rule);
-  }
   .steps {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -423,21 +397,6 @@
     color: #C5CBF5;
     max-width: 480px;
   }
-  .footer-cta { text-align: right; flex-shrink: 0; }
-  .footer-cta-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #8A9AEB;
-    margin-bottom: 4px;
-  }
-  .footer-cta-contact {
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    color: #fff;
-    line-height: 1.6;
-  }
 
   @media (max-width: 600px) {
     .footer-bar {
@@ -446,7 +405,6 @@
       padding: 22px 20px;
       gap: 14px;
     }
-    .footer-cta { text-align: left; }
   }
 
   /* ── Site footer nav (added: cross-page navigation) ── */
@@ -655,48 +613,6 @@
     color: var(--ink-muted);
   }
 
-  /* ── Channel pills ── */
-  .channel-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 18px 0 22px;
-  }
-  .channel-pill {
-    font-family: var(--font-mono);
-    font-size: 11.5px;
-    letter-spacing: 0.03em;
-    color: var(--ink-mid);
-    border: 1px solid var(--rule);
-    border-radius: 20px;
-    padding: 7px 14px;
-    background: var(--bg-tint);
-  }
-  .funnel-arrow {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    text-align: center;
-    margin: 4px 0;
-  }
-  .dead-end-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
-  .dead-end-pill {
-    font-family: var(--font-mono);
-    font-size: 11.5px;
-    color: var(--ink-faint);
-    border: 1px dashed var(--rule);
-    border-radius: 20px;
-    padding: 7px 14px;
-    text-decoration: line-through;
-  }
-
   /* ── Value grid (checklist cards) ── */
   .value-grid {
     display: grid;
@@ -762,6 +678,43 @@
     line-height: 1.6;
     color: var(--ink-mid);
   }
+
+  /* ── Four-step layout (tightened how-it-works) ── */
+  .steps-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 780px) {
+    .steps-4 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .steps-4 { grid-template-columns: 1fr; }
+  }
+
+  /* ── Final CTA above footer ── */
+  .final-cta {
+    background: var(--ink);
+    border-radius: var(--radius);
+    padding: 40px 32px;
+    text-align: center;
+  }
+  .final-cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 3.6vw, 30px);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .final-cta-sub {
+    font-size: 14px;
+    color: #C5CBF5;
+    margin-bottom: 22px;
+  }
+  .final-cta .btn-primary {
+    display: inline-block;
+  }
 </style>
 </head>
 <body>
@@ -810,18 +763,16 @@
   <!-- ── THE REFERRAL GAP ── -->
   <section class="section">
     <p class="section-label">The referral gap</p>
+    <p class="section-title">Referrals are strong. But your website needs to work for everyone else.</p>
     <div class="punch-banner">
       <p>Referrals build trust. <span>BuildPath captures the customers still deciding.</span></p>
     </div>
     <p class="lede">
-      Most builders win work through referrals, and that makes sense. A happy customer
-      tells a friend, trust is already there, and the next job starts warmer.
-    </p>
-    <p class="lede">
-      But referrals only reach the people already connected to your past customers.
-      There is another group out there: <strong>searching, comparing, scrolling, asking
-      around</strong>, trying to understand what their project might cost before they
-      contact anyone. BuildPath is built for that moment.
+      Most builders win work through referrals, and that will always matter. But referrals
+      only reach people already connected to your past customers. There is another group
+      out there: <strong>searching, comparing, scrolling</strong>, trying to understand
+      what their project might cost before they contact anyone. BuildPath gives them a
+      clearer first step.
     </p>
 
     <div class="journey-grid">
@@ -841,33 +792,10 @@
         <p class="journey-body">Gets a ballpark range, understands the next step, and sends you a better enquiry instead of a vague one.</p>
       </div>
     </div>
-  </section>
 
-  <!-- ── MARKETING NEEDS SOMEWHERE SMARTER TO SEND PEOPLE ── -->
-  <section class="section">
-    <p class="section-label">Your website should work harder</p>
-    <p class="section-title">Your website should not just say who you are. It should help start the sale.</p>
-    <p class="lede">You can spend money getting people to your website:</p>
-    <div class="channel-pills">
-      <span class="channel-pill">Google</span>
-      <span class="channel-pill">Facebook</span>
-      <span class="channel-pill">Instagram</span>
-      <span class="channel-pill">Site signs</span>
-      <span class="channel-pill">Vehicle branding</span>
-      <span class="channel-pill">Local reputation</span>
-      <span class="channel-pill">Word of mouth</span>
+    <div class="not-replacing">
+      <p><strong>BuildPath does not replace referrals.</strong> It gives your business another front door for customers who are interested, but not ready to call.</p>
     </div>
-    <p class="funnel-arrow">but once they arrive, most building websites ask for the same thing</p>
-    <div class="dead-end-row">
-      <span class="dead-end-pill">Call us</span>
-      <span class="dead-end-pill">Email us</span>
-      <span class="dead-end-pill">Request a quote</span>
-    </div>
-    <p class="lede">
-      For some customers, that is too big a first step. BuildPath gives them something
-      easier: check the rough range, understand the process, then decide whether to make
-      contact. That means your marketing finally has somewhere smarter to send people.
-    </p>
   </section>
 
   <!-- ── BUSINESS VALUE ── -->
@@ -875,15 +803,11 @@
     <p class="section-label">What BuildPath gives your business</p>
     <div class="value-grid">
       <div class="value-item"><span class="value-check">&check;</span> Fewer dead-end quote requests</div>
-      <div class="value-item"><span class="value-check">&check;</span> Faster first response</div>
       <div class="value-item"><span class="value-check">&check;</span> Better-prepared customers</div>
       <div class="value-item"><span class="value-check">&check;</span> Cleaner lead information</div>
-      <div class="value-item"><span class="value-check">&check;</span> Less awkward price guessing</div>
-      <div class="value-item"><span class="value-check">&check;</span> A more professional website experience</div>
       <div class="value-item"><span class="value-check">&check;</span> Warmer non-referral enquiries</div>
       <div class="value-item"><span class="value-check">&check;</span> Better use of your website traffic</div>
       <div class="value-item"><span class="value-check">&check;</span> A smoother handover from enquiry to proper quote</div>
-      <div class="value-item"><span class="value-check">&check;</span> A clear way to capture people who are interested but not ready to call</div>
     </div>
   </section>
 
@@ -891,43 +815,26 @@
   <section class="section">
     <p class="section-label">How it works</p>
 
-    <p class="track-label">For you, the contractor</p>
-    <div class="steps">
+    <div class="steps steps-4">
       <div class="step">
         <div class="step-num">01</div>
-        <p class="step-title">You want a smarter first step for enquiries</p>
-        <p class="step-body">Instead of driving across town for vague enquiries, guessing over the phone, or spending time on quotes that go nowhere, BuildPath helps qualify the job before it reaches you.</p>
+        <p class="step-title">Add BuildPath to your website</p>
+        <p class="step-body">Pick a tier, tell us about your job types and pricing, and we get your branded tool live on your site.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
-        <p class="step-title">You choose Standard or Premium and sign up</p>
-        <p class="step-body">Pick the tier that fits your business, tell us about your job types, service area, and pricing approach, and we&rsquo;ll get to work setting it up.</p>
+        <p class="step-title">Customers check their project range</p>
+        <p class="step-body">They answer a few quick questions and get a clear ballpark, not a quote, in under two minutes.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
-        <p class="step-title">BuildPath goes live on your site</p>
-        <p class="step-body">We configure your branded tool with your job categories, pricing logic, and risk rules, then help you get it live on your website.</p>
+        <p class="step-title">They submit better project details</p>
+        <p class="step-body">Instead of a vague message, you get their name, contact details, project info, and photos.</p>
       </div>
-    </div>
-
-    <div class="track-divider"><span>Then, on your live site</span></div>
-
-    <p class="track-label">For your customers</p>
-    <div class="steps">
       <div class="step">
         <div class="step-num">04</div>
-        <p class="step-title">Your customer checks their project</p>
-        <p class="step-body">They choose the job type, rough size, access, timeline, and add photos if they have them. It takes under two minutes, with no app or login required.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">05</div>
-        <p class="step-title">They get a clear ballpark range</p>
-        <p class="step-body">The range is clearly shown as a ballpark, not a quote. It is guided by your setup, trade-rate logic, GST, risk rules, and contingency settings, so the first response is more consistent every time.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">06</div>
-        <p class="step-title">You get a better-qualified lead</p>
-        <p class="step-body">If the customer wants to move forward, they leave their name, phone, and email. Complex or unclear jobs are flagged for a real conversation instead of being given a guessed number.</p>
+        <p class="step-title">You follow up with a warmer lead</p>
+        <p class="step-body">Complex jobs are flagged for a direct conversation. Everything else arrives ready for a proper quote.</p>
       </div>
     </div>
 
@@ -950,25 +857,13 @@
         <p class="trust-body">Customers know exactly what they're getting and what still needs confirming before final pricing.</p>
       </div>
       <div class="trust-item">
-        <p class="trust-title">Complex jobs flagged automatically</p>
-        <p class="trust-body">Consents, structural work, unclear scope, and high-risk jobs are routed to a proper conversation instead of receiving a guessed number.</p>
+        <p class="trust-title">Complex jobs are flagged for a real conversation</p>
+        <p class="trust-body">Consents, structural work, and unclear scope are routed straight to you instead of getting a guessed number.</p>
       </div>
       <div class="trust-item">
-        <p class="trust-title">Consistent, GST-inclusive pricing</p>
-        <p class="trust-body">GST, contingency, and pricing rules are handled in code, not left to the AI, so ranges are produced the same way every time.</p>
+        <p class="trust-title">You stay in control of final pricing</p>
+        <p class="trust-body">GST, contingency, and pricing rules are handled in code, not left to guesswork. BuildPath hands you a warmer lead, not a binding number.</p>
       </div>
-      <div class="trust-item">
-        <p class="trust-title">You stay in control</p>
-        <p class="trust-body">Final pricing is always confirmed by the contractor. BuildPath hands you a warmer lead, not a binding number.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── NOT REPLACING REFERRALS ── -->
-  <section class="section">
-    <div class="not-replacing">
-      <p><strong>BuildPath does not replace referrals.</strong> It gives your business another front door.</p>
-      <p>Referrals will always be valuable because they come with trust already built in. BuildPath handles the customers who are not there yet: the ones who have seen your name, landed on your website, and just need a simple reason to take the next step.</p>
     </div>
   </section>
 
@@ -978,8 +873,8 @@
     <p class="section-title">Choose the level that fits your business</p>
 
     <div class="premium-callout">
-      <p>Built around how you actually price work.</p>
-      <p>Not generic rates. Not a random calculator. Premium can be tuned to your own job types, rates, margins, allowances and risk rules, so the first number a customer sees is grounded in how your business actually works.</p>
+      <p>Premium is built around how you actually price work.</p>
+      <p>Your job types, rates, margins, allowances and risk rules can be built into the setup, so the ballpark range reflects your business rather than a generic average.</p>
     </div>
 
     <div class="pricing-grid">
@@ -1045,6 +940,15 @@
 
   </section>
 
+  <!-- ── FINAL CTA ── -->
+  <section class="section">
+    <div class="final-cta">
+      <p class="final-cta-title">Give your website a smarter first step.</p>
+      <p class="final-cta-sub">Turn interested visitors into better building enquiries.</p>
+      <a href="get-started.html" class="btn-primary">Get started</a>
+    </div>
+  </section>
+
 </div><!-- /wrap -->
 
 <nav class="site-footer-nav" aria-label="BuildPath site links">
@@ -1059,10 +963,6 @@
     Built with hands-on construction industry experience and calibrated against real
     completed jobs, not guesswork.
   </p>
-  <div class="footer-cta-simple">
-    <p class="footer-cta-label">Want it on your site?</p>
-    <a href="get-started.html" class="btn-primary">Get started</a>
-  </div>
 </div>
 
 <script>
