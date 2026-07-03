@@ -137,60 +137,17 @@
     line-height: 1.5;
   }
 
-  /* Radio-style question options */
-  .radio-options { display: flex; flex-direction: column; gap: 8px; }
-  .radio-option {
-    border: 1.5px solid var(--rule);
-    border-radius: var(--radius);
-    padding: 12px 16px;
-    cursor: pointer;
-    font-size: 13.5px;
-    color: var(--ink-mid);
-    transition: border-color 0.15s, background 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .radio-option:hover { border-color: var(--blue-border); }
-  .radio-option.selected {
-    border-color: var(--blue);
-    background: var(--bg-tint);
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .radio-dot {
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    border: 1.5px solid var(--rule);
-    flex-shrink: 0;
-    position: relative;
-  }
-  .radio-option.selected .radio-dot { border-color: var(--blue); }
-  .radio-option.selected .radio-dot::after {
-    content: '';
-    position: absolute;
-    top: 3px; left: 3px;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--blue);
-  }
-
-  /* SheetFix nudge */
-  .sheetfix-nudge {
-    display: none;
+  /* Setup note (replaces old SheetFix bridge step) */
+  .setup-note {
     margin-top: 16px;
-    padding: 16px 18px;
+    padding: 14px 16px;
     border-left: 3px solid var(--blue);
     background: var(--blue-soft);
     border-radius: 0 var(--radius) var(--radius) 0;
-  }
-  .sheetfix-nudge p {
     font-size: 13px;
     line-height: 1.6;
     color: var(--ink-mid);
-    margin-bottom: 14px;
   }
-  .sheetfix-nudge-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
 
   /* Form fields */
   label {
@@ -355,6 +312,22 @@
     text-decoration: none;
   }
   .site-footer-nav a:hover { color: #fff; }
+
+  /* ── Optional SheetFix mention (footer only, not part of main flow) ── */
+  .footer-bar {
+    background: var(--blue-mid);
+    padding: 16px 40px;
+  }
+  .footer-bar p {
+    font-size: 12.5px;
+    color: #C5CBF5;
+  }
+  .footer-bar a { color: #fff; text-decoration: underline; }
+  .footer-bar a:hover { color: #fff; }
+  @media (max-width: 600px) {
+    .footer-bar { padding: 16px 20px; }
+  }
+
   @media (max-width: 600px) {
     .site-footer-nav { flex-direction: column; gap: 12px; padding: 16px 20px; }
   }
@@ -441,7 +414,6 @@
     <a href="index.html">Home</a>
     <a href="buildpath-estimator-tool.html">Try the tool</a>
     <a href="get-started.html">Get started</a>
-    <a href="terms-privacy.html">Terms &amp; Privacy</a>
   </nav>
 </div>
 
@@ -473,36 +445,15 @@
       </div>
     </div>
     <p class="hint" style="margin-top:12px;">The annual live tool fee keeps your BuildPath page live and covers standard usage, hosting, lead capture, and minor maintenance.</p>
+    <div class="setup-note">Not sure if your pricing information is ready? That is fine. Once you submit this form, I will send through the right setup sheet for either Standard or Premium and let you know what is needed.</div>
   </div>
 
-  <!-- ===================== STEP 2: SHEETFIX BRIDGE ===================== -->
-  <div class="step-block" id="bridgeStep" style="display:none;">
-    <p class="step-label">Step 2 &mdash; a quick check</p>
-    <label style="margin-top:0;">Are your rates, margins, allowances, and job categories already clear enough to set this up?</label>
-    <div class="radio-options" id="bridgeOptions">
-      <div class="radio-option" data-value="Yes, I have a usable price guide"><span class="radio-dot"></span>Yes, I have a usable price guide</div>
-      <div class="radio-option" data-value="Sort of, but it needs tidying"><span class="radio-dot"></span>Sort of, but it needs tidying</div>
-      <div class="radio-option" data-value="Most of it is in my head"><span class="radio-dot"></span>Most of it is in my head</div>
-      <div class="radio-option" data-value="Not sure"><span class="radio-dot"></span>Not sure</div>
-    </div>
-
-    <div class="sheetfix-nudge" id="sheetfixNudge">
-      <p>BuildPath works best when your rates, margins, allowances, and job categories are clear enough to configure. If that information is messy or mostly in your head, SheetFix can help tidy it into a usable pricing profile first. You can continue with BuildPath now, or start with SheetFix if that feels like the better first step.</p>
-      <div class="sheetfix-nudge-buttons">
-        <button type="button" class="btn-primary" id="continueBuildPathBtn">Continue with BuildPath</button>
-        <a href="https://sheetfix.co.nz/get-started.html" class="btn-secondary" target="_blank" rel="noopener">Start with SheetFix</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===================== STEP 3: INTAKE FORM ===================== -->
+  <!-- ===================== STEP 2: INTAKE FORM ===================== -->
   <div class="step-block" id="intakeSection">
-    <p class="step-label">Step 3 &mdash; your details</p>
+    <p class="step-label">Step 2 &mdash; your details</p>
     <form id="getStartedForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
 
       <input type="hidden" name="selectedTier" id="selectedTierInput">
-      <input type="hidden" name="pricingReadiness" id="pricingReadinessInput">
-      <input type="hidden" name="mayNeedSheetFix" id="mayNeedSheetFixInput">
 
       <label for="contactName">Your name</label>
       <input type="text" id="contactName" name="name" required>
@@ -583,13 +534,8 @@
 
 <script>
 let selectedTier = null;
-let bridgeAnswer = null;
-let mayNeedSheetFix = false;
 
 const tierOptions = document.getElementById('tierOptions');
-const bridgeStep = document.getElementById('bridgeStep');
-const bridgeOptions = document.getElementById('bridgeOptions');
-const sheetfixNudge = document.getElementById('sheetfixNudge');
 const intakeSection = document.getElementById('intakeSection');
 
 tierOptions.addEventListener('click', (e) => {
@@ -599,31 +545,6 @@ tierOptions.addEventListener('click', (e) => {
   card.classList.add('selected');
   selectedTier = card.dataset.tier;
   document.getElementById('selectedTierInput').value = selectedTier;
-  bridgeStep.style.display = 'block';
-  bridgeStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
-
-bridgeOptions.addEventListener('click', (e) => {
-  const opt = e.target.closest('.radio-option');
-  if (!opt) return;
-  bridgeOptions.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
-  opt.classList.add('selected');
-  bridgeAnswer = opt.dataset.value;
-  document.getElementById('pricingReadinessInput').value = bridgeAnswer;
-
-  if (bridgeAnswer === 'Yes, I have a usable price guide') {
-    mayNeedSheetFix = false;
-    sheetfixNudge.style.display = 'none';
-    revealIntake();
-  } else {
-    mayNeedSheetFix = true;
-    sheetfixNudge.style.display = 'block';
-    intakeSection.style.display = 'none';
-  }
-  document.getElementById('mayNeedSheetFixInput').value = mayNeedSheetFix ? 'Yes' : 'No';
-});
-
-document.getElementById('continueBuildPathBtn').addEventListener('click', () => {
   revealIntake();
 });
 
@@ -647,7 +568,6 @@ document.getElementById('getStartedForm').addEventListener('submit', async (e) =
     });
     if (!res.ok) throw new Error('Submission failed');
 
-    document.getElementById('bridgeStep').style.display = 'none';
     document.getElementById('intakeSection').style.display = 'none';
     document.getElementById('thanksSection').style.display = 'block';
     document.getElementById('thanksSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -667,6 +587,10 @@ document.getElementById('getStartedForm').addEventListener('submit', async (e) =
   <a href="get-started.html">Get started</a>
   <a href="terms-privacy.html">Terms &amp; Privacy</a>
 </nav>
+
+<div class="footer-bar">
+  <p>Need help cleaning up your pricing spreadsheet? <a href="https://sheetfix.co.nz/" target="_blank" rel="noopener">Visit SheetFix</a>.</p>
+</div>
 
 <script>
 (function(){
