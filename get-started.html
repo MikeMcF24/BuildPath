@@ -436,52 +436,53 @@
     <div class="tier-options" id="tierOptions">
       <div class="tier-option" data-tier="Standard">
         <p class="tier-option-name">Standard</p>
-        <p class="tier-option-price">$449 setup incl. GST<br>+$149/year live tool fee</p>
+        <p class="tier-option-price">$449 setup incl. GST<br>then $149/year from renewal</p>
         <p class="tier-option-desc">Live on your site fast &mdash; default pricing logic, your job categories.</p>
       </div>
       <div class="tier-option" data-tier="Premium">
         <p class="tier-option-name">Premium</p>
-        <p class="tier-option-price">$900 setup incl. GST<br>+$149/year live tool fee</p>
+        <p class="tier-option-price">$900 setup incl. GST<br>then $149/year from renewal</p>
         <p class="tier-option-desc">Tuned to your exact rates, margins, and risk rules.</p>
       </div>
     </div>
-    <p class="hint" style="margin-top:12px;">The annual live tool fee keeps your BuildPath page live and covers standard usage, hosting, lead capture, and minor maintenance.</p>
+    <p class="hint" style="margin-top:12px;">First year included in setup. The $149/year (incl. GST) fee then keeps your BuildPath page live, covering hosting, lead capture, and minor maintenance &mdash; it starts at your 12-month renewal, not on day one.</p>
     <div class="setup-note">Not sure if your pricing information is ready? That is fine. Once you submit this form, I will send through the right setup sheet for either Standard or Premium and let you know what is needed.</div>
   </div>
 
   <!-- ===================== STEP 2: INTAKE FORM ===================== -->
   <div class="step-block" id="intakeSection">
     <p class="step-label">Step 2 &mdash; your details</p>
+    <div class="setup-note">Not sure which tier fits? Choose the closest option. I'll review your setup and let you know if Standard is enough or if Premium makes more sense.</div>
     <form id="getStartedForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
 
       <input type="hidden" name="selectedTier" id="selectedTierInput">
 
       <label for="contactName">Your name</label>
-      <input type="text" id="contactName" name="name" required>
+      <input type="text" id="contactName" name="name" autocomplete="name" required>
 
       <label for="businessName">Business name</label>
-      <input type="text" id="businessName" name="businessName" required>
+      <input type="text" id="businessName" name="businessName" autocomplete="organization" required>
 
       <div class="grid-2">
         <div>
           <label for="contactEmail">Email</label>
-          <input type="email" id="contactEmail" name="email" required>
+          <input type="email" id="contactEmail" name="email" autocomplete="email" required>
         </div>
         <div>
           <label for="contactPhone">Phone</label>
-          <input type="tel" id="contactPhone" name="phone" required>
+          <input type="tel" id="contactPhone" name="phone" autocomplete="tel" required>
         </div>
       </div>
 
       <label for="website">Your current website</label>
-      <input type="url" id="website" name="website" placeholder="https://">
+      <input type="url" id="website" name="website" autocomplete="url" placeholder="https://">
       <div class="hint">If you don't have one yet, leave this blank.</div>
 
       <label for="tradeType">Business / trade type</label>
       <input type="text" id="tradeType" name="tradeType" placeholder="e.g. Builder, renovations, decks and outdoor structures" required>
 
       <label for="serviceArea">Service area</label>
-      <input type="text" id="serviceArea" name="serviceArea" placeholder="e.g. New Plymouth and surrounding districts" required>
+      <input type="text" id="serviceArea" name="serviceArea" autocomplete="address-level2" placeholder="e.g. New Plymouth and surrounding districts" required>
 
       <label for="enquiryDestination">Where should BuildPath send customer enquiries?</label>
       <select id="enquiryDestination" name="enquiryDestination" required>
@@ -527,17 +528,52 @@
   <!-- ===================== ERROR ===================== -->
   <div id="errorSection">
     <div class="thanks-box error-box">
-      <p>Something went wrong sending the form. Please email me directly at <span class="placeholder">[EMAIL]</span> and I'll come back to you.</p>
+      <p>Something went wrong sending the form. Please email me directly at <span class="placeholder" id="supportEmailFallback">[EMAIL]</span> and I'll come back to you.</p>
     </div>
   </div>
 
 </div>
 
 <script>
+// ============================================================
+// SUPPORT CONTACT — the real email shown if the form ever fails
+// to submit. TODO: replace this with your real contact email
+// before this page goes live.
+// ============================================================
+const SUPPORT_EMAIL = "mikey.mcf@gmail.com";
+
 let selectedTier = null;
 
 const tierOptions = document.getElementById('tierOptions');
 const intakeSection = document.getElementById('intakeSection');
+const getStartedForm = document.getElementById('getStartedForm');
+
+// ============================================================
+// PRODUCTION SAFETY CHECK
+//
+// Two things must be configured before this page can actually work:
+// SUPPORT_EMAIL above, and the Formspree form action below (currently
+// a placeholder ID). If either is still unfilled, submitting the form
+// would either fail against a dead endpoint or leave a customer with
+// no real way to reach you if something goes wrong. Rather than let
+// that happen silently, this blocks submission with a clear console
+// error and a friendly, non-technical message on the page itself.
+// ============================================================
+const PLACEHOLDER_PATTERN = /^\[Insert/;
+const FORM_ACTION_INCOMPLETE = /YOUR_FORM_ID/.test(getStartedForm.action);
+const SETUP_INCOMPLETE = PLACEHOLDER_PATTERN.test(SUPPORT_EMAIL) || FORM_ACTION_INCOMPLETE;
+
+if (SETUP_INCOMPLETE) {
+  console.error(
+    'get-started.html is not fully configured: ' +
+    (PLACEHOLDER_PATTERN.test(SUPPORT_EMAIL) ? 'SUPPORT_EMAIL still has a placeholder value. ' : '') +
+    (FORM_ACTION_INCOMPLETE ? 'The Formspree form action still contains YOUR_FORM_ID. ' : '') +
+    'Fix these before going live \u2014 form submission has been disabled in the meantime.'
+  );
+}
+
+document.getElementById('supportEmailFallback').textContent =
+  PLACEHOLDER_PATTERN.test(SUPPORT_EMAIL) ? '[EMAIL]' : SUPPORT_EMAIL;
 
 tierOptions.addEventListener('click', (e) => {
   const card = e.target.closest('.tier-option');
@@ -556,6 +592,14 @@ function revealIntake() {
 
 document.getElementById('getStartedForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  if (SETUP_INCOMPLETE) {
+    document.getElementById('intakeSection').style.display = 'none';
+    document.getElementById('errorSection').style.display = 'block';
+    document.getElementById('errorSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
   const submitBtn = document.getElementById('submitBtn');
   submitBtn.disabled = true;
   submitBtn.textContent = 'Sending…';
