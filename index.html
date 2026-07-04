@@ -143,6 +143,70 @@
   }
   .demo-cta-btn:hover { background: var(--blue-mid); }
 
+  /* ── Hero "not a quote" badge ── */
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: var(--blue-soft);
+    border: 1px solid var(--blue-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 16px;
+  }
+
+  /* ── Top-of-page flow strip ── */
+  .flow-strip-wrap { padding: 32px 0; border-bottom: 1px solid var(--rule); }
+  .flow-strip-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 16px;
+  }
+  .flow-strip {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .flow-step { text-align: center; min-width: 96px; }
+  .flow-num {
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 auto 8px;
+    border: 1.5px solid var(--blue);
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue);
+  }
+  .flow-step-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .flow-arrow {
+    color: var(--ink-faint);
+    font-size: 16px;
+    flex: 0 0 auto;
+  }
+  @media (max-width: 640px) {
+    .flow-strip { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .flow-arrow { display: none; }
+    .flow-step { text-align: left; display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .flow-num { margin: 0; }
+  }
+
   /* ── Section chrome ── */
   .section { padding: 48px 0; border-bottom: 1px solid var(--rule); }
   .section:last-of-type { border-bottom: none; }
@@ -286,6 +350,11 @@
     font-weight: 700;
     color: var(--ink);
     margin-bottom: 10px;
+  }
+  .tier-best-for {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-bottom: 16px;
   }
   .tier-includes {
     font-family: var(--font-mono);
@@ -554,7 +623,7 @@
   }
   .punch-banner p {
     font-family: var(--font-display);
-    font-size: clamp(20px, 3.2vw, 28px);
+    font-size: clamp(18px, 2.6vw, 23px);
     font-weight: 700;
     line-height: 1.18;
     max-width: 640px;
@@ -657,6 +726,74 @@
   .not-replacing p + p { margin-top: 10px; }
   .not-replacing strong { color: var(--ink); }
 
+  /* ── Customer / builder preview cards ── */
+  .preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 640px) {
+    .preview-grid { grid-template-columns: 1fr; }
+  }
+  .preview-card {
+    border: 1px solid var(--rule);
+    background: var(--bg-tint);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+  }
+  .preview-card-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 14px;
+  }
+  .preview-mock-range {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .preview-mock-tag {
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-bottom: 16px;
+  }
+  .preview-mock-lead {
+    border: 1px solid var(--rule);
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 16px;
+  }
+  .preview-mock-lead-name {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .preview-mock-lead-detail {
+    font-size: 12.5px;
+    color: var(--ink-muted);
+    margin-bottom: 3px;
+  }
+  .preview-line {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-bottom: 6px;
+    padding-left: 14px;
+    position: relative;
+  }
+  .preview-line::before {
+    content: '\2013';
+    position: absolute;
+    left: 0;
+    color: var(--ink-faint);
+  }
+
   /* ── Premium callout above pricing ── */
   .premium-callout {
     border: 1.5px solid var(--blue);
@@ -744,14 +881,11 @@
   <!-- ── HERO ── -->
   <section class="hero">
     <h1>You already win work through trust. But not every good customer comes through a referral.</h1>
+    <span class="hero-badge">Not a quote — just a clearer starting point</span>
     <p class="subhead">
-      BuildPath gives your building website a smarter first step: a simple ballpark tool
-      that helps new visitors understand their project range, qualify themselves, and
-      make contact with more confidence.
-    </p>
-    <p class="subhead">
-      No fixed price promises. No quote generator. Just a better way to turn website
-      traffic into real enquiries.
+      BuildPath gives your building website a smarter first step — a simple ballpark tool
+      that turns curious visitors into better-prepared enquiries, without ever promising a
+      fixed price.
     </p>
     <div class="hero-ctas">
       <a href="get-started.html" class="btn-primary">Give my website a smarter first step</a>
@@ -759,12 +893,39 @@
     </div>
   </section>
 
-  <!-- ── THE REFERRAL GAP ── -->
+  <div class="flow-strip-wrap">
+    <p class="flow-strip-label">The flow, in short</p>
+    <div class="flow-strip">
+      <div class="flow-step">
+        <span class="flow-num">1</span>
+        <p class="flow-step-label">Website visitor</p>
+      </div>
+      <div class="flow-arrow" aria-hidden="true">&rarr;</div>
+      <div class="flow-step">
+        <span class="flow-num">2</span>
+        <p class="flow-step-label">Ballpark range</p>
+      </div>
+      <div class="flow-arrow" aria-hidden="true">&rarr;</div>
+      <div class="flow-step">
+        <span class="flow-num">3</span>
+        <p class="flow-step-label">Better enquiry</p>
+      </div>
+      <div class="flow-arrow" aria-hidden="true">&rarr;</div>
+      <div class="flow-step">
+        <span class="flow-num">4</span>
+        <p class="flow-step-label">Builder follow-up</p>
+      </div>
+      <div class="flow-arrow" aria-hidden="true">&rarr;</div>
+      <div class="flow-step">
+        <span class="flow-num">5</span>
+        <p class="flow-step-label">Job moves forward</p>
+      </div>
+    </div>
+  </div>
   <section class="section">
-    <p class="section-label">The referral gap</p>
-    <p class="section-title">Referrals are strong. But your website needs to work for everyone else.</p>
+    <h2 class="section-label">The referral gap</h2>
     <div class="punch-banner">
-      <p>Referrals build trust. <span>BuildPath captures the customers still deciding.</span></p>
+      <p>Referrals build trust. <span>BuildPath catches who's still deciding.</span></p>
     </div>
     <p class="lede">
       Most builders win work through referrals, and that will always matter. But referrals
@@ -799,7 +960,7 @@
 
   <!-- ── BUSINESS VALUE ── -->
   <section class="section">
-    <p class="section-label">What BuildPath gives your business</p>
+    <h2 class="section-label">What BuildPath gives your business</h2>
     <div class="value-grid">
       <div class="value-item"><span class="value-check">&check;</span> Fewer dead-end quote requests</div>
       <div class="value-item"><span class="value-check">&check;</span> Better-prepared customers</div>
@@ -812,7 +973,7 @@
 
   <!-- ── HOW IT WORKS ── -->
   <section class="section">
-    <p class="section-label">How it works</p>
+    <h2 class="section-label">How it works</h2>
 
     <div class="steps steps-4">
       <div class="step">
@@ -846,10 +1007,36 @@
     </div>
   </section>
 
+  <!-- ── PREVIEW: WHAT EACH SIDE SEES ── -->
+  <section class="section">
+    <h2 class="section-label">What each side sees</h2>
+    <div class="preview-grid">
+      <div class="preview-card">
+        <p class="preview-card-label">What the customer sees</p>
+        <p class="preview-mock-range">$18,500 &ndash; $24,900 incl. GST</p>
+        <p class="preview-mock-tag">Bathroom renovation &middot; Not a quote</p>
+        <p class="preview-line">A plain-language range, not a fixed price</p>
+        <p class="preview-line">A clear next step explained upfront</p>
+        <p class="preview-line">Only shares their details when they choose to</p>
+      </div>
+      <div class="preview-card">
+        <p class="preview-card-label">What the builder receives</p>
+        <div class="preview-mock-lead">
+          <p class="preview-mock-lead-name">Sarah M. &middot; 021 xxx xxx</p>
+          <p class="preview-mock-lead-detail">Bathroom renovation, existing layout, no structural changes</p>
+          <p class="preview-mock-lead-detail">2 photos attached</p>
+        </div>
+        <p class="preview-line">Real contact details, not a guess</p>
+        <p class="preview-line">Enough detail to actually put a quote together</p>
+        <p class="preview-line">Complex jobs flagged before they land in your inbox</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ── TRUST ── -->
 
   <section class="section">
-    <p class="section-label">Built to protect your reputation</p>
+    <h2 class="section-label">Built to protect your reputation</h2>
     <div class="trust-grid">
       <div class="trust-item">
         <p class="trust-title">Always labelled "not a quote"</p>
@@ -869,7 +1056,7 @@
   <!-- ── PRICING ── -->
   <section class="section">
     <p class="section-label">Pricing</p>
-    <p class="section-title">Choose the level that fits your business</p>
+    <h2 class="section-title">Choose the level that fits your business</h2>
 
     <div class="premium-callout">
       <p>Premium is built around how you actually price work.</p>
@@ -880,11 +1067,12 @@
 
       <div class="tier">
         <div class="tier-header">
-          <p class="tier-name">Standard</p>
+          <h3 class="tier-name">Standard</h3>
           <span class="tier-price">$449 setup incl. GST</span>
           <span class="tier-renewal">then $149/year incl. GST</span>
         </div>
         <p class="tier-tagline">Live on your site fast.</p>
+        <p class="tier-best-for"><strong>Best for:</strong> getting live quickly with proven default pricing.</p>
         <p class="tier-includes">Includes:</p>
         <ul>
           <li>Branded BuildPath page on your website</li>
@@ -900,11 +1088,12 @@
 
       <div class="tier featured">
         <div class="tier-header">
-          <p class="tier-name">Premium</p>
+          <h3 class="tier-name">Premium</h3>
           <span class="tier-price">$900 setup incl. GST</span>
           <span class="tier-renewal">then $149/year incl. GST</span>
         </div>
         <p class="tier-tagline">Tuned to your exact numbers.</p>
+        <p class="tier-best-for"><strong>Best for:</strong> contractors who want the range to match their own rates.</p>
         <p class="tier-includes">Includes everything in Standard, plus:</p>
         <ul>
           <li>Pricing tuned to your actual rates, margins &amp; allowances</li>
@@ -942,7 +1131,7 @@
   <!-- ── FINAL CTA ── -->
   <section class="section">
     <div class="final-cta">
-      <p class="final-cta-title">Give your website a smarter first step.</p>
+      <h2 class="final-cta-title">Give your website a smarter first step.</h2>
       <p class="final-cta-sub">Turn interested visitors into better building enquiries.</p>
       <a href="get-started.html" class="btn-primary">Get started</a>
     </div>
