@@ -1197,6 +1197,8 @@
     schedule(function () { playSequence(); }, 3550 + 5200, myCycle);
   }
 
+  var heroObserverFired = false;
+
   if (!window.IntersectionObserver) {
     // No IntersectionObserver support — skip the scroll-triggered animation
     // entirely and just show the finished, static state so the page still
@@ -1211,10 +1213,12 @@
     rangeHighEl.textContent = RANGE_HIGH.toLocaleString('en-NZ');
     activateStep(5);
     hero.classList.add('benefits-ready');
+    heroObserverFired = true;
   } else {
     var heroObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
+          heroObserverFired = true;
           hero.classList.add('in-view');
           playSequence();
         } else {
@@ -1222,9 +1226,31 @@
           clearPending();
         }
       });
-    }, { threshold: 0.35 });
+    }, { threshold: 0.1 });
     heroObserver.observe(hero);
   }
+
+  // Safety net: on some mobile browsers, a fast scroll can carry the hero
+  // past the viewport before IntersectionObserver ever reports it as
+  // intersecting — with nothing else to add the 'in-view' class, the header
+  // and mockup would otherwise stay invisible (opacity: 0) permanently. If
+  // the animation hasn't triggered shortly after load, force the same
+  // static finished state used for reduced-motion/no-observer browsers,
+  // so content is never left permanently blank.
+  setTimeout(function () {
+    if (heroObserverFired) return;
+    heroObserverFired = true;
+    hero.classList.add('in-view');
+    resetVisualState();
+    widgetCard.classList.add('glow');
+    photoStatus.textContent = 'Added';
+    photoStatus.classList.add('added');
+    widgetSent.classList.add('show');
+    rangeLowEl.textContent = RANGE_LOW.toLocaleString('en-NZ');
+    rangeHighEl.textContent = RANGE_HIGH.toLocaleString('en-NZ');
+    activateStep(5);
+    hero.classList.add('benefits-ready');
+  }, 2500);
 })();
 </script>
 
