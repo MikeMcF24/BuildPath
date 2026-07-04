@@ -67,6 +67,11 @@
     margin: 0 auto;
     padding: 88px 32px 100px;
   }
+  @media (max-width: 640px) {
+    .section { padding: 48px 20px 60px; }
+    .step-banner { margin-bottom: 28px; }
+    .outcome-card { margin: 0 auto 28px; }
+  }
 
   /* ── Header ── */
   .header {
@@ -76,6 +81,9 @@
     opacity: 0;
     transform: translateY(14px);
     transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  @media (max-width: 640px) {
+    .header { margin: 0 auto 36px; }
   }
   .in-view .header { opacity: 1; transform: translateY(0); }
 
@@ -122,7 +130,7 @@
     margin-bottom: 56px;
   }
   @media (max-width: 820px) {
-    .story-grid { grid-template-columns: 1fr; }
+    .story-grid { grid-template-columns: 1fr; margin-bottom: 32px; }
   }
 
   .panel {
@@ -454,6 +462,52 @@
     .step-dot { flex-shrink: 0; }
   }
 
+  /* ── Final CTA ── */
+  .final-cta {
+    text-align: center;
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  @media (max-width: 640px) {
+    .final-cta { margin-top: 32px; padding-top: 28px; }
+  }
+  .final-cta-text {
+    font-family: var(--font-display);
+    font-size: clamp(19px, 2.6vw, 24px);
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .final-cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .final-cta-btn {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 13px 26px;
+    border-radius: var(--radius-sm);
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .final-cta-btn:hover { transform: translateY(-1px); }
+  .final-cta-btn-primary {
+    background: var(--blue);
+    color: #fff;
+  }
+  .final-cta-btn-primary:hover { opacity: 0.92; }
+  .final-cta-btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1.5px solid var(--border-hi);
+  }
+  .final-cta-btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
+
   /* ── Outcome + benefits ── */
   .outcome-wrap {
     text-align: center;
@@ -664,8 +718,7 @@
   .sound-toggle.on .icon-on { display: block; }
   .sound-toggle.on .icon-off { display: none; }
   @media (max-width: 520px) {
-    .sound-toggle { top: 16px; right: 16px; width: 34px; height: 34px; }
-    .sound-toggle svg { width: 15px; height: 15px; }
+    .sound-toggle { display: none; }
   }
 </style>
 </head>
@@ -765,7 +818,7 @@
           </svg>
         </span>
         <p class="step-label">Relationship starts</p>
-        <p class="step-sub">A warmer conversation. Work won.</p>
+        <p class="step-sub">A warmer conversation. A clearer next step.</p>
       </div>
     </div>
   </div>
@@ -880,6 +933,14 @@
         </span>
         <p class="benefit-text">Give customers clarity before a site visit</p>
       </div>
+    </div>
+  </div>
+
+  <div class="final-cta">
+    <p class="final-cta-text">Ready to see it on your own site?</p>
+    <div class="final-cta-buttons">
+      <a href="buildpath-estimator-tool.html" class="final-cta-btn final-cta-btn-primary">Try the tool</a>
+      <a href="get-started.html" class="final-cta-btn final-cta-btn-secondary">Get started</a>
     </div>
   </div>
 
@@ -1131,22 +1192,39 @@
       benefitTicks();
     }, 3550, myCycle);
 
-    // dwell on the finished state, then loop
-    schedule(function () { playSequence(); }, 3550 + 2700, myCycle);
+    // dwell on the finished state, then loop — extended dwell (was 2700ms)
+    // so the finished state has time to breathe before restarting.
+    schedule(function () { playSequence(); }, 3550 + 5200, myCycle);
   }
 
-  var heroObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        hero.classList.add('in-view');
-        playSequence();
-      } else {
-        cycleId++; // invalidates any pending scheduled callbacks
-        clearPending();
-      }
-    });
-  }, { threshold: 0.35 });
-  heroObserver.observe(hero);
+  if (!window.IntersectionObserver) {
+    // No IntersectionObserver support — skip the scroll-triggered animation
+    // entirely and just show the finished, static state so the page still
+    // communicates the same thing on very old/unusual browsers.
+    hero.classList.add('in-view');
+    resetVisualState();
+    widgetCard.classList.add('glow');
+    photoStatus.textContent = 'Added';
+    photoStatus.classList.add('added');
+    widgetSent.classList.add('show');
+    rangeLowEl.textContent = RANGE_LOW.toLocaleString('en-NZ');
+    rangeHighEl.textContent = RANGE_HIGH.toLocaleString('en-NZ');
+    activateStep(5);
+    hero.classList.add('benefits-ready');
+  } else {
+    var heroObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          hero.classList.add('in-view');
+          playSequence();
+        } else {
+          cycleId++; // invalidates any pending scheduled callbacks
+          clearPending();
+        }
+      });
+    }, { threshold: 0.35 });
+    heroObserver.observe(hero);
+  }
 })();
 </script>
 
