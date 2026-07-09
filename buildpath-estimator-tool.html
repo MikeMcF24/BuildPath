@@ -510,32 +510,68 @@
     margin-top: 16px;
   }
 
-  /* ── Feedback ── */
-  .feedback-prompt {
+  /* ── Confirm / correct ── */
+  .confirm-prompt {
     margin-top: 18px;
     padding-top: 16px;
     border-top: 1px solid var(--rule);
   }
-  .feedback-prompt p {
+  .confirm-prompt p {
     font-size: 13px;
     color: var(--ink-muted);
     margin-bottom: 10px;
   }
-  .feedback-buttons { display: flex; gap: 8px; }
-  .btn-feedback {
+  .confirm-buttons { display: flex; gap: 8px; }
+  .btn-confirm-yes, .btn-confirm-no {
     flex: 1;
-    background: var(--bg-field);
-    border: 1px solid var(--rule);
-    color: var(--ink-mid);
     border-radius: var(--radius);
     padding: 9px;
     font-family: var(--font-body);
     font-size: 12.5px;
     font-weight: 600;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, background 0.15s;
   }
-  .btn-feedback:hover { border-color: var(--blue-mid); }
-  .feedback-thanks {
+  .btn-confirm-yes {
+    background: var(--blue-mid);
+    border: 1px solid var(--blue-mid);
+    color: #fff;
+  }
+  .btn-confirm-yes:hover { background: var(--blue); border-color: var(--blue); }
+  .btn-confirm-no {
+    background: var(--bg-field);
+    border: 1px solid var(--rule);
+    color: var(--ink-mid);
+  }
+  .btn-confirm-no:hover { border-color: var(--blue-mid); }
+
+  .correction-box {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+  }
+  .correction-box label {
+    display: block;
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-bottom: 8px;
+  }
+  .correction-box textarea { margin-bottom: 10px; }
+  .btn-update-estimate {
+    width: 100%;
+    background: var(--blue-mid);
+    border: 1px solid var(--blue-mid);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 10px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.15s;
+  }
+  .btn-update-estimate:hover { background: var(--blue); }
+  .btn-update-estimate:disabled { opacity: 0.6; }
+
+  .confirm-note {
     margin-top: 14px;
     padding-top: 14px;
     border-top: 1px solid var(--rule);
@@ -853,14 +889,21 @@
     <button class="btn-ghost" id="showLeadFormBtn">Send my details so the builder can take a proper look</button>
 
 
-    <div class="feedback-prompt" id="feedbackPrompt">
-      <p>Does this range feel right?</p>
-      <div class="feedback-buttons">
-        <button type="button" class="btn-feedback" id="feedbackTooHigh">Feels too high</button>
-        <button type="button" class="btn-feedback" id="feedbackTooLow">Feels surprisingly low</button>
+    <div class="confirm-prompt" id="confirmPrompt">
+      <p>Does this look right?</p>
+      <div class="confirm-buttons">
+        <button type="button" class="btn-confirm-yes" id="confirmYesBtn">✓ Yes, that's right</button>
+        <button type="button" class="btn-confirm-no" id="confirmNoBtn">✗ Not quite</button>
       </div>
     </div>
-    <p class="feedback-thanks" id="feedbackThanks" style="display:none;"></p>
+
+    <div class="correction-box" id="correctionBox" style="display:none;">
+      <label for="correctionText">What did we get wrong or miss?</label>
+      <textarea id="correctionText" placeholder="e.g. Access is actually really tight, or it's a bigger area than I said..." rows="3"></textarea>
+      <button type="button" class="btn-update-estimate" id="updateEstimateBtn">Update my estimate →</button>
+    </div>
+
+    <p class="confirm-note" id="confirmNote" style="display:none;"></p>
   </div>
 
   <!-- ===================== LEAD CAPTURE ===================== -->
@@ -1013,6 +1056,7 @@ jobTypeSelect.addEventListener('change', syncNewBuildFieldsVisibility);
 syncNewBuildFieldsVisibility();
 
 let lastSubmission = null; // kept so the lead form can carry context through
+let correctionHistory = []; // accumulates "not quite" corrections across resubmits, reset on a fresh submission
 
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -1112,15 +1156,20 @@ document.getElementById('libraryInput').addEventListener('change', (e) => {
   e.target.value = '';
 });
 
-document.getElementById('estimateForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  if (CONFIG_INCOMPLETE) {
-    show(document.getElementById('errorCard'));
-    return;
-  }
+// Shared by both the initial submit and a "Not quite" resubmission, so the
+// two paths can never drift out of sync with each other.
+async function runEstimate(payload, { isResubmit = false } = {}) {
   const submitBtn = document.getElementById('submitBtn');
+  const updateBtn = document.getElementById('updateEstimateBtn');
   const loading = document.getElementById('loadingMsg');
-  submitBtn.disabled = true;
+
+  if (isResubmit) {
+    updateBtn.disabled = true;
+    updateBtn.textContent = 'Updating...';
+  } else {
+    submitBtn.disabled = true;
+  }
+
   show(loading, 'flex');
   startLoadingMessages(document.getElementById('loadingText'), ESTIMATE_LOADING_MSGS);
   hide(document.getElementById('resultCard'));
@@ -1128,35 +1177,10 @@ document.getElementById('estimateForm').addEventListener('submit', async (e) => 
   hide(document.getElementById('errorCard'));
   hide(document.getElementById('leadForm'));
   hide(document.getElementById('leadConfirm'));
-  show(document.getElementById('feedbackPrompt'));
-  hide(document.getElementById('feedbackThanks'));
+  hide(document.getElementById('correctionBox'));
+  hide(document.getElementById('confirmNote'));
 
   try {
-    const photoFiles = selectedPhotos.slice(0, 3);
-    const photos = await Promise.all(photoFiles.map(async f => ({
-      mediaType: f.type,
-      data: await fileToBase64(f)
-    })));
-
-    const payload = {
-      action: 'estimate',
-      jobType: jobTypeSelect.value,
-      description: document.getElementById('description').value,
-      size: document.getElementById('size').value,
-      siteAccess: document.getElementById('siteAccess').value,
-      timeline: document.getElementById('timeline').value,
-      location: document.getElementById('location').value,
-      floorArea: document.getElementById('floorArea').value,
-      bathrooms: document.getElementById('bathrooms').value,
-      garage: document.getElementById('garage').value,
-      plansDrawn: document.getElementById('plansDrawn').value,
-      siteType: document.getElementById('siteType').value,
-      services: document.getElementById('services').value,
-      finishLevel: document.getElementById('finishLevel').value,
-      photos
-    };
-    lastSubmission = payload;
-
     const res = await fetch(CONFIG.workerUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1167,6 +1191,9 @@ document.getElementById('estimateForm').addEventListener('submit', async (e) => 
     const data = await res.json();
 
     if (data.needsReview) {
+      // Applies whether this is a first-time submission or a resubmission —
+      // a correction can reveal something (e.g. asbestos) that pushes risk
+      // to "high" even if the original submission priced normally.
       document.getElementById('reviewReasons').textContent = data.reasonText ||
         'A few things about this job are worth a quick chat first — site access, scope, or timing.';
       show(document.getElementById('reviewCard'));
@@ -1175,16 +1202,95 @@ document.getElementById('estimateForm').addEventListener('submit', async (e) => 
     } else {
       renderResult(data.result, data.risk);
       show(document.getElementById('resultCard'));
+      show(document.getElementById('confirmPrompt'));
     }
   } catch (err) {
     console.error('Estimate request failed:', err);
     show(document.getElementById('errorCard'));
   } finally {
-    submitBtn.disabled = false;
+    if (isResubmit) {
+      updateBtn.disabled = false;
+      updateBtn.textContent = 'Update my estimate →';
+    } else {
+      submitBtn.disabled = false;
+    }
     stopLoadingMessages();
     hide(loading);
   }
+}
+
+document.getElementById('estimateForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (CONFIG_INCOMPLETE) {
+    show(document.getElementById('errorCard'));
+    return;
+  }
+
+  correctionHistory = [];
+
+  const photoFiles = selectedPhotos.slice(0, 3);
+  const photos = await Promise.all(photoFiles.map(async f => ({
+    mediaType: f.type,
+    data: await fileToBase64(f)
+  })));
+
+  const payload = {
+    action: 'estimate',
+    jobType: jobTypeSelect.value,
+    description: document.getElementById('description').value,
+    size: document.getElementById('size').value,
+    siteAccess: document.getElementById('siteAccess').value,
+    timeline: document.getElementById('timeline').value,
+    location: document.getElementById('location').value,
+    floorArea: document.getElementById('floorArea').value,
+    bathrooms: document.getElementById('bathrooms').value,
+    garage: document.getElementById('garage').value,
+    plansDrawn: document.getElementById('plansDrawn').value,
+    siteType: document.getElementById('siteType').value,
+    services: document.getElementById('services').value,
+    finishLevel: document.getElementById('finishLevel').value,
+    photos
+  };
+  lastSubmission = payload;
+
+  await runEstimate(payload);
 });
+
+// "Does this look right?" — Yes / Not quite, and the correction loop.
+function handleConfirmYes() {
+  hide(document.getElementById('confirmPrompt'));
+  hide(document.getElementById('correctionBox'));
+  const note = document.getElementById('confirmNote');
+  note.textContent = `Great — send your details below and ${CONFIG.contactPerson} will take a proper look and confirm everything.`;
+  show(note);
+  revealLeadForm();
+}
+document.getElementById('confirmYesBtn').addEventListener('click', handleConfirmYes);
+
+function handleConfirmNo() {
+  show(document.getElementById('correctionBox'));
+  document.getElementById('correctionText').focus();
+  document.getElementById('correctionBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+document.getElementById('confirmNoBtn').addEventListener('click', handleConfirmNo);
+
+async function handleUpdateEstimate() {
+  const correction = document.getElementById('correctionText').value.trim();
+  if (!correction) {
+    document.getElementById('correctionText').focus();
+    return;
+  }
+  if (!lastSubmission) return;
+
+  correctionHistory.push(correction);
+  document.getElementById('correctionText').value = '';
+
+  const payload = { ...lastSubmission, correctionNote: correctionHistory.join('\n\n') };
+  lastSubmission = payload;
+
+  await runEstimate(payload, { isResubmit: true });
+}
+document.getElementById('updateEstimateBtn').addEventListener('click', handleUpdateEstimate);
 
 function renderResult(text, riskLevel) {
   const tag = document.getElementById('confidenceTag');
@@ -1240,32 +1346,6 @@ function revealLeadForm() {
 }
 document.getElementById('showLeadFormBtn').addEventListener('click', revealLeadForm);
 document.getElementById('reviewShowLeadFormBtn').addEventListener('click', revealLeadForm);
-
-function sendPriceFeedback(sentiment) {
-  fetch(CONFIG.workerUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      action: 'priceFeedback',
-      sentiment,
-      context: lastSubmission,
-      aiRange: document.getElementById('rangeValue').textContent
-    })
-  }).catch(err => console.error('Price feedback send failed:', err));
-}
-
-function handleFeedbackClick(sentiment) {
-  sendPriceFeedback(sentiment);
-  hide(document.getElementById('feedbackPrompt'));
-  const thanksEl = document.getElementById('feedbackThanks');
-  thanksEl.textContent = sentiment === 'too_high'
-    ? `Thanks for the heads up. A site visit often finds ways to bring a price down once ${CONFIG.contactPerson} can see what's actually involved \u2014 worth a proper look before deciding either way.`
-    : `Thanks for flagging that. Sometimes there's more to a job than a description alone can capture \u2014 worth ${CONFIG.contactPerson} taking a proper look before you commit to anything.`;
-  show(thanksEl);
-  revealLeadForm();
-}
-document.getElementById('feedbackTooHigh').addEventListener('click', () => handleFeedbackClick('too_high'));
-document.getElementById('feedbackTooLow').addEventListener('click', () => handleFeedbackClick('too_low'));
 
 document.getElementById('leadForm').addEventListener('submit', async (e) => {
   e.preventDefault();
