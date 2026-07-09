@@ -211,6 +211,13 @@
   .section { padding: 48px 0; border-bottom: 1px solid var(--rule); }
   .section:last-of-type { border-bottom: none; }
 
+  /* Tighter, grouped pairing: "what it does" flows straight into "what each side sees" */
+  .section--grouped { padding: 48px 0 0; border-bottom: none; }
+  .section--grouped-tight { padding: 24px 0 48px; }
+
+  /* Extra room for the sections that should carry more weight */
+  .section--loose { padding: 72px 0; }
+
   .section-label {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -269,11 +276,11 @@
     color: var(--ink-muted);
   }
 
-  /* ── Trust points ── */
+  /* ── Trust points (shares .feature-grid card treatment) ── */
   .trust-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
+    gap: 20px;
   }
 
   @media (max-width: 640px) {
@@ -281,18 +288,20 @@
   }
 
   .trust-item {
-    border-left: 3px solid var(--blue);
-    padding-left: 14px;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    background: var(--bg);
   }
   .trust-title {
-    font-size: 14px;
+    font-size: 14.5px;
     font-weight: 700;
     color: var(--ink);
-    margin-bottom: 5px;
+    margin-bottom: 6px;
   }
   .trust-body {
     font-size: 13px;
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--ink-muted);
   }
 
@@ -393,48 +402,15 @@
     margin-top: 4px;
   }
 
-  /* ── SheetFix add-on ── */
-  .addon {
-    border-left: 4px solid var(--blue);
-    background: var(--blue-soft);
-    border-radius: 0 var(--radius) var(--radius) 0;
-    padding: 16px 20px;
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  @media (max-width: 560px) {
-    .addon { flex-direction: column; gap: 10px; }
-  }
-
-  .addon-label {
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin-bottom: 4px;
-  }
-  .addon-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 4px;
-    white-space: nowrap;
-  }
-  .addon-price {
-    font-family: var(--font-mono);
+  /* ── SheetFix add-on (small plain note, not a feature box) ── */
+  .addon-note {
     font-size: 13px;
-    color: var(--blue);
-    white-space: nowrap;
-  }
-  .addon-body {
-    font-size: 13px;
-    line-height: 1.55;
+    line-height: 1.6;
     color: var(--ink-muted);
-    flex: 1;
+    margin-top: 14px;
   }
+  .addon-note strong { color: var(--ink); }
+  .addon-note .addon-price { color: var(--blue); font-family: var(--font-mono); }
 
   /* ── Annual fee note ── */
   .annual-note {
@@ -613,23 +589,6 @@
     .btn-primary, .btn-secondary { width: 100%; box-sizing: border-box; }
   }
 
-  /* ── Punch banner ── */
-  .punch-banner {
-    background: var(--ink);
-    color: #fff;
-    border-radius: var(--radius);
-    padding: 30px 32px;
-    margin: 0 0 8px;
-  }
-  .punch-banner p {
-    font-family: var(--font-display);
-    font-size: clamp(18px, 2.6vw, 23px);
-    font-weight: 700;
-    line-height: 1.18;
-    max-width: 640px;
-  }
-  .punch-banner span { color: #7C8CFF; }
-
   /* ── Lede paragraphs ── */
   .lede {
     font-size: 15px;
@@ -639,51 +598,45 @@
   }
   .lede strong { color: var(--ink); }
 
-  /* ── Value grid (checklist cards) ── */
-  .value-grid {
+  /* ── What-it-does / trust cards (shared bordered-card treatment) ── */
+  .feature-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px 24px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
   @media (max-width: 640px) {
-    .value-grid { grid-template-columns: 1fr; }
+    .feature-grid { grid-template-columns: 1fr; }
   }
-  .value-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--ink-mid);
-    padding: 8px 0;
-    border-bottom: 1px solid var(--rule);
+  .feature-card {
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    background: var(--bg);
   }
-  .value-check {
-    flex-shrink: 0;
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-    background: var(--blue);
-    color: #fff;
-    font-size: 11px;
-    font-family: var(--font-mono);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1px;
+  .feature-card-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
   }
+  .feature-card-body {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-muted);
+  }
+
+  /* ── Subtle inline reassurance note (no box) ── */
+  .section-note {
+    border-top: 1px solid var(--rule);
+    margin-top: 24px;
+    padding-top: 16px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--ink-muted);
+  }
+  .section-note strong { color: var(--ink); }
 
   /* ── Not-replacing callout ── */
-  .not-replacing {
-    border-left: 4px solid var(--ink);
-    padding: 18px 22px;
-    background: var(--bg-tint);
-    border-radius: 0 var(--radius) var(--radius) 0;
-  }
-  .not-replacing p { font-size: 14px; line-height: 1.6; color: var(--ink-mid); }
-  .not-replacing p + p { margin-top: 10px; }
-  .not-replacing strong { color: var(--ink); }
-
   /* ── Customer / builder preview cards ── */
   .preview-grid {
     display: grid;
@@ -750,27 +703,6 @@
     position: absolute;
     left: 0;
     color: var(--ink-faint);
-  }
-
-  /* ── Premium callout above pricing ── */
-  .premium-callout {
-    border: 1.5px solid var(--blue);
-    background: var(--blue-soft);
-    border-radius: var(--radius);
-    padding: 20px 22px;
-    margin-bottom: 26px;
-  }
-  .premium-callout p:first-child {
-    font-family: var(--font-display);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 8px;
-  }
-  .premium-callout p:last-child {
-    font-size: 13.5px;
-    line-height: 1.6;
-    color: var(--ink-mid);
   }
 
   /* ── Four-step layout (tightened how-it-works) ── */
@@ -872,57 +804,74 @@
         <span class="flow-num">4</span>
         <p class="flow-step-label">Builder follow-up</p>
       </div>
-      <div class="flow-arrow" aria-hidden="true">&rarr;</div>
-      <div class="flow-step">
-        <span class="flow-num">5</span>
-        <p class="flow-step-label">Job moves forward</p>
-      </div>
     </div>
   </div>
-  <section class="section">
-    <h2 class="section-label">Most website enquiries start too vague</h2>
-    <div class="punch-banner">
-      <p>No price context, no enquiry. <span>BuildPath fixes that gap.</span></p>
-    </div>
+
+  <!-- ── WHAT BUILDPATH DOES ── -->
+  <section class="section section--grouped">
+    <h2 class="section-title">What BuildPath does</h2>
     <p class="lede">
-      A customer is thinking about a deck, bathroom, renovation, or extension. They want to
-      know whether they're looking at $8k, $30k, or $100k before they call. If your website
-      gives them no starting point, they either leave, price-shop, or send a message with
-      barely enough detail to act on. BuildPath gives them a budget checkpoint first, then
-      sends you the details if they want to move forward.
+      A customer thinking about a deck, bathroom, renovation, or extension wants to know
+      whether they're looking at $8k, $30k, or $100k before they call. Without a starting
+      point, they leave, price-shop elsewhere, or send a message with barely enough detail
+      to act on.
     </p>
 
-    <div class="not-replacing">
-      <p><strong>BuildPath doesn't replace referrals.</strong> It gives your website a better way to handle people who are interested, but not ready to call yet.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <p class="feature-card-title">Gives customers a starting range</p>
+        <p class="feature-card-body">A plain-language ballpark before they ever pick up the phone, so they know roughly what they're looking at.</p>
+      </div>
+      <div class="feature-card">
+        <p class="feature-card-title">Collects better job detail</p>
+        <p class="feature-card-body">Instead of a vague message, you get their name, contact details, job type, and photos up front.</p>
+      </div>
+      <div class="feature-card">
+        <p class="feature-card-title">Protects your pricing</p>
+        <p class="feature-card-body">Standard uses your rate, margin, and job categories. Premium checks the range against how you actually price real work &mdash; never a generic industry average.</p>
+      </div>
     </div>
+
+    <p class="section-note"><strong>BuildPath doesn't replace referrals.</strong> It just gives your website a better way to handle people who are interested, but not ready to call yet.</p>
   </section>
 
-  <!-- ── NOT A GENERIC CALCULATOR ── -->
-  <section class="section">
-    <h2 class="section-label">Not a generic calculator</h2>
-    <div class="punch-banner">
-      <p>You didn't learn your pricing from a textbook. <span>Neither tier runs on one.</span></p>
+  <!-- ── PREVIEW: WHAT EACH SIDE SEES ── -->
+  <section class="section section--grouped-tight">
+    <h2 class="section-title">What each side sees</h2>
+    <div class="preview-grid">
+      <div class="preview-card">
+        <p class="preview-card-label">What the customer sees</p>
+        <p class="preview-mock-range">$18,500 &ndash; $24,900 incl. GST</p>
+        <p class="preview-mock-tag">Bathroom renovation &middot; Not a quote</p>
+        <p class="preview-line">A plain-language range, not a fixed price</p>
+        <p class="preview-line">A clear next step explained upfront</p>
+        <p class="preview-line">Only shares their details when they choose to</p>
+      </div>
+      <div class="preview-card">
+        <p class="preview-card-label">What the builder receives</p>
+        <div class="preview-mock-lead">
+          <p class="preview-mock-lead-name">Sarah M. &middot; 021 xxx xxx</p>
+          <p class="preview-mock-lead-detail">Bathroom renovation, existing layout, no structural changes</p>
+          <p class="preview-mock-lead-detail">2 photos attached</p>
+        </div>
+        <p class="preview-line">Name, phone, and job type &mdash; not a guess</p>
+        <p class="preview-line">Scope notes and photos, enough to put a quote together</p>
+        <p class="preview-line">Complex jobs flagged before they land in your inbox</p>
+      </div>
     </div>
-    <p class="lede">
-      BuildPath is built around your pricing, not a generic industry average. Standard uses
-      your main job categories, rate, margin, and contingency. Premium goes deeper, checking
-      the range against how you actually price real work.
-    </p>
-  </section>
 
-  <!-- ── BUSINESS VALUE ── -->
-  <section class="section">
-    <h2 class="section-label">What BuildPath gives your business</h2>
-    <div class="value-grid">
-      <div class="value-item"><span class="value-check">&check;</span> Less time wasted on vague enquiries</div>
-      <div class="value-item"><span class="value-check">&check;</span> Customers understand the rough budget before you call</div>
-      <div class="value-item"><span class="value-check">&check;</span> Better job details and photos arrive upfront</div>
+    <div class="demo-cta">
+      <div class="demo-cta-text">
+        <p>See what your customers will see</p>
+        <p>This is the same type of form your customers will use on your website. Right now, it runs on general industry rates so you can test the flow for yourself. Once BuildPath is set up for your business, the ballpark range is guided by your own pricing, job categories, GST, and risk rules.</p>
+      </div>
+      <a href="buildpath-estimator-tool.html" class="demo-cta-btn">Try the ballpark flow &rarr;</a>
     </div>
   </section>
 
   <!-- ── HOW IT WORKS ── -->
   <section class="section">
-    <h2 class="section-label">How it works</h2>
+    <h2 class="section-title">How it works</h2>
 
     <div class="steps steps-4">
       <div class="step">
@@ -946,46 +895,11 @@
         <p class="step-body">Complex jobs are flagged for a direct conversation. Everything else arrives ready for a proper quote.</p>
       </div>
     </div>
-
-    <div class="demo-cta">
-      <div class="demo-cta-text">
-        <p>See what your customers will see</p>
-        <p>This is the same type of form your customers will use on your website. Right now, it runs on general industry rates so you can test the flow for yourself. Once BuildPath is set up for your business, the ballpark range is guided by your own pricing, job categories, GST, and risk rules.</p>
-      </div>
-      <a href="buildpath-estimator-tool.html" class="demo-cta-btn">Try the ballpark flow &rarr;</a>
-    </div>
-  </section>
-
-  <!-- ── PREVIEW: WHAT EACH SIDE SEES ── -->
-  <section class="section">
-    <h2 class="section-label">What each side sees</h2>
-    <div class="preview-grid">
-      <div class="preview-card">
-        <p class="preview-card-label">What the customer sees</p>
-        <p class="preview-mock-range">$18,500 &ndash; $24,900 incl. GST</p>
-        <p class="preview-mock-tag">Bathroom renovation &middot; Not a quote</p>
-        <p class="preview-line">A plain-language range, not a fixed price</p>
-        <p class="preview-line">A clear next step explained upfront</p>
-        <p class="preview-line">Only shares their details when they choose to</p>
-      </div>
-      <div class="preview-card">
-        <p class="preview-card-label">What the builder receives</p>
-        <div class="preview-mock-lead">
-          <p class="preview-mock-lead-name">Sarah M. &middot; 021 xxx xxx</p>
-          <p class="preview-mock-lead-detail">Bathroom renovation, existing layout, no structural changes</p>
-          <p class="preview-mock-lead-detail">2 photos attached</p>
-        </div>
-        <p class="preview-line">Name, phone, and job type &mdash; not a guess</p>
-        <p class="preview-line">Scope notes and photos, enough to put a quote together</p>
-        <p class="preview-line">Complex jobs flagged before they land in your inbox</p>
-      </div>
-    </div>
   </section>
 
   <!-- ── TRUST ── -->
-
   <section class="section">
-    <h2 class="section-label">Built to protect your reputation</h2>
+    <h2 class="section-title">Built to avoid the awkward stuff</h2>
     <div class="trust-grid">
       <div class="trust-item">
         <p class="trust-title">Always labelled "not a quote"</p>
@@ -1003,13 +917,10 @@
   </section>
 
   <!-- ── PRICING ── -->
-  <section class="section">
+  <section class="section section--loose">
     <p class="section-label">Pricing</p>
     <h2 class="section-title">Choose the level that fits your business</h2>
-
-    <div class="premium-callout">
-      <p>Standard gets a working ballpark tool live fast. Premium checks it against how you actually price jobs.</p>
-    </div>
+    <p class="lede">Standard gets a working ballpark tool live fast. Premium checks it against how you actually price jobs.</p>
 
     <div class="pricing-grid">
 
@@ -1054,28 +965,20 @@
 
     </div>
 
-    <div class="addon">
-      <div>
-        <p class="addon-label">Add-on</p>
-        <p class="addon-title">SheetFix pricing cleanup</p>
-        <p class="addon-price">From $350</p>
-      </div>
-      <p class="addon-body">
-        If your pricing data is messy, SheetFix cleans it up first so BuildPath can
-        reflect how you actually price work.
-      </p>
-    </div>
+    <p class="addon-note">
+      <strong>Add-on:</strong> if your pricing data is messy, SheetFix cleans it up first so
+      BuildPath can reflect how you actually price work &mdash; <span class="addon-price">from $350</span>.
+    </p>
 
     <p class="annual-note">
-      <strong>First year included in setup.</strong> The $149/year (incl. GST) live tool fee covers
-      your BuildPath page staying live, standard API usage, lead capture, and minor
-      maintenance. Starts at your 12-month renewal, not on day one.
+      <strong>First year included in setup.</strong> The $149/year live tool fee starts at
+      renewal and covers hosting, lead capture, API use, and light maintenance.
     </p>
 
   </section>
 
   <!-- ── FINAL CTA ── -->
-  <section class="section">
+  <section class="section section--loose">
     <div class="final-cta">
       <h2 class="final-cta-title">Turn vague website enquiries into better leads.</h2>
       <p class="final-cta-sub">Give customers a clear ballpark before they contact you, without giving away a fixed quote.</p>
