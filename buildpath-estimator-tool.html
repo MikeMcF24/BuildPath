@@ -970,6 +970,14 @@ const CONFIG = {
   contactPerson: "[Insert Your Name]",
   contactPhone: "", // leave blank until a real number is added — see callContact() below
   workerUrl: "https://estimator-workerjs.mikey-mcf.workers.dev",
+  // Identifies this contractor's record in the multi-tenant CONTRACTORS_KV
+  // namespace (v2.0.0 Worker). Sent with every request as both the JSON
+  // body's contractorId field and a ?c= query param on the Worker URL —
+  // the query param exists because the browser's CORS preflight (OPTIONS)
+  // carries no body, so it's the only way the Worker can answer preflight
+  // with the right contractor's allowed origins. Change this if the pilot
+  // contractor's ID in CONTRACTORS_KV is ever renamed.
+  contractorId: "buildpath-pilot",
   // Set to false once this file is configured with a real contractor's rates
   // and job categories and goes live on their website — this hides the
   // "general industry rates" demo banner above the form.
@@ -1181,7 +1189,7 @@ async function runEstimate(payload, { isResubmit = false } = {}) {
   hide(document.getElementById('confirmNote'));
 
   try {
-    const res = await fetch(CONFIG.workerUrl, {
+    const res = await fetch(`${CONFIG.workerUrl}?c=${encodeURIComponent(CONFIG.contractorId)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -1236,6 +1244,7 @@ document.getElementById('estimateForm').addEventListener('submit', async (e) => 
 
   const payload = {
     action: 'estimate',
+    contractorId: CONFIG.contractorId,
     jobType: jobTypeSelect.value,
     description: document.getElementById('description').value,
     size: document.getElementById('size').value,
@@ -1359,6 +1368,7 @@ document.getElementById('leadForm').addEventListener('submit', async (e) => {
   show(leadLoading, 'flex');
   const payload = {
     action: 'lead',
+    contractorId: CONFIG.contractorId,
     name: document.getElementById('leadName').value,
     phone: document.getElementById('leadPhone').value,
     email: document.getElementById('leadEmail').value,
@@ -1367,7 +1377,7 @@ document.getElementById('leadForm').addEventListener('submit', async (e) => {
     additionalInfo: document.getElementById('reviewAdditionalInfo').value
   };
   try {
-    await fetch(CONFIG.workerUrl, {
+    await fetch(`${CONFIG.workerUrl}?c=${encodeURIComponent(CONFIG.contractorId)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
