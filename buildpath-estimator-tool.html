@@ -758,7 +758,7 @@
     </div>
 
     <div id="newBuildFields" style="display:none;">
-      <label for="floorArea">Approximate floor area</label>
+      <label for="floorArea">Approximate house floor area (excluding garage)</label>
       <select id="floorArea">
         <option>Not sure yet</option>
         <option>Under 100m²</option>
@@ -977,7 +977,7 @@ const CONFIG = {
   // carries no body, so it's the only way the Worker can answer preflight
   // with the right contractor's allowed origins. Change this if the pilot
   // contractor's ID in CONTRACTORS_KV is ever renamed.
-  contractorId: "buildpath-pilot",
+  contractorId: "ultrabuild",
   // Set to false once this file is configured with a real contractor's rates
   // and job categories and goes live on their website — this hides the
   // "general industry rates" demo banner above the form.
