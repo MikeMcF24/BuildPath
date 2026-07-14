@@ -37,24 +37,31 @@
 
   body {
     font-family: var(--font-body);
-    background: var(--bg);
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(rgba(10,33,192,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10,33,192,0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
     color: var(--ink);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   }
 
   .top-strip { height: 5px; background: var(--blue); }
 
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px 100px; }
 
-  .eyebrow-bar { padding: 20px 0 28px; }
-  .eyebrow-logo { height: 30px; width: auto; display: block; margin-bottom: 10px; }
+  .eyebrow-bar { padding: 24px 0 32px; }
+  .eyebrow-logo { height: 40px; width: auto; display: block; margin-bottom: 12px; }
   .back-link { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); text-decoration: none; }
   .back-link:hover { color: var(--blue); }
 
   h1 {
     font-family: var(--font-display);
-    font-size: clamp(28px, 5vw, 36px);
+    font-size: clamp(30px, 5.5vw, 42px);
     font-weight: 700;
     margin-bottom: 8px;
     letter-spacing: -0.4px;
@@ -72,6 +79,15 @@
     border-radius: 8px;
     padding: 18px 22px;
     margin-bottom: 36px;
+    position: relative;
+    background-image:
+      linear-gradient(rgba(10,33,192,0.4) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, rgba(10,33,192,0.4) 1.5px, transparent 1.5px),
+      linear-gradient(rgba(10,33,192,0.4) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, rgba(10,33,192,0.4) 1.5px, transparent 1.5px);
+    background-size: 11px 11px, 11px 11px, 11px 11px, 11px 11px;
+    background-position: top left, top left, bottom right, bottom right;
+    background-repeat: no-repeat;
   }
   .toc-title {
     font-family: var(--font-mono);
@@ -87,6 +103,13 @@
   .toc a { font-size: 12.5px; color: var(--ink-mid); text-decoration: none; }
   .toc a:hover { color: var(--blue); }
 
+  .policy-section {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .policy-section.in-view { opacity: 1; transform: translateY(0); }
+
   section.policy-section {
     margin-bottom: 32px;
     padding-bottom: 28px;
@@ -96,7 +119,7 @@
 
   h2 {
     font-family: var(--font-display);
-    font-size: 19px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--ink);
     margin-bottom: 12px;
@@ -228,7 +251,6 @@
   </div>
   <nav class="site-nav-menu" id="siteNavMenu" aria-label="BuildPath site links">
     <a href="index.html">Home</a>
-    <a href="how-it-works.html">How it works</a>
     <a href="buildpath-estimator-tool.html">Try the tool</a>
     <a href="get-started.html">Get started</a>
   </nav>
@@ -494,7 +516,6 @@
 
 <nav class="site-footer-nav" aria-label="BuildPath site links">
   <a href="index.html">Home</a>
-  <a href="how-it-works.html">How it works</a>
   <a href="buildpath-estimator-tool.html">Try the tool</a>
   <a href="get-started.html">Get started</a>
   <a href="terms-privacy.html">Terms &amp; Privacy</a>
@@ -509,6 +530,29 @@
     var open = menu.classList.toggle('open');
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
+})();
+</script>
+
+<script>
+(function () {
+  var sections = document.querySelectorAll('.policy-section');
+  if (!sections.length) return;
+
+  if (!window.IntersectionObserver) {
+    sections.forEach(function (el) { el.classList.add('in-view'); });
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  sections.forEach(function (el) { io.observe(el); });
 })();
 </script>
 </body>

@@ -35,10 +35,17 @@
 
   body {
     font-family: var(--font-body);
-    background: var(--bg);
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(rgba(10,33,192,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10,33,192,0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
     color: var(--ink);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   }
 
   .top-strip { height: 5px; background: var(--blue); }
@@ -49,8 +56,8 @@
     padding: 0 24px 80px;
   }
 
-  .eyebrow-bar { padding: 20px 0 28px; }
-  .eyebrow-logo { height: 30px; width: auto; display: block; margin-bottom: 10px; }
+  .eyebrow-bar { padding: 24px 0 32px; }
+  .eyebrow-logo { height: 40px; width: auto; display: block; margin-bottom: 12px; }
   .back-link {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -61,7 +68,7 @@
 
   h1 {
     font-family: var(--font-display);
-    font-size: clamp(28px, 5vw, 38px);
+    font-size: clamp(30px, 5.5vw, 42px);
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.4px;
@@ -108,12 +115,20 @@
     padding: 16px 18px;
     cursor: pointer;
     transition: border-color 0.15s, background 0.15s;
-    background: var(--bg);
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(rgba(10,33,192,0.4) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, rgba(10,33,192,0.4) 1.5px, transparent 1.5px),
+      linear-gradient(rgba(10,33,192,0.4) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, rgba(10,33,192,0.4) 1.5px, transparent 1.5px);
+    background-size: 11px 11px, 11px 11px, 11px 11px, 11px 11px;
+    background-position: top left, top left, bottom right, bottom right;
+    background-repeat: no-repeat;
   }
   .tier-option:hover { border-color: var(--blue-border); }
   .tier-option.selected {
     border-color: var(--blue);
-    background: var(--bg-tint);
+    background-color: var(--bg-tint);
   }
   .tier-option-name {
     font-family: var(--font-mono);
@@ -412,7 +427,6 @@
   </div>
   <nav class="site-nav-menu" id="siteNavMenu" aria-label="BuildPath site links">
     <a href="index.html">Home</a>
-    <a href="how-it-works.html">How it works</a>
     <a href="buildpath-estimator-tool.html">Try the tool</a>
     <a href="get-started.html">Get started</a>
   </nav>
@@ -628,7 +642,6 @@ document.getElementById('getStartedForm').addEventListener('submit', async (e) =
 
 <nav class="site-footer-nav" aria-label="BuildPath site links">
   <a href="index.html">Home</a>
-  <a href="how-it-works.html">How it works</a>
   <a href="buildpath-estimator-tool.html">Try the tool</a>
   <a href="get-started.html">Get started</a>
   <a href="terms-privacy.html">Terms &amp; Privacy</a>

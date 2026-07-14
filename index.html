@@ -43,10 +43,17 @@
 
   body {
     font-family: var(--font-body);
-    background: var(--bg);
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(rgba(10,33,192,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10,33,192,0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
     color: var(--ink);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   }
 
   /* ── Top accent strip ── */
@@ -65,31 +72,29 @@
 
   /* ── Eyebrow / brand line ── */
   .eyebrow-bar {
-    padding: 18px 0 0;
-    margin-bottom: 36px;
+    padding: 22px 0 0;
+    margin-bottom: 40px;
   }
   .eyebrow-logo {
-    height: 34px;
+    height: 46px;
     width: auto;
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .eyebrow-tagline {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: 0.08em;
-    color: var(--ink-faint);
+    color: var(--ink-muted);
   }
 
   /* ── Hero ── */
-  .hero { padding-bottom: 48px; border-bottom: 2px solid var(--ink); }
-
   h1 {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(34px, 5.5vw, 52px);
-    line-height: 1.06;
-    letter-spacing: -0.5px;
+    font-size: clamp(36px, 6vw, 58px);
+    line-height: 1.04;
+    letter-spacing: -0.8px;
     color: var(--ink);
     max-width: 680px;
     margin-bottom: 16px;
@@ -160,52 +165,285 @@
     margin-bottom: 16px;
   }
 
-  /* ── Top-of-page flow strip ── */
-  .flow-strip-wrap { padding: 32px 0; border-bottom: 1px solid var(--rule); }
-  .flow-strip-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 16px;
+  /* ── Hero demo: text on the left, form on the right ── */
+  .hero-demo { padding: 24px 0 24px; border-bottom: 1px solid var(--rule); }
+  .hero-demo-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 32px;
+    align-items: start;
   }
-  .flow-strip {
+  @media (max-width: 760px) {
+    .hero-demo-grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+
+  .hero-demo-copy {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .hero-demo.in-view .hero-demo-copy { opacity: 1; transform: translateY(0); }
+
+  .hero-credibility {
+    margin-top: 32px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule);
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--ink-muted);
+    max-width: 440px;
+  }
+
+  /* browser-chrome mockup card: the right-hand column */
+  .mockup-panel {
+    width: 100%;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    background: var(--bg);
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(20,22,25,0.04);
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .hero-demo.in-view .mockup-panel { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.15s; }
+
+  .browser-chrome {
     display: flex;
     align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 14px;
+    background: var(--bg-tint);
+    border-bottom: 1px solid var(--rule);
   }
-  .flow-step { text-align: center; min-width: 96px; }
-  .flow-num {
-    display: block;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    margin: 0 auto 8px;
-    border: 1.5px solid var(--blue);
-    border-radius: 50%;
+  .browser-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-faint); opacity: 0.4; }
+  .browser-address {
+    margin-left: 10px;
     font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--blue);
+    font-size: 10px;
+    color: var(--ink-faint);
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 5px;
+    padding: 3px 9px;
+    flex: 1;
+    max-width: 200px;
   }
-  .flow-step-label {
+
+  .mockup-body { padding: 22px 20px 24px; text-align: center; }
+  .mockup-hero-text {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink-muted);
+    margin-bottom: 6px;
+  }
+  .demo-card-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+
+  .widget-content { display: block; }
+
+  /* the BuildPath widget itself */
+  .widget-card {
+    width: 100%;
+    background: var(--bg);
+    border: 1.5px solid var(--blue-border);
+    border-radius: var(--radius);
+    padding: 18px 20px 20px;
+    box-shadow: 0 1px 2px rgba(20,22,25,0.05);
+    transition: box-shadow 0.5s ease;
+  }
+  .widget-card.glow { box-shadow: 0 6px 18px rgba(10,33,192,0.12); }
+
+  .widget-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 12px;
+  }
+  .widget-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--blue); }
+
+  .widget-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 12.5px;
-    font-weight: 600;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-muted);
+  }
+  .widget-row span:last-child { color: var(--ink); font-weight: 500; }
+
+  .widget-detail-rows, .widget-photo-row {
+    border-radius: 6px;
+    margin: 0 -8px;
+    padding: 0 8px;
+    transition: background 0.35s ease;
+  }
+  .widget-detail-rows.step-highlight { background: var(--blue-soft); }
+  .widget-photo-row.step-highlight { background: var(--blue-soft); }
+
+  .widget-range { text-align: center; padding: 16px 0 4px; border-radius: 8px; margin: 8px -8px 0; transition: background 0.35s ease; }
+  .widget-range.step-highlight { background: var(--blue-soft); }
+  .widget-range-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+  .widget-range-value {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
     color: var(--ink);
   }
-  .flow-arrow {
+  .widget-range-value .to { color: var(--ink-faint); font-size: 0.6em; margin: 0 5px; font-family: var(--font-body); font-weight: 400; }
+
+  .widget-response {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 12px auto 0;
+    padding: 7px 14px;
+    background: var(--blue-soft);
+    color: var(--blue);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transform: translateY(4px) scale(0.96);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .widget-response.show { opacity: 1; transform: translateY(0) scale(1); }
+
+  .widget-disclaimer {
+    margin-top: 18px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 9px;
     color: var(--ink-faint);
-    font-size: 16px;
-    flex: 0 0 auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
   }
-  @media (max-width: 640px) {
-    .flow-strip { flex-direction: column; align-items: flex-start; gap: 10px; }
-    .flow-arrow { display: none; }
-    .flow-step { text-align: left; display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .flow-num { margin: 0; }
+
+  .widget-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: default;
+    transition: transform 0.15s ease, box-shadow 0.3s ease;
   }
+  .widget-btn.pressed { transform: scale(0.96); box-shadow: 0 0 0 3px var(--blue-soft); }
+  .widget-btn.step-glow { box-shadow: 0 0 0 4px var(--blue-soft); }
+
+  .photo-status { color: var(--ink-faint); transition: color 0.35s ease, font-weight 0.35s ease; }
+  .photo-status.added { color: var(--blue); font-weight: 600; }
+
+  /* collapses to zero height until the animation reveals it, so no dead
+     space is reserved under the customer card before the hand-off plays */
+  .demo-followup {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease;
+  }
+  .demo-followup.show { max-height: 320px; }
+
+  .demo-handoff {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 18px 0 14px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .demo-followup.show .demo-handoff { opacity: 1; transform: translateY(0); transition-delay: 0.05s; }
+  .demo-handoff-arrow { width: 15px; height: 15px; color: var(--blue); }
+  .demo-handoff-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+  }
+
+  .builder-wrap {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .demo-followup.show .builder-wrap { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+
+  .builder-card {
+    width: 100%;
+    background: var(--bg-tint);
+    border: 1.5px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 16px 18px 18px;
+    text-align: left;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+  .builder-card.step-highlight {
+    border-color: var(--blue);
+    box-shadow: 0 4px 12px var(--blue-soft);
+  }
+  .builder-card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+  .builder-card-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--blue); }
+  .builder-row {
+    font-size: 12.5px;
+    color: var(--ink-mid);
+    padding: 3px 0;
+  }
+  .builder-row-name {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    padding-top: 0;
+  }
+  .builder-row-range {
+    color: var(--blue);
+    font-weight: 600;
+    margin-top: 6px;
+    padding-top: 8px;
+    border-top: 1px solid var(--rule);
+  }
+
 
   /* ── Section chrome ── */
   .section { padding: 48px 0; border-bottom: 1px solid var(--rule); }
@@ -238,11 +476,40 @@
 
   .section-title {
     font-family: var(--font-display);
-    font-size: 28px;
+    font-size: clamp(26px, 3.6vw, 38px);
     font-weight: 700;
     color: var(--ink);
     margin-bottom: 28px;
-    line-height: 1.1;
+    line-height: 1.08;
+  }
+
+  /* ── Scroll-reveal utility: fades/slides content in as it enters the viewport ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  .feature-grid .reveal:nth-child(2) { transition-delay: 0.1s; }
+  .feature-grid .reveal:nth-child(3) { transition-delay: 0.2s; }
+  .trust-grid .reveal:nth-child(2) { transition-delay: 0.1s; }
+  .trust-grid .reveal:nth-child(3) { transition-delay: 0.2s; }
+  .preview-grid .reveal:nth-child(2) { transition-delay: 0.12s; }
+  .pricing-grid .reveal:nth-child(2) { transition-delay: 0.12s; }
+  .steps-4 .reveal:nth-child(2) { transition-delay: 0.08s; }
+  .steps-4 .reveal:nth-child(3) { transition-delay: 0.16s; }
+  .steps-4 .reveal:nth-child(4) { transition-delay: 0.24s; }
+
+  /* ── Tick-corner marks: a technical-drawing registration mark on bordered cards ── */
+  .tick-corners {
+    background-image:
+      linear-gradient(rgba(10,33,192,0.4) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, rgba(10,33,192,0.4) 1.5px, transparent 1.5px),
+      linear-gradient(rgba(10,33,192,0.4) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, rgba(10,33,192,0.4) 1.5px, transparent 1.5px);
+    background-size: 11px 11px, 11px 11px, 11px 11px, 11px 11px;
+    background-position: top left, top left, bottom right, bottom right;
+    background-repeat: no-repeat;
   }
 
   /* ── How it works — steps ── */
@@ -258,11 +525,11 @@
 
   .step-num {
     font-family: var(--font-mono);
-    font-size: 28px;
+    font-size: clamp(38px, 5.6vw, 58px);
     font-weight: 700;
     color: var(--blue);
     line-height: 1;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
   .step-title {
     font-size: 15px;
@@ -292,6 +559,7 @@
     border-radius: var(--radius);
     padding: 20px 22px;
     background: var(--bg);
+    position: relative;
   }
   .trust-title {
     font-size: 14.5px;
@@ -321,6 +589,7 @@
     border: 1px solid var(--rule);
     border-radius: var(--radius);
     padding: 22px 22px 18px;
+    position: relative;
   }
   .tier.featured {
     border-color: var(--blue);
@@ -546,8 +815,8 @@
   .hero-ctas {
     display: flex;
     align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
+    gap: 12px;
+    flex-wrap: nowrap;
     margin-top: 24px;
   }
   .btn-primary {
@@ -560,9 +829,10 @@
     background: var(--blue);
     border: none;
     border-radius: var(--radius);
-    padding: 14px 22px;
+    padding: 14px 18px;
     text-decoration: none;
     text-align: center;
+    white-space: nowrap;
     transition: background 0.15s;
     display: inline-block;
   }
@@ -577,16 +847,20 @@
     background: none;
     border: 1.5px solid var(--blue);
     border-radius: var(--radius);
-    padding: 12.5px 20px;
+    padding: 12.5px 16px;
     text-decoration: none;
     text-align: center;
+    white-space: nowrap;
     display: inline-block;
   }
   .btn-secondary:hover { background: var(--blue-soft); }
 
+  @media (max-width: 640px) {
+    .hero-ctas { flex-wrap: wrap; }
+  }
   @media (max-width: 480px) {
     .hero-ctas { flex-direction: column; align-items: stretch; }
-    .btn-primary, .btn-secondary { width: 100%; box-sizing: border-box; }
+    .btn-primary, .btn-secondary { width: 100%; box-sizing: border-box; white-space: normal; }
   }
 
   /* ── Lede paragraphs ── */
@@ -612,6 +886,7 @@
     border-radius: var(--radius);
     padding: 20px 22px;
     background: var(--bg);
+    position: relative;
   }
   .feature-card-title {
     font-size: 14.5px;
@@ -651,6 +926,7 @@
     background: var(--bg-tint);
     border-radius: var(--radius);
     padding: 22px 24px;
+    position: relative;
   }
   .preview-card-label {
     font-family: var(--font-mono);
@@ -727,11 +1003,11 @@
   }
   .final-cta-title {
     font-family: var(--font-display);
-    font-size: clamp(22px, 3.6vw, 30px);
+    font-size: clamp(26px, 4.4vw, 38px);
     font-weight: 700;
     color: #fff;
-    line-height: 1.2;
-    margin-bottom: 8px;
+    line-height: 1.15;
+    margin-bottom: 10px;
   }
   .final-cta-sub {
     font-size: 14px;
@@ -753,7 +1029,6 @@
   </div>
   <nav class="site-nav-menu" id="siteNavMenu" aria-label="BuildPath site links">
     <a href="index.html">Home</a>
-    <a href="how-it-works.html">How it works</a>
     <a href="buildpath-estimator-tool.html">Try the tool</a>
     <a href="get-started.html">Get started</a>
   </nav>
@@ -768,49 +1043,90 @@
     <p class="eyebrow-tagline">Ballpark ranges for your building website.</p>
   </div>
 
-  <!-- ── HERO ── -->
-  <section class="hero">
-    <h1>Turn website visitors into better building enquiries.</h1>
-    <span class="hero-badge">Ballpark only. Not a quote.</span>
-    <p class="subhead">
-      BuildPath gives customers a clear ballpark starting point before they contact you,
-      helping filter vague enquiries and bring better job details into your inbox.
-    </p>
-    <div class="hero-ctas">
-      <a href="get-started.html" class="btn-primary">Get better enquiries</a>
-      <a href="buildpath-estimator-tool.html" class="btn-secondary">Try the customer flow &rarr;</a>
+  <!-- ── HERO + LIVE DEMO ── -->
+  <section class="hero-demo" id="heroDemo">
+    <div class="hero-demo-grid">
+      <div class="hero-demo-copy">
+        <span class="hero-badge">Ballpark only. Not a quote.</span>
+        <h1>Turn website visitors into better building enquiries.</h1>
+        <p class="subhead">
+          BuildPath gives customers a clear ballpark starting point before they contact you,
+          helping filter vague enquiries and bring better job details into your inbox.
+        </p>
+        <div class="hero-ctas">
+          <a href="get-started.html" class="btn-primary">Get better enquiries</a>
+          <a href="buildpath-estimator-tool.html" class="btn-secondary">Try the customer flow &rarr;</a>
+        </div>
+
+        <p class="hero-credibility">
+          Built with hands-on construction industry experience and calibrated against real
+          completed jobs, not guesswork.
+        </p>
+      </div>
+
+      <div class="mockup-panel tick-corners">
+        <div class="browser-chrome">
+          <span class="browser-dot" aria-hidden="true"></span><span class="browser-dot" aria-hidden="true"></span><span class="browser-dot" aria-hidden="true"></span>
+          <span class="browser-address">yourbuildingco.co.nz</span>
+        </div>
+        <div class="mockup-body">
+          <p class="mockup-hero-text">Get a ballpark range for your project</p>
+          <p class="demo-card-label">Customer&rsquo;s screen</p>
+
+          <div class="widget-card" id="widgetCard">
+            <span class="widget-badge">BuildPath</span>
+
+            <div class="widget-content">
+              <div class="widget-detail-rows" id="detailRows">
+                <div class="widget-row"><span>Job type</span><span>Deck &amp; outdoor living</span></div>
+                <div class="widget-row"><span>Approx. size</span><span>24m&sup2;</span></div>
+              </div>
+              <div class="widget-photo-row" id="photoRow">
+                <div class="widget-row"><span>Photo</span><span class="photo-status" id="photoStatus">Not added yet</span></div>
+              </div>
+              <button type="button" class="widget-btn" id="widgetBtn">Check my ballpark range</button>
+              <div class="widget-range" id="rangeBlock">
+                <p class="widget-range-label">Ballpark range</p>
+                <p class="widget-range-value">
+                  $<span id="rangeLow">0</span><span class="to">to</span>$<span id="rangeHigh">0</span>
+                </p>
+              </div>
+              <p class="widget-response" id="widgetResponse">+ a short written response alongside the range</p>
+            </div>
+
+            <p class="widget-disclaimer">Ballpark only. Not a quote.</p>
+          </div>
+
+          <div class="demo-followup" id="demoFollowup">
+            <div class="demo-handoff">
+              <svg class="demo-handoff-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 4v14"/><path d="M6.5 13l5.5 5.5 5.5-5.5"/>
+              </svg>
+              <span class="demo-handoff-label">Sent instantly</span>
+            </div>
+
+            <p class="demo-card-label">Builder&rsquo;s inbox</p>
+
+            <div class="builder-wrap">
+              <div class="builder-card" id="builderCard">
+                <span class="builder-card-badge">New enquiry</span>
+                <p class="builder-row builder-row-name">Dave R. &middot; 027 xxx xxx</p>
+                <p class="builder-row">Deck &amp; outdoor living, 24m&sup2;</p>
+                <p class="builder-row">2 photos attached</p>
+                <p class="builder-row builder-row-range">Ballpark shared: $9,650&ndash;$13,800</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <div class="flow-strip-wrap">
-    <p class="flow-strip-label">The flow, in short</p>
-    <div class="flow-strip">
-      <div class="flow-step">
-        <span class="flow-num">1</span>
-        <p class="flow-step-label">Website visitor</p>
-      </div>
-      <div class="flow-arrow" aria-hidden="true">&rarr;</div>
-      <div class="flow-step">
-        <span class="flow-num">2</span>
-        <p class="flow-step-label">Ballpark range</p>
-      </div>
-      <div class="flow-arrow" aria-hidden="true">&rarr;</div>
-      <div class="flow-step">
-        <span class="flow-num">3</span>
-        <p class="flow-step-label">Better enquiry</p>
-      </div>
-      <div class="flow-arrow" aria-hidden="true">&rarr;</div>
-      <div class="flow-step">
-        <span class="flow-num">4</span>
-        <p class="flow-step-label">Builder follow-up</p>
-      </div>
-    </div>
-  </div>
-
   <!-- ── WHAT BUILDPATH DOES ── -->
   <section class="section section--grouped">
-    <h2 class="section-title">What BuildPath does</h2>
-    <p class="lede">
+    <p class="section-label reveal">What it does</p>
+    <h2 class="section-title reveal">What BuildPath does</h2>
+    <p class="lede reveal">
       A customer thinking about a deck, bathroom, renovation, or extension wants to know
       whether they're looking at $8k, $30k, or $100k before they call. Without a starting
       point, they leave, price-shop elsewhere, or send a message with barely enough detail
@@ -818,28 +1134,29 @@
     </p>
 
     <div class="feature-grid">
-      <div class="feature-card">
+      <div class="feature-card tick-corners reveal">
         <p class="feature-card-title">Gives customers a starting range</p>
         <p class="feature-card-body">A plain-language ballpark before they ever pick up the phone, so they know roughly what they're looking at.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card tick-corners reveal">
         <p class="feature-card-title">Collects better job detail</p>
         <p class="feature-card-body">Instead of a vague message, you get their name, contact details, job type, and photos up front.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card tick-corners reveal">
         <p class="feature-card-title">Protects your pricing</p>
         <p class="feature-card-body">Standard uses your rate, margin, and job categories. Premium checks the range against how you actually price real work &mdash; never a generic industry average.</p>
       </div>
     </div>
 
-    <p class="section-note"><strong>BuildPath doesn't replace referrals.</strong> It just gives your website a better way to handle people who are interested, but not ready to call yet.</p>
+    <p class="section-note reveal"><strong>BuildPath doesn't replace referrals.</strong> It just gives your website a better way to handle people who are interested, but not ready to call yet.</p>
   </section>
 
   <!-- ── PREVIEW: WHAT EACH SIDE SEES ── -->
   <section class="section section--grouped-tight">
-    <h2 class="section-title">What each side sees</h2>
+    <p class="section-label reveal">Side by side</p>
+    <h2 class="section-title reveal">What each side sees</h2>
     <div class="preview-grid">
-      <div class="preview-card">
+      <div class="preview-card tick-corners reveal">
         <p class="preview-card-label">What the customer sees</p>
         <p class="preview-mock-range">$18,500 &ndash; $24,900 incl. GST</p>
         <p class="preview-mock-tag">Bathroom renovation &middot; Not a quote</p>
@@ -847,7 +1164,7 @@
         <p class="preview-line">A clear next step explained upfront</p>
         <p class="preview-line">Only shares their details when they choose to</p>
       </div>
-      <div class="preview-card">
+      <div class="preview-card tick-corners reveal">
         <p class="preview-card-label">What the builder receives</p>
         <div class="preview-mock-lead">
           <p class="preview-mock-lead-name">Sarah M. &middot; 021 xxx xxx</p>
@@ -860,7 +1177,7 @@
       </div>
     </div>
 
-    <div class="demo-cta">
+    <div class="demo-cta reveal">
       <div class="demo-cta-text">
         <p>See what your customers will see</p>
         <p>This is the same type of form your customers will use on your website. Right now, it runs on general industry rates so you can test the flow for yourself. Once BuildPath is set up for your business, the ballpark range is guided by your own pricing, job categories, GST, and risk rules.</p>
@@ -871,25 +1188,26 @@
 
   <!-- ── HOW IT WORKS ── -->
   <section class="section">
-    <h2 class="section-title">How it works</h2>
+    <p class="section-label reveal">The process</p>
+    <h2 class="section-title reveal">How it works</h2>
 
     <div class="steps steps-4">
-      <div class="step">
+      <div class="step reveal">
         <div class="step-num">01</div>
         <p class="step-title">Add BuildPath to your website</p>
         <p class="step-body">Pick a tier, tell us about your job types and pricing, and we get your branded tool live on your site.</p>
       </div>
-      <div class="step">
+      <div class="step reveal">
         <div class="step-num">02</div>
         <p class="step-title">Customers check their project range</p>
         <p class="step-body">They answer a few quick questions and get a clear ballpark, not a quote, in under two minutes.</p>
       </div>
-      <div class="step">
+      <div class="step reveal">
         <div class="step-num">03</div>
         <p class="step-title">They submit better project details</p>
         <p class="step-body">Instead of a vague message, you get their name, contact details, project info, and photos.</p>
       </div>
-      <div class="step">
+      <div class="step reveal">
         <div class="step-num">04</div>
         <p class="step-title">You follow up with a warmer lead</p>
         <p class="step-body">Complex jobs are flagged for a direct conversation. Everything else arrives ready for a proper quote.</p>
@@ -899,17 +1217,18 @@
 
   <!-- ── TRUST ── -->
   <section class="section">
-    <h2 class="section-title">Built to avoid the awkward stuff</h2>
+    <p class="section-label reveal">Trust</p>
+    <h2 class="section-title reveal">Built to avoid the awkward stuff</h2>
     <div class="trust-grid">
-      <div class="trust-item">
+      <div class="trust-item tick-corners reveal">
         <p class="trust-title">Always labelled "not a quote"</p>
         <p class="trust-body">Customers know exactly what they're getting, and what still needs confirming before final pricing.</p>
       </div>
-      <div class="trust-item">
+      <div class="trust-item tick-corners reveal">
         <p class="trust-title">Complex jobs get flagged, not guessed</p>
         <p class="trust-body">Consents, structural work, and unclear scope route straight to you instead of getting a made-up number.</p>
       </div>
-      <div class="trust-item">
+      <div class="trust-item tick-corners reveal">
         <p class="trust-title">You control final pricing, always</p>
         <p class="trust-body">GST, contingency, and pricing rules run in code, not guesswork. BuildPath hands you a warmer lead, never a binding number.</p>
       </div>
@@ -918,13 +1237,13 @@
 
   <!-- ── PRICING ── -->
   <section class="section section--loose">
-    <p class="section-label">Pricing</p>
-    <h2 class="section-title">Choose the level that fits your business</h2>
-    <p class="lede">Standard gets a working ballpark tool live fast. Premium checks it against how you actually price jobs.</p>
+    <p class="section-label reveal">Pricing</p>
+    <h2 class="section-title reveal">Choose the level that fits your business</h2>
+    <p class="lede reveal">Standard gets a working ballpark tool live fast. Premium checks it against how you actually price jobs.</p>
 
     <div class="pricing-grid">
 
-      <div class="tier">
+      <div class="tier tick-corners reveal">
         <div class="tier-header">
           <h3 class="tier-name">Standard</h3>
           <span class="tier-price">$449 setup incl. GST</span>
@@ -944,7 +1263,7 @@
         <p class="tier-payment">Payment: full upfront.</p>
       </div>
 
-      <div class="tier featured">
+      <div class="tier featured tick-corners reveal">
         <div class="tier-header">
           <h3 class="tier-name">Premium</h3>
           <span class="tier-price">$900 setup incl. GST</span>
@@ -965,12 +1284,12 @@
 
     </div>
 
-    <p class="addon-note">
+    <p class="addon-note reveal">
       <strong>Add-on:</strong> if your pricing data is messy, SheetFix cleans it up first so
       BuildPath can reflect how you actually price work &mdash; <span class="addon-price">from $350</span>.
     </p>
 
-    <p class="annual-note">
+    <p class="annual-note reveal">
       <strong>First year included in setup.</strong> The $149/year live tool fee starts at
       renewal and covers hosting, lead capture, API use, and light maintenance.
     </p>
@@ -979,7 +1298,7 @@
 
   <!-- ── FINAL CTA ── -->
   <section class="section section--loose">
-    <div class="final-cta">
+    <div class="final-cta reveal">
       <h2 class="final-cta-title">Turn vague website enquiries into better leads.</h2>
       <p class="final-cta-sub">Give customers a clear ballpark before they contact you, without giving away a fixed quote.</p>
       <a href="get-started.html" class="btn-primary">Get started</a>
@@ -990,7 +1309,6 @@
 
 <nav class="site-footer-nav" aria-label="BuildPath site links">
   <a href="index.html">Home</a>
-  <a href="how-it-works.html">How it works</a>
   <a href="buildpath-estimator-tool.html">Try the tool</a>
   <a href="get-started.html">Get started</a>
   <a href="terms-privacy.html">Terms &amp; Privacy</a>
@@ -1002,6 +1320,170 @@
     completed jobs, not guesswork.
   </p>
 </div>
+
+<script>
+(function () {
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hero = document.getElementById('heroDemo');
+  var widgetCard = document.getElementById('widgetCard');
+  var widgetBtn = document.getElementById('widgetBtn');
+  var widgetResponse = document.getElementById('widgetResponse');
+  var demoFollowup = document.getElementById('demoFollowup');
+  var photoStatus = document.getElementById('photoStatus');
+  var detailRows = document.getElementById('detailRows');
+  var photoRow = document.getElementById('photoRow');
+  var rangeBlock = document.getElementById('rangeBlock');
+  var builderCard = document.getElementById('builderCard');
+  var rangeLowEl = document.getElementById('rangeLow');
+  var rangeHighEl = document.getElementById('rangeHigh');
+  if (!hero || !widgetCard || !widgetResponse || !demoFollowup || !detailRows || !photoRow || !rangeBlock || !builderCard) return;
+
+  var RANGE_LOW = 9650;
+  var RANGE_HIGH = 13800;
+
+  function countUp(el, target, duration) {
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var value = Math.round(eased * target);
+      el.textContent = value.toLocaleString('en-NZ');
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function resetVisualState() {
+    widgetCard.classList.remove('glow');
+    photoStatus.textContent = 'Not added yet';
+    photoStatus.classList.remove('added');
+    widgetBtn.classList.remove('pressed', 'step-glow');
+    widgetResponse.classList.remove('show');
+    demoFollowup.classList.remove('show');
+    detailRows.classList.remove('step-highlight');
+    photoRow.classList.remove('step-highlight');
+    rangeBlock.classList.remove('step-highlight');
+    builderCard.classList.remove('step-highlight');
+    rangeLowEl.textContent = '0';
+    rangeHighEl.textContent = '0';
+  }
+
+  function finishedState() {
+    resetVisualState();
+    widgetCard.classList.add('glow');
+    photoStatus.textContent = 'Added';
+    photoStatus.classList.add('added');
+    widgetResponse.classList.add('show');
+    demoFollowup.classList.add('show');
+    detailRows.classList.add('step-highlight');
+    photoRow.classList.add('step-highlight');
+    rangeBlock.classList.add('step-highlight');
+    builderCard.classList.add('step-highlight');
+    rangeLowEl.textContent = RANGE_LOW.toLocaleString('en-NZ');
+    rangeHighEl.textContent = RANGE_HIGH.toLocaleString('en-NZ');
+  }
+
+  var cycleId = 0;
+  var timeouts = [];
+  function schedule(fn, delay, myCycle) {
+    var id = setTimeout(function () { if (myCycle === cycleId) fn(); }, delay);
+    timeouts.push(id);
+  }
+  function clearPending() { timeouts.forEach(clearTimeout); timeouts = []; }
+
+  function playSequence() {
+    cycleId++;
+    var myCycle = cycleId;
+    resetVisualState();
+
+    if (reduceMotion) {
+      finishedState();
+      return;
+    }
+
+    schedule(function () {
+      detailRows.classList.add('step-highlight');
+    }, 700, myCycle);
+    schedule(function () { widgetCard.classList.add('glow'); }, 1000, myCycle);
+    schedule(function () {
+      photoStatus.textContent = 'Added';
+      photoStatus.classList.add('added');
+      photoRow.classList.add('step-highlight');
+    }, 1350, myCycle);
+    schedule(function () {
+      widgetBtn.classList.add('pressed', 'step-glow');
+      schedule(function () { widgetBtn.classList.remove('pressed', 'step-glow'); }, 220, myCycle);
+    }, 1950, myCycle);
+    schedule(function () {
+      countUp(rangeLowEl, RANGE_LOW, 900);
+      countUp(rangeHighEl, RANGE_HIGH, 900);
+      widgetResponse.classList.add('show');
+      rangeBlock.classList.add('step-highlight');
+    }, 2450, myCycle);
+    schedule(function () {
+      demoFollowup.classList.add('show');
+      builderCard.classList.add('step-highlight');
+    }, 3550, myCycle);
+
+    // dwell on the finished state, then loop
+    schedule(function () { playSequence(); }, 3550 + 5200, myCycle);
+  }
+
+  var heroObserverFired = false;
+
+  if (!window.IntersectionObserver) {
+    hero.classList.add('in-view');
+    finishedState();
+    heroObserverFired = true;
+  } else {
+    var heroObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          heroObserverFired = true;
+          hero.classList.add('in-view');
+          playSequence();
+        } else {
+          cycleId++;
+          clearPending();
+        }
+      });
+    }, { threshold: 0.1 });
+    heroObserver.observe(hero);
+  }
+
+  // Safety net for fast scrolls / browsers where the observer never fires
+  setTimeout(function () {
+    if (heroObserverFired) return;
+    heroObserverFired = true;
+    hero.classList.add('in-view');
+    finishedState();
+  }, 2500);
+})();
+</script>
+
+<script>
+(function () {
+  var revealEls = document.querySelectorAll('.reveal');
+  if (!revealEls.length) return;
+
+  if (!window.IntersectionObserver) {
+    revealEls.forEach(function (el) { el.classList.add('in-view'); });
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  revealEls.forEach(function (el) { io.observe(el); });
+})();
+</script>
 
 <script>
 
