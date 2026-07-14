@@ -97,7 +97,7 @@
     letter-spacing: -0.8px;
     color: var(--ink);
     max-width: 680px;
-    margin-bottom: 16px;
+    margin: 0 auto 16px;
   }
 
   .subhead {
@@ -165,19 +165,20 @@
     margin-bottom: 16px;
   }
 
-  /* ── Hero demo: text on the left, form on the right ── */
+  /* ── Hero demo: centered text on the left, form on the right ── */
   .hero-demo { padding: 24px 0 24px; border-bottom: 1px solid var(--rule); }
   .hero-demo-grid {
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 400px;
     gap: 32px;
     align-items: start;
   }
-  @media (max-width: 760px) {
+  @media (max-width: 800px) {
     .hero-demo-grid { grid-template-columns: 1fr; gap: 28px; }
   }
 
   .hero-demo-copy {
+    text-align: center;
     opacity: 0;
     transform: translateY(10px);
     transition: opacity 0.6s ease, transform 0.6s ease;
@@ -185,7 +186,7 @@
   .hero-demo.in-view .hero-demo-copy { opacity: 1; transform: translateY(0); }
 
   .hero-credibility {
-    margin-top: 32px;
+    margin: 32px auto 0;
     padding-top: 22px;
     border-top: 1px solid var(--rule);
     font-size: 13.5px;
@@ -197,6 +198,8 @@
   /* browser-chrome mockup card: the right-hand column */
   .mockup-panel {
     width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
     border: 1px solid var(--rule);
     border-radius: var(--radius);
     background: var(--bg);
@@ -815,6 +818,7 @@
   .hero-ctas {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
     flex-wrap: nowrap;
     margin-top: 24px;
@@ -1048,10 +1052,11 @@
     <div class="hero-demo-grid">
       <div class="hero-demo-copy">
         <span class="hero-badge">Ballpark only. Not a quote.</span>
-        <h1>Turn website visitors into better building enquiries.</h1>
+        <h1>Turn potential customers into better building enquiries.</h1>
         <p class="subhead">
-          BuildPath gives customers a clear ballpark starting point before they contact you,
-          helping filter vague enquiries and bring better job details into your inbox.
+          Share BuildPath anywhere your customers find you. It gives them a clear ballpark
+          starting point, captures the important job details and sends them directly to you,
+          while helping filter out enquiries that aren&rsquo;t ready to go any further.
         </p>
         <div class="hero-ctas">
           <a href="get-started.html" class="btn-primary">Get better enquiries</a>
