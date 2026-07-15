@@ -3,79 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Get a quick, plain-language ballpark price range for your building project — not a quote, just a clearer starting point before you talk to a builder.">
 <title>BuildPath — Get a ballpark range</title>
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  /* ============================================================
-     BUILDPATH WIDGET — light theme, matching index.html brand
-     Palette, type, and spacing aligned with the BuildPath site.
-     ============================================================ */
   :root {
-    --blue:         #0A21C0;
-    --blue-mid:     #2B5EEB;
-    --blue-soft:    #EEF0FB;
-    --blue-border:  #C5CBF5;
-    --ink:          #141619;
-    --ink-mid:      #33353C;
-    --ink-muted:    #5B5D68;
-    --ink-faint:    #8C8F99;
-    --rule:         #DADCE3;
-    --bg:           #FFFFFF;
-    --bg-tint:      #F7F8FD;
-    --bg-field:     #F3F4F6;
-    --warn:         #B45309;
-    --warn-soft:    #FEF3C7;
-    --warn-border:  #FCD34D;
+    --blue: #0A21C0;
+    --blue-mid: #2B5EEB;
+    --blue-soft: #EEF0FB;
+    --blue-border: #C5CBF5;
+    --ink: #141619;
+    --ink-mid: #33353C;
+    --ink-muted: #5B5D68;
+    --ink-faint: #8C8F99;
+    --rule: #DADCE3;
+    --bg: #FFFFFF;
+    --bg-tint: #F7F8FD;
+    --bg-field: #F3F4F6;
+    --warn: #B45309;
+    --warn-soft: #FEF3C7;
+    --warn-border: #FCD34D;
+    --green: #1D6B4B;
+    --green-soft: #E7F5EF;
     --font-display: 'Big Shoulders Display', Arial, sans-serif;
-    --font-body:    'Inter', Arial, sans-serif;
-    --font-mono:    'IBM Plex Mono', monospace;
-    --radius:       8px;
-    --page-bg-dark: #0A0E17;
-    --grid-line:    rgba(60,230,140,0.35);
+    --font-body: 'Inter', Arial, sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --radius: 10px;
   }
-  .intro-box {
-    background: var(--blue-soft);
-    border: 1px solid var(--blue-border);
-    border-radius: var(--radius);
-    padding: 20px 20px 24px;
-    margin-bottom: 28px;
-  }
-  .demo-banner {
-    display: none;
-    font-size: 0.9rem;
-    color: var(--ink-mid);
-    line-height: 1.5;
-    padding-bottom: 16px;
-    margin-bottom: 16px;
-    border-bottom: 1px solid rgba(126,164,255,0.16);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+  * { box-sizing: border-box; }
   body {
+    margin: 0;
     font-family: var(--font-body);
-    background: var(--page-bg-dark);
+    background: #0A0E17;
     color: var(--ink);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
-
-  /* ── Blueprint grid backdrop (behind the tool, does not affect it) ── */
   .blueprint-bg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
+    position: fixed; inset: 0; z-index: 0;
     background-image:
-      linear-gradient(var(--grid-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      linear-gradient(rgba(60,230,140,0.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(60,230,140,0.35) 1px, transparent 1px);
     background-size: 44px 44px;
     pointer-events: none;
   }
@@ -85,114 +53,17 @@
     inset: 0;
     background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(62,107,255,0.14), transparent 70%);
   }
+  .wrap { max-width: 600px; margin: 0 auto; padding: 36px 20px 80px; position: relative; z-index: 1; }
 
-  /* ── Header ── */
-  .header-band {
-    background: var(--bg);
-    border-bottom: 1px solid var(--rule);
-    padding: 16px 20px;
-    position: relative;
-    z-index: 1;
-  }
-  .header-inner {
-    max-width: 600px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    row-gap: 8px;
-    gap: 12px;
-  }
-  .header-logo {
-    height: 36px;
-    width: auto;
-    display: block;
-  }
-  .header-tag {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    border: 1px solid var(--rule);
-    padding: 4px 10px;
-    border-radius: 100px;
-  }
-  .back-link {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--ink-faint);
-    text-decoration: none;
-  }
-  .back-link:hover { color: var(--blue); }
-
-  /* ── Site footer nav (added: cross-page navigation) ── */
-  .site-footer-nav {
-    background: var(--blue);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 28px;
-    padding: 16px 40px;
-    margin-top: 40px;
-    position: relative;
-    z-index: 1;
-  }
-  .site-footer-nav a {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    color: #C5CBF5;
-    text-decoration: none;
-  }
-  .site-footer-nav a:hover { color: #fff; }
-  @media (max-width: 600px) {
-    .site-footer-nav { flex-direction: column; gap: 12px; padding: 16px 20px; }
-  }
-
-  /* ── Page wrapper ── */
-  .wrap {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 32px 20px 80px;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* ── Hero intro ── */
-  .hero {
-    margin-bottom: 0;
-    text-align: center;
-  }
+  .hero { text-align: center; margin-bottom: 26px; }
   .hero h1 {
     font-family: var(--font-display);
     font-size: clamp(28px, 5.5vw, 38px);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.3px;
-    color: var(--ink);
-    margin-bottom: 10px;
+    font-weight: 700; line-height: 1.1; letter-spacing: -0.3px;
+    color: #F2F5FA; margin: 0 0 10px;
   }
-  .subhead {
-    font-size: 14.5px;
-    color: #1E3A6E;
-    line-height: 1.6;
-    margin-bottom: 14px;
-  }
-  .stamp {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--blue);
-    border: 1px solid var(--blue-border);
-    background: var(--blue-soft);
-    padding: 6px 12px;
-    border-radius: 4px;
-  }
+  .hero p { font-size: 14.5px; color: #A9B8D6; margin: 0; }
 
-  /* ── Cards ── */
   .card {
     background-color: var(--bg);
     background-image:
@@ -206,523 +77,159 @@
     border: 1px solid var(--rule);
     border-top: 3px solid var(--blue);
     border-radius: var(--radius);
-    padding: 24px;
+    padding: 26px;
     margin-bottom: 20px;
   }
 
-  /* ── Form labels ── */
   label {
     display: block;
     font-family: var(--font-mono);
-    font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    margin: 18px 0 6px;
+    font-size: 10.5px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--ink-muted); margin: 20px 0 7px;
   }
   label:first-of-type { margin-top: 0; }
+  .hint { font-size: 12.5px; color: var(--ink-faint); margin: -3px 0 8px; }
 
-  .hint {
-    font-size: 12.5px;
-    color: var(--ink-faint);
-    margin-top: -2px;
-    margin-bottom: 8px;
-  }
-
-  /* ── Inputs ── */
-  select,
-  input[type="text"],
-  input[type="tel"],
-  input[type="email"],
-  textarea {
+  select, input[type="text"], input[type="tel"], input[type="email"], textarea {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--rule);
-    border-radius: var(--radius);
+    min-height: 46px;
+    border: 1.5px solid var(--rule);
+    border-radius: 9px;
+    background: var(--bg-field);
     font-family: var(--font-body);
     font-size: 14px;
-    background: var(--bg-field);
     color: var(--ink);
-    appearance: none;
-    -webkit-appearance: none;
-    transition: border-color 0.15s, box-shadow 0.15s;
+    padding: 10px 13px;
   }
-  textarea { min-height: 88px; resize: vertical; }
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235B5D68' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-  }
-  select:focus,
-  input:focus,
-  textarea:focus {
-    outline: none;
-    border-color: var(--blue-mid);
-    box-shadow: 0 0 0 3px var(--blue-soft);
-    background: var(--bg);
-  }
+  select:focus, input:focus, textarea:focus { outline: none; border-color: var(--blue-mid); }
+  textarea { min-height: 84px; padding-top: 12px; resize: vertical; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 520px) { .grid-2 { grid-template-columns: 1fr; gap: 0; } }
 
-  /* ── Grid ── */
-  .grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+  /* ---- Visual job-type cards, icons matched to each category ---- */
+  .native-job-select { position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; }
+  .choice-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px;
   }
-  @media (max-width: 480px) {
-    .grid-2 { grid-template-columns: 1fr; }
-  }
-
-  /* ── Photo buttons ── */
-  .photo-buttons {
-    display: flex;
-    gap: 8px;
-  }
-  .btn-photo {
-    flex: 1;
-    background: var(--bg-field);
-    border: 1px dashed var(--rule);
+  @media (max-width: 520px) { .choice-grid { grid-template-columns: repeat(2, 1fr); } }
+  .choice-card {
+    position: relative;
+    min-height: 90px;
+    display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 8px;
+    padding: 12px;
+    border: 1.5px solid var(--rule);
+    border-radius: 11px;
+    background: #fff;
     color: var(--ink-mid);
-    border-radius: var(--radius);
-    padding: 10px 8px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 600;
+    text-align: left;
+    font: 600 12px/1.25 var(--font-body);
     cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
+    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
   }
-  .btn-photo:hover {
-    border-color: var(--blue-mid);
-    background: var(--blue-soft);
-  }
-  .photo-preview {
-    font-size: 12.5px;
-    color: var(--ink-faint);
-    margin-top: 8px;
-    min-height: 1px;
-  }
-  .photo-preview a {
-    color: var(--blue-mid);
-    font-weight: 600;
-    text-decoration: none;
-    margin-left: 6px;
-  }
+  .choice-card:hover { transform: translateY(-2px); border-color: #9eb2ff; box-shadow: 0 8px 18px rgba(10,33,192,.08); }
+  .choice-card.selected { border-color: var(--blue); background: var(--blue-soft); box-shadow: 0 0 0 2px rgba(10,33,192,.10); color: var(--blue); }
+  .choice-icon { width: 24px; height: 24px; color: var(--ink-mid); }
+  .choice-card.selected .choice-icon { color: var(--blue); }
 
-  /* ── Disclaimer ── */
-  .disclaimer {
-    font-size: 12.5px;
-    color: var(--ink-muted);
-    background: var(--bg-tint);
-    border: 1px solid var(--rule);
-    border-radius: var(--radius);
-    padding: 10px 14px;
-    margin-top: 16px;
-    line-height: 1.55;
+  .photo-buttons { display: flex; gap: 10px; margin-top: 8px; }
+  .btn-photo {
+    flex: 1; min-height: 70px; border: 1.5px dashed var(--rule); border-radius: 11px;
+    background: #fbfcfe; color: var(--ink-muted); font: 600 12.5px var(--font-body); cursor: pointer;
   }
-  .form-reassurance {
-    font-size: 12.5px;
-    color: var(--ink-faint);
-    text-align: center;
-    margin-top: 14px;
-    margin-bottom: 8px;
-  }
+  .btn-photo:hover { border-color: var(--blue-mid); color: var(--blue); }
+  .photo-preview { font-size: 12.5px; color: var(--ink-muted); margin-top: 8px; }
+  .photo-preview a { color: var(--blue); margin-left: 8px; }
 
-  /* ── Buttons ── */
-  button { cursor: pointer; }
+  .disclaimer { font-size: 12px; color: var(--ink-faint); background: #f5f7fb; border-radius: 9px; padding: 12px 14px; margin-top: 18px; }
+  .form-reassurance { font-size: 12.5px; color: var(--ink-faint); text-align: center; margin: 14px 0 12px; }
 
   .btn-primary {
-    width: 100%;
-    margin-top: 18px;
-    background: var(--blue);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius);
-    padding: 13px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    transition: background 0.15s;
+    display: block; width: 100%; min-height: 50px;
+    background: var(--blue); color: #fff; border: none; border-radius: 10px;
+    font: 700 15px var(--font-body); cursor: pointer;
+    box-shadow: 0 9px 20px rgba(10,33,192,.18);
   }
   .btn-primary:hover { background: var(--blue-mid); }
-  .btn-primary:disabled { opacity: 0.55; cursor: default; }
-
+  .btn-primary:disabled { opacity: .6; cursor: default; }
   .btn-secondary {
-    width: 100%;
-    margin-top: 14px;
-    background: transparent;
-    color: var(--blue);
-    border: 1.5px solid var(--blue);
-    border-radius: var(--radius);
-    padding: 12px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    transition: background 0.15s;
+    display: block; width: 100%; min-height: 48px; margin-top: 10px;
+    background: var(--blue); color: #fff; border: 1px solid var(--blue); border-radius: 10px;
+    font: 700 14px var(--font-body); cursor: pointer;
   }
-  .btn-secondary:hover { background: var(--blue-soft); }
-
   .btn-ghost {
-    width: 100%;
-    margin-top: 10px;
-    background: transparent;
-    color: var(--ink-muted);
-    border: 1px solid var(--rule);
-    border-radius: var(--radius);
-    padding: 11px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    transition: border-color 0.15s, color 0.15s;
+    display: block; width: 100%; min-height: 44px; margin-top: 8px;
+    background: transparent; color: var(--ink-muted); border: 1.5px solid var(--rule); border-radius: 10px;
+    font: 600 13px var(--font-body); cursor: pointer;
   }
-  .btn-ghost:hover { border-color: var(--ink-muted); color: var(--ink); }
 
-  /* ── Loading spinner ── */
-  .loading {
-    display: none;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    color: var(--ink-faint);
-    margin-top: 14px;
-  }
+  .loading { display: none; align-items: center; gap: 10px; margin-top: 16px; font-size: 13px; color: var(--ink-muted); }
   .spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid var(--rule);
-    border-top: 2px solid var(--blue-mid);
-    border-radius: 50%;
-    flex-shrink: 0;
-    animation: spin 0.8s linear infinite;
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid var(--blue-border); border-top-color: var(--blue);
+    animation: spin .8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── Checkbox ── */
-  .checkbox-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    margin-top: 16px;
-    font-size: 13px;
-    color: var(--ink-mid);
-    line-height: 1.5;
-  }
-  .checkbox-row input[type="checkbox"] {
-    width: auto;
-    margin-top: 3px;
-    flex-shrink: 0;
-    accent-color: var(--blue);
-  }
-  .checkbox-row label {
-    margin: 0;
-    font-family: var(--font-body);
-    font-size: 13px;
-    text-transform: none;
-    letter-spacing: 0;
-    font-weight: 400;
-    color: var(--ink-mid);
-  }
-
-  /* ── Result card ── */
+  /* ---- Result card ---- */
   .result-card { display: none; }
-
+  .result-eyebrow { font: 600 10px var(--font-mono); letter-spacing: .12em; color: var(--blue); margin-bottom: 10px; text-transform: uppercase; }
+  .job-category-label { font-size: 12.5px; color: var(--ink-muted); margin-bottom: 4px; }
+  .range { font-family: var(--font-display); font-size: clamp(36px, 8vw, 52px); line-height: 1; color: var(--ink); margin: 6px 0 14px; }
   .confidence-tag {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 100px;
-    margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 6px;
+    font: 600 12px var(--font-body); padding: 5px 12px; border-radius: 999px; margin-bottom: 18px;
   }
-  .confidence-standard {
-    background: var(--blue-soft);
-    color: var(--blue);
-    border: 1px solid var(--blue-border);
-  }
-  .confidence-review {
-    background: var(--warn-soft);
-    color: var(--warn);
-    border: 1px solid var(--warn-border);
-  }
+  .confidence-standard { background: var(--green-soft); color: var(--green); }
+  .confidence-review { background: var(--warn-soft); color: var(--warn); }
+  .section-label { font: 600 11px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: #536078; margin-top: 22px; margin-bottom: 6px; }
+  ul.bullets { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--ink-mid); }
+  ul.bullets li { margin-bottom: 4px; }
 
-  .section-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin: 20px 0 8px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .range {
-    font-family: var(--font-display);
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: var(--blue);
-    margin: 4px 0 4px;
-    letter-spacing: -0.5px;
-  }
-
-  ul.bullets {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-size: 13.5px;
-    color: var(--ink-mid);
-    line-height: 1.6;
-  }
-  ul.bullets li {
-    padding: 3px 0 3px 16px;
-    position: relative;
-  }
-  ul.bullets li::before {
-    content: '–';
-    position: absolute;
-    left: 0;
-    color: var(--blue);
-  }
-
-  .result-disclaimer {
-    margin-top: 20px;
-    font-size: 12.5px;
-    color: var(--ink-faint);
-    border-top: 1px solid var(--rule);
-    padding-top: 14px;
-    line-height: 1.6;
-  }
-
-  .result-opener {
-    font-size: 14px;
-    color: var(--ink-mid);
-    line-height: 1.6;
-    margin-bottom: 16px;
-  }
-
-  .result-closer {
-    font-size: 13.5px;
-    color: var(--ink-mid);
-    line-height: 1.6;
-    margin-top: 16px;
-  }
-
-  /* ── Confirm / correct ── */
-  .confirm-prompt {
-    margin-top: 18px;
-    padding-top: 16px;
-    border-top: 1px solid var(--rule);
-  }
-  .confirm-prompt p {
-    font-size: 13px;
-    color: var(--ink-muted);
-    margin-bottom: 10px;
-  }
-  .confirm-buttons { display: flex; gap: 8px; }
+  .confirm-prompt { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rule); }
+  .confirm-prompt p { font-size: 13.5px; color: var(--ink-mid); margin: 0 0 10px; }
+  .confirm-buttons { display: flex; gap: 10px; }
   .btn-confirm-yes, .btn-confirm-no {
-    flex: 1;
-    border-radius: var(--radius);
-    padding: 9px;
-    font-family: var(--font-body);
-    font-size: 12.5px;
-    font-weight: 600;
-    transition: border-color 0.15s, background 0.15s;
+    flex: 1; min-height: 42px; border-radius: 9px; font: 600 12.5px var(--font-body); cursor: pointer;
   }
-  .btn-confirm-yes {
-    background: var(--blue-mid);
-    border: 1px solid var(--blue-mid);
-    color: #fff;
-  }
-  .btn-confirm-yes:hover { background: var(--blue); border-color: var(--blue); }
-  .btn-confirm-no {
-    background: var(--bg-field);
-    border: 1px solid var(--rule);
-    color: var(--ink-mid);
-  }
-  .btn-confirm-no:hover { border-color: var(--blue-mid); }
-
-  .correction-box {
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid var(--rule);
-  }
-  .correction-box label {
-    display: block;
-    font-size: 13px;
-    color: var(--ink-muted);
-    margin-bottom: 8px;
-  }
-  .correction-box textarea { margin-bottom: 10px; }
+  .btn-confirm-yes { background: var(--green-soft); color: var(--green); border: 1px solid #b9e3cf; }
+  .btn-confirm-no { background: #fff; color: var(--ink-muted); border: 1.5px solid var(--rule); }
+  .correction-box { margin-top: 14px; display: none; }
   .btn-update-estimate {
-    width: 100%;
-    background: var(--blue-mid);
-    border: 1px solid var(--blue-mid);
-    color: #fff;
-    border-radius: var(--radius);
-    padding: 10px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 600;
-    transition: background 0.15s;
+    margin-top: 10px; width: 100%; min-height: 44px; background: var(--blue); color: #fff;
+    border: none; border-radius: 9px; font: 700 13px var(--font-body); cursor: pointer;
   }
-  .btn-update-estimate:hover { background: var(--blue); }
-  .btn-update-estimate:disabled { opacity: 0.6; }
+  .confirm-note { font-size: 13px; color: var(--ink-mid); margin-top: 12px; }
 
-  .confirm-note {
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid var(--rule);
-    font-size: 13px;
-    color: var(--ink-mid);
-    line-height: 1.6;
+  .lead-form { display: none; }
+  .review-card, .error-card { display: none; }
+  .badge {
+    display: inline-block; font: 600 11px var(--font-mono); letter-spacing: .06em; text-transform: uppercase;
+    color: var(--warn); background: var(--warn-soft); border: 1px solid var(--warn-border);
+    padding: 5px 10px; border-radius: 999px; margin-bottom: 12px;
   }
 
-  /* ── Review card ── */
-  .review-card { display: none; }
-  .review-card .badge {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    background: var(--warn-soft);
-    color: var(--warn);
-    border: 1px solid var(--warn-border);
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 100px;
-    margin-bottom: 12px;
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   }
-
-  /* ── Error card ── */
-  .error-card { display: none; }
-
-  /* ── Lead confirm ── */
-  #leadConfirm {
-    font-size: 14px;
-    color: var(--ink-mid);
-    line-height: 1.6;
-  }
-  /* ── Site nav bar (hamburger, added) ── */
-  .site-nav-bar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--blue);
-  }
-  .site-nav-inner {
-    max-width: 640px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 20px;
-  }
-  .site-nav-logo {
-    font-family: var(--font-display);
-    font-size: 19px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.01em;
-    text-decoration: none;
-  }
-  .site-nav-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    width: 28px;
-    height: 20px;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .site-nav-toggle span {
-    display: block;
-    height: 2px;
-    width: 100%;
-    background: #fff;
-    border-radius: 2px;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-  }
-  .site-nav-toggle[aria-expanded="true"] span:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
-  }
-  .site-nav-toggle[aria-expanded="true"] span:nth-child(2) {
-    opacity: 0;
-  }
-  .site-nav-toggle[aria-expanded="true"] span:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
-  }
-  .site-nav-menu {
-    max-height: 0;
-    overflow: hidden;
-    background: var(--blue-mid);
-    transition: max-height 0.25s ease;
-  }
-  .site-nav-menu.open { max-height: 260px; }
-  .site-nav-menu a {
-    display: block;
-    padding: 13px 20px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.02em;
-    color: #fff;
-    text-decoration: none;
-    border-top: 1px solid rgba(255,255,255,.16);
-  }
-  .site-nav-menu a:hover { background: rgba(255,255,255,.08); }
 </style>
 </head>
 <body>
-<div class="site-nav-bar">
-  <div class="site-nav-inner">
-    <span class="site-nav-logo">BuildPath</span>
-    <button class="site-nav-toggle" id="siteNavToggle" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-  <nav class="site-nav-menu" id="siteNavMenu" aria-label="BuildPath site links">
-    <a href="index.html">Home</a>
-    <a href="buildpath-estimator-tool.html">Try the tool</a>
-    <a href="get-started.html">Get started</a>
-  </nav>
-</div>
-
 <div class="blueprint-bg"></div>
 <div class="wrap">
 
-  <div class="intro-box">
-    <div class="demo-banner" id="demoBanner">
-      This is the same type of form your customers will use on your website. Right now, it runs on general industry rates so you can test the flow for yourself. Once BuildPath is set up for your business, the ballpark range is guided by your own pricing, job categories, GST, and risk rules.
-    </div>
-
-    <div class="hero">
-      <h1>Get a clear ballpark range before you book a quote.</h1>
-      <p class="subhead">Tell us about your project, add a photo if you have one, and we'll give you a rough starting range. Final pricing is confirmed after a proper review.</p>
-    </div>
+  <div class="hero">
+    <h1>Get a clear ballpark range before you book a quote.</h1>
+    <p>Tell us about your project, add a photo if you have one, and we'll give you a rough starting range.</p>
   </div>
 
-  
-
-  <!-- ===================== ESTIMATE FORM ===================== -->
+  <!-- ===================== ESTIMATE FORM (single page, no steps) ===================== -->
   <form class="card" id="estimateForm">
 
     <label for="jobType">Job type</label>
-    <select id="jobType" required>
+    <select id="jobType" class="native-job-select" aria-label="Job type">
       <option value="">Select…</option>
     </select>
+    <div class="choice-grid" id="jobTypeChoices" role="group" aria-label="Choose a job type"></div>
 
     <label for="description">Tell us about the job</label>
     <textarea id="description" placeholder="e.g. Replacing an old deck out the back, roughly 4m x 3m, timber frame is still solid." required></textarea>
@@ -731,19 +238,13 @@
       <div>
         <label for="size">Approximate size</label>
         <select id="size">
-          <option>Small</option>
-          <option>Medium</option>
-          <option>Large</option>
-          <option>Not sure</option>
+          <option>Small</option><option>Medium</option><option>Large</option><option>Not sure</option>
         </select>
       </div>
       <div>
         <label for="siteAccess">Site access</label>
         <select id="siteAccess">
-          <option>Easy</option>
-          <option>Limited</option>
-          <option>Steep or tight</option>
-          <option>Not sure</option>
+          <option>Easy</option><option>Limited</option><option>Steep or tight</option><option>Not sure</option>
         </select>
       </div>
     </div>
@@ -752,10 +253,7 @@
       <div>
         <label for="timeline">Timeline</label>
         <select id="timeline">
-          <option>Flexible</option>
-          <option>1–3 months</option>
-          <option>Urgent</option>
-          <option>Just researching</option>
+          <option>Flexible</option><option>1–3 months</option><option>Urgent</option><option>Just researching</option>
         </select>
       </div>
       <div>
@@ -767,69 +265,31 @@
     <div id="newBuildFields" style="display:none;">
       <label for="floorArea">Approximate floor area</label>
       <select id="floorArea">
-        <option>Not sure yet</option>
-        <option>Under 100m²</option>
-        <option>100–130m²</option>
-        <option>130–160m²</option>
-        <option>160–200m²</option>
-        <option>200m²+</option>
+        <option>Not sure yet</option><option>Under 100m²</option><option>100–130m²</option>
+        <option>130–160m²</option><option>160–200m²</option><option>200m²+</option>
       </select>
-
       <div class="grid-2">
-        <div>
-          <label for="bathrooms">Bathrooms</label>
-          <select id="bathrooms">
-            <option>Not sure</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3+</option>
-          </select>
+        <div><label for="bathrooms">Bathrooms</label>
+          <select id="bathrooms"><option>Not sure</option><option>1</option><option>2</option><option>3+</option></select>
         </div>
-        <div>
-          <label for="garage">Garage included?</label>
-          <select id="garage">
-            <option>Not sure</option>
-            <option>Yes</option>
-            <option>No</option>
-          </select>
+        <div><label for="garage">Garage included?</label>
+          <select id="garage"><option>Not sure</option><option>Yes</option><option>No</option></select>
         </div>
       </div>
-
       <div class="grid-2">
-        <div>
-          <label for="siteType">Site</label>
-          <select id="siteType">
-            <option>Not sure</option>
-            <option>Flat</option>
-            <option>Sloped</option>
-          </select>
+        <div><label for="siteType">Site</label>
+          <select id="siteType"><option>Not sure</option><option>Flat</option><option>Sloped</option></select>
         </div>
-        <div>
-          <label for="services">Services at boundary?</label>
-          <select id="services">
-            <option>Not connected / unsure</option>
-            <option>Connected / at boundary</option>
-          </select>
+        <div><label for="finishLevel">Finish level</label>
+          <select id="finishLevel"><option>Not sure</option><option>Basic</option><option>Standard</option><option>Higher-spec</option></select>
         </div>
       </div>
-
       <div class="grid-2">
-        <div>
-          <label for="finishLevel">Finish level</label>
-          <select id="finishLevel">
-            <option>Not sure</option>
-            <option>Basic</option>
-            <option>Standard</option>
-            <option>Higher-spec</option>
-          </select>
+        <div><label for="services">Services at boundary?</label>
+          <select id="services"><option>Not connected / unsure</option><option>Connected / at boundary</option></select>
         </div>
-        <div>
-          <label for="plansDrawn">Plans already drawn?</label>
-          <select id="plansDrawn">
-            <option>Not sure</option>
-            <option>Yes</option>
-            <option>No</option>
-          </select>
+        <div><label for="plansDrawn">Plans already drawn?</label>
+          <select id="plansDrawn"><option>Not sure</option><option>Yes</option><option>No</option></select>
         </div>
       </div>
     </div>
@@ -843,16 +303,15 @@
     <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none">
     <input type="file" id="libraryInput" accept="image/*" multiple style="display:none">
     <div class="photo-preview" id="photoPreview"></div>
-    <div class="hint" style="margin-top:6px;">Only upload photos relevant to the project. Avoid including people, children, vehicles, number plates, mail, documents, or anything private in the image.</div>
 
     <div class="disclaimer">
-      This is a rough ballpark range generated automatically from the details provided &mdash; it hasn't been
-      reviewed by a person yet. It's not a quote, offer, or fixed price, and final pricing may move up or down
-      once the contractor reviews site conditions, access, materials, or hidden work.
+      This is a rough ballpark range generated automatically from the details provided — it hasn't been
+      reviewed by a person yet. It's not a quote, offer, or fixed price.
     </div>
 
-    <p class="form-reassurance">Takes about 1&ndash;2 minutes. No signup needed.</p>
-    <button type="submit" class="btn-primary" id="submitBtn">Check my ballpark range</button>
+    <p class="form-reassurance">Takes about 1–2 minutes. No signup needed.</p>
+    <button type="submit" class="btn-primary" id="submitBtn">Show my ballpark →</button>
+
     <div class="loading" id="loadingMsg">
       <div class="spinner"></div>
       <span id="loadingText">Working out a range from what you've shared…</span>
@@ -861,10 +320,10 @@
 
   <!-- ===================== RESULT CARD ===================== -->
   <div class="card result-card" id="resultCard">
-    <p class="result-opener">Kia ora,<br>Thanks for sharing your project with us. Based on what you've provided, here's a ballpark range to help you get started:</p>
-    <span class="confidence-tag" id="confidenceTag"></span>
-    <div class="section-label" id="jobCategoryLabel"></div>
-    <div class="range" id="rangeValue"></div>
+    <div class="result-eyebrow">Your ballpark</div>
+    <div class="job-category-label" id="jobCategoryLabel">Job category</div>
+    <div class="range" id="rangeValue">—</div>
+    <span class="confidence-tag confidence-standard" id="confidenceTag">Standard confidence</span>
 
     <div class="section-label">Why this range</div>
     <ul class="bullets" id="whyList"></ul>
@@ -872,29 +331,11 @@
     <div class="section-label">Assumed scope</div>
     <ul class="bullets" id="scopeList"></ul>
 
-    <div class="section-label" id="otherTradesLabel" style="display:none;">Other trades</div>
-    <ul class="bullets" id="tradesList"></ul>
-
     <div class="section-label">What could change this price</div>
     <ul class="bullets" id="changeList"></ul>
 
     <div class="section-label">What's not included</div>
     <ul class="bullets" id="excludedList"></ul>
-
-    <div class="section-label" id="siteVisitLabel" style="display:none;">Why a site visit may help</div>
-    <ul class="bullets" id="siteVisitList"></ul>
-
-    <div class="result-disclaimer">
-      This is a rough ballpark range based only on the details provided. It is not a quote, offer, or fixed price.
-      Final pricing may move up or down after review, especially where site conditions, access, materials, or
-      hidden work are involved.
-    </div>
-
-    <p class="result-closer">We'd love to talk more about your project. If this feels like the right starting point, send it through; we'll take a proper look and come back to you.</p>
-
-    <button class="btn-secondary" id="ctaBtn">Talk to <span class="ctaName">[Insert Your Name]</span> about this job</button>
-    <button class="btn-ghost" id="showLeadFormBtn">Send my details so the builder can take a proper look</button>
-
 
     <div class="confirm-prompt" id="confirmPrompt">
       <p>Does this look right?</p>
@@ -903,95 +344,53 @@
         <button type="button" class="btn-confirm-no" id="confirmNoBtn">✗ Not quite</button>
       </div>
     </div>
-
-    <div class="correction-box" id="correctionBox" style="display:none;">
-      <label for="correctionText">What did we get wrong or miss?</label>
-      <textarea id="correctionText" placeholder="e.g. Access is actually really tight, or it's a bigger area than I said..." rows="3"></textarea>
+    <div class="correction-box" id="correctionBox">
+      <label for="correctionText" style="margin-top:0;">What did we get wrong or miss?</label>
+      <textarea id="correctionText" placeholder="e.g. Access is actually really tight, or it's a bigger area than I said..."></textarea>
       <button type="button" class="btn-update-estimate" id="updateEstimateBtn">Update my estimate →</button>
     </div>
+    <p class="confirm-note" id="confirmNote"></p>
 
-    <p class="confirm-note" id="confirmNote" style="display:none;"></p>
-  </div>
-
-  <!-- ===================== LEAD CAPTURE ===================== -->
-  <form class="card" id="leadForm" style="display:none;">
-    <div class="section-label" style="margin-top:0;">Your details</div>
-    <label for="leadName">Name</label>
-    <input type="text" id="leadName" autocomplete="name" required>
-
-    <label for="leadPhone">Phone</label>
-    <input type="tel" id="leadPhone" autocomplete="tel" required>
-
-    <label for="leadEmail">Email</label>
-    <input type="email" id="leadEmail" autocomplete="email" required>
-
-    <div class="checkbox-row">
-      <input type="checkbox" id="leadPermission" required>
-      <label for="leadPermission" style="margin:0; font-weight:400;">
-        I'm okay with <span class="ctaName">[Insert Your Name]</span> contacting me about this job.
-      </label>
-    </div>
-
-    <button type="submit" class="btn-primary" id="leadSubmitBtn">Send my details</button>
-    <div class="loading" id="leadLoadingMsg">
-      <div class="spinner"></div>
-      <span>Sending your details…</span>
-    </div>
-  </form>
-
-  <div class="card" id="leadConfirm" style="display:none;">
-    Thanks — <span class="ctaName">[Insert Your Name]</span> will be in touch about this job.
+    <form class="lead-form" id="leadForm">
+      <label for="leadName">Your name</label>
+      <input type="text" id="leadName" required>
+      <label for="leadPhone">Phone</label>
+      <input type="tel" id="leadPhone" required>
+      <label for="leadEmail">Email (optional)</label>
+      <input type="email" id="leadEmail">
+      <button type="submit" class="btn-secondary" id="leadSubmitBtn">Send my details</button>
+    </form>
+    <div class="card" id="leadConfirm" style="display:none;">Thanks — we'll be in touch about this job.</div>
   </div>
 
   <!-- ===================== NEEDS REVIEW CARD ===================== -->
-  <div class="card review-card" id="reviewCard">
+  <div class="card review-card" id="reviewCard" style="display:none;">
     <span class="badge">Needs a quick look first</span>
-    <p id="reviewMessage" style="margin:0 0 14px;">
-      This job has a few details that are best assessed in person rather than guessed at online.
-    </p>
-    <p style="margin:0 0 14px; font-size:0.9rem; color:var(--color-muted);" id="reviewReasons"></p>
-
-    <label for="reviewAdditionalInfo">Want to add anything else? (optional)</label>
-    <textarea id="reviewAdditionalInfo" placeholder="Anything that might help — more detail, timing, access, whatever you think is useful."></textarea>
-
-    <button class="btn-secondary" id="reviewCtaBtn">Talk to <span class="ctaName">[Insert Your Name]</span> about this job</button>
-    <button class="btn-ghost" id="reviewShowLeadFormBtn">Send my details so the builder can take a proper look</button>
+    <p style="margin:0 0 14px;">This job has a few details that are best assessed in person rather than guessed at online.</p>
+    <p style="margin:0 0 14px; font-size:13.5px; color:var(--ink-mid);" id="reviewReasons"></p>
   </div>
 
-  <!-- ===================== ERROR CARD ===================== -->
   <div class="card error-card" id="errorCard">
-    We couldn't create a ballpark range just now. Please contact <span class="ctaName">[Insert Your Name]</span> directly and we'll help from there.
-    <span id="errorPhoneFallback"></span>
+    We couldn't create a ballpark range just now. Please try again in a moment.
   </div>
 
 </div>
 
 <script>
 /* ============================================================
-   CONFIG — fill these in per contractor. Keeping this as one
-   block is the starting point for making onboarding repeatable
-   across different trades — this CONFIG block is the per-contractor onboarding step.
+   DEMO NOTE: this single-file version calls the Anthropic API
+   directly (via the artifact's built-in fetch access) so the AI
+   response actually works when you open this file standalone —
+   your real production Worker requires a matching contractorId
+   and CORS-allowed origin, which is why it wasn't returning a
+   result when tested outside buildpath.nz. In production this
+   call stays exactly as-is: your Cloudflare Worker + CONTRACTORS_KV
+   handle GST, contingency, risk rules and new-build pricing in code.
    ============================================================ */
+
 const CONFIG = {
-  businessName: "[Insert Company Name]",
-  contactPerson: "[Insert Your Name]",
-  contactPhone: "", // leave blank until a real number is added — see callContact() below
   workerUrl: "https://estimator-workerjs.mikey-mcf.workers.dev",
-  // Identifies this contractor's record in the multi-tenant CONTRACTORS_KV
-  // namespace (v2.0.0 Worker). Sent with every request as both the JSON
-  // body's contractorId field and a ?c= query param on the Worker URL —
-  // the query param exists because the browser's CORS preflight (OPTIONS)
-  // carries no body, so it's the only way the Worker can answer preflight
-  // with the right contractor's allowed origins. Change this if the pilot
-  // contractor's ID in CONTRACTORS_KV is ever renamed.
   contractorId: "demo",
-  // Set to false once this file is configured with a real contractor's rates
-  // and job categories and goes live on their website — this hides the
-  // "general industry rates" demo banner above the form.
-  isDemo: true,
-  // Originally Gav's real UltraBuild service lines from the pilot test. Decided to
-  // keep this as the default generic builder list going forward — broad enough to
-  // cover most building contractors without needing a swap per customer.
   jobTypes: [
     "Home renovation or alteration",
     "Bathroom, kitchen, or laundry renovation",
@@ -1005,53 +404,18 @@ const CONFIG = {
   ]
 };
 
-document.querySelectorAll('.ctaName').forEach(el => el.textContent = CONFIG.contactPerson);
-
-if (CONFIG.isDemo) {
-  document.getElementById('demoBanner').style.display = 'block';
-}
-
-// ============================================================
-// PRODUCTION SAFETY CHECK
-//
-// If this file has been switched to live mode (isDemo: false) but the
-// per-contractor CONFIG values were never actually filled in, submitting
-// the form would send a real customer's details into a broken or
-// generic setup. Rather than let that happen silently, this checks for
-// leftover placeholders or a blank Worker URL and, if found, disables
-// submission entirely with a clear console error for whoever's setting
-// this up — never a message the customer sees.
-// ============================================================
-const PLACEHOLDER_PATTERN = /^\[Insert/;
-const CONFIG_INCOMPLETE = !CONFIG.isDemo && (
-  PLACEHOLDER_PATTERN.test(CONFIG.businessName) ||
-  PLACEHOLDER_PATTERN.test(CONFIG.contactPerson) ||
-  !CONFIG.workerUrl ||
-  PLACEHOLDER_PATTERN.test(CONFIG.workerUrl)
-);
-
-if (CONFIG_INCOMPLETE) {
-  console.error(
-    'BuildPath CONFIG is incomplete for a live deployment (isDemo is false, but ' +
-    'businessName, contactPerson, or workerUrl still contain placeholder or blank values). ' +
-    'Fill in real values in the CONFIG block before going live. Form submission has been ' +
-    'disabled to prevent a broken experience reaching a real customer.'
-  );
-}
-
-// "Talk to [Name]" only works if a real phone number is configured — rather than
-// show a button that does nothing (or previously, an alert exposing internal
-// config language) when clicked, hide it entirely and rely on the lead-capture
-// form as the fallback contact path.
-if (!CONFIG.contactPhone) {
-  document.querySelectorAll('#ctaBtn, #reviewCtaBtn').forEach(btn => btn.style.display = 'none');
-}
-
-// Error card always offers a real fallback contact method when one is configured.
-if (CONFIG.contactPhone) {
-  document.getElementById('errorPhoneFallback').textContent = ' You can also call ' +
-    CONFIG.contactPerson + ' directly on ' + CONFIG.contactPhone + '.';
-}
+// Icons chosen to actually depict each job type rather than an arbitrary sequence.
+const jobTypeIcons = {
+  "Home renovation or alteration": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M14 21v-6h-4v6"/><path d="M9 3.5l2 2M15 3.5l-2 2" stroke-linecap="round"/></svg>`,
+  "Bathroom, kitchen, or laundry renovation": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16v3a4 4 0 01-4 4H8a4 4 0 01-4-4v-3z"/><path d="M4 12V7a2 2 0 012-2h2"/><path d="M8 5V3"/><circle cx="18" cy="8" r="1.2" fill="currentColor" stroke="none"/></svg>`,
+  "Deck, pergola, or outdoor structure": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V9l8-6 8 6v12"/><path d="M4 15h16M4 18h16"/><path d="M9 21v-6M15 21v-6"/></svg>`,
+  "Extension or extra room": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21V10l6-4 6 4v11"/><path d="M9 21v-7h6v7"/><path d="M15 13l5-3 4 3v8h-9"/></svg>`,
+  "Cabin, sleepout, or minor dwelling": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20V11l7-5 7 5v9"/><path d="M3 20h14"/><path d="M9 20v-6h4v6"/></svg>`,
+  "New home build": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-8h6v8"/><path d="M3 21h18"/><path d="M7 9v3M17 9v3" stroke-linecap="round"/></svg>`,
+  "Repairs, rot, leak, or remedial work": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.5 3.5a3 3 0 00-4.24 4.24L4 14v3h3l6.26-6.26a3 3 0 004.24-4.24l-2.1 2.1-1.9-.5-.5-1.9 2.1-2.1z"/><path d="M12 17c0 1.7-1.3 3-3 3s-3-1.3-3-3c0-2 3-5 3-5s3 3 3 5z"/></svg>`,
+  "Commercial fitout or business premises": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V8l4-4h8l4 4v13"/><path d="M4 21h16"/><path d="M9 21v-5h6v5"/><path d="M9 10h.01M13 10h.01M9 14h.01M13 14h.01"/></svg>`,
+  "Not sure / something else": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.5-2 1.8-2 3.5" stroke-linecap="round"/><circle cx="12" cy="17" r=".6" fill="currentColor" stroke="none"/></svg>`
+};
 
 const jobTypeSelect = document.getElementById('jobType');
 CONFIG.jobTypes.forEach(jt => {
@@ -1060,41 +424,43 @@ CONFIG.jobTypes.forEach(jt => {
   jobTypeSelect.appendChild(opt);
 });
 
-// New-build-specific fields (floor area, garage, site, etc.) only matter for
-// that one job type — the Worker's new-build pricing engine reads them, but
-// nothing else does, so there's no reason to show them otherwise.
+const jobTypeChoices = document.getElementById('jobTypeChoices');
+CONFIG.jobTypes.forEach(jt => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'choice-card';
+  button.dataset.value = jt;
+  button.setAttribute('aria-pressed', 'false');
+  button.innerHTML = `<span class="choice-icon" aria-hidden="true">${jobTypeIcons[jt] || jobTypeIcons["Not sure / something else"]}</span><span>${jt}</span>`;
+  button.addEventListener('click', () => {
+    jobTypeSelect.value = jt;
+    jobTypeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+    jobTypeChoices.querySelectorAll('.choice-card').forEach(card => {
+      const selected = card === button;
+      card.classList.toggle('selected', selected);
+      card.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    });
+  });
+  jobTypeChoices.appendChild(button);
+});
+
 const newBuildFields = document.getElementById('newBuildFields');
 function syncNewBuildFieldsVisibility() {
   show(newBuildFields, jobTypeSelect.value === 'New home build' ? 'block' : 'none');
 }
 jobTypeSelect.addEventListener('change', syncNewBuildFieldsVisibility);
-syncNewBuildFieldsVisibility();
 
-let lastSubmission = null; // kept so the lead form can carry context through
-let correctionHistory = []; // accumulates "not quite" corrections across resubmits, reset on a fresh submission
-
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
+function hide(el) { el.style.display = 'none'; }
+function show(el, mode) { el.style.display = mode || 'block'; }
 
 function parseSection(text, label) {
   const re = new RegExp(label + ":?\\s*([\\s\\S]*?)(?=\\n[A-Z][A-Z \\s']{2,}:|$)", "i");
   const match = text.match(re);
   return match ? match[1].trim() : '';
 }
-
 function toBullets(block) {
-  return block
-    .split('\n')
-    .map(l => l.replace(/^[-•*]\s*/, '').trim())
-    .filter(Boolean);
+  return block.split('\n').map(l => l.replace(/^[-•*]\s*/, '').trim()).filter(Boolean);
 }
-
 function renderBulletList(el, block) {
   el.innerHTML = '';
   toBullets(block).forEach(line => {
@@ -1104,94 +470,61 @@ function renderBulletList(el, block) {
   });
 }
 
-function hide(el) { el.style.display = 'none'; }
-function show(el, mode) { el.style.display = mode || 'block'; }
-
 const ESTIMATE_LOADING_MSGS = [
   "Working out a range from what you've shared…",
   "Checking job type and scope…",
   "Applying pricing and risk settings…",
   "Almost there…"
 ];
-
 let loadingMsgTimer;
-
 function startLoadingMessages(textEl, msgs) {
   let i = 0;
   textEl.textContent = msgs[0];
-  loadingMsgTimer = setInterval(() => {
-    i = Math.min(i + 1, msgs.length - 1);
-    textEl.textContent = msgs[i];
-  }, 3000);
+  loadingMsgTimer = setInterval(() => { i = Math.min(i + 1, msgs.length - 1); textEl.textContent = msgs[i]; }, 2200);
 }
+function stopLoadingMessages() { clearInterval(loadingMsgTimer); }
 
-function stopLoadingMessages() {
-  clearInterval(loadingMsgTimer);
-}
-
-// Shared across both inputs since "take a photo" and "choose from library"
-// are now two separate <input type="file"> elements feeding one combined set.
 let selectedPhotos = [];
-
 function renderPhotoPreview() {
   const el = document.getElementById('photoPreview');
-  if (selectedPhotos.length === 0) {
-    el.innerHTML = '';
-    return;
-  }
+  if (selectedPhotos.length === 0) { el.innerHTML = ''; return; }
   const label = selectedPhotos.length === 1 ? '1 photo added' : selectedPhotos.length + ' photos added';
   el.innerHTML = label + ' <a href="#" id="clearPhotosLink">Clear</a>';
   document.getElementById('clearPhotosLink').addEventListener('click', (e) => {
-    e.preventDefault();
-    selectedPhotos = [];
-    renderPhotoPreview();
+    e.preventDefault(); selectedPhotos = []; renderPhotoPreview();
   });
 }
-
 function addPhotos(fileList) {
-  for (const f of Array.from(fileList)) {
-    if (selectedPhotos.length >= 3) break;
-    selectedPhotos.push(f);
-  }
+  for (const f of Array.from(fileList)) { if (selectedPhotos.length >= 3) break; selectedPhotos.push(f); }
   renderPhotoPreview();
 }
+document.getElementById('takePhotoBtn').addEventListener('click', () => document.getElementById('cameraInput').click());
+document.getElementById('choosePhotoBtn').addEventListener('click', () => document.getElementById('libraryInput').click());
+document.getElementById('cameraInput').addEventListener('change', (e) => { addPhotos(e.target.files); e.target.value = ''; });
+document.getElementById('libraryInput').addEventListener('change', (e) => { addPhotos(e.target.files); e.target.value = ''; });
 
-document.getElementById('takePhotoBtn').addEventListener('click', () => {
-  document.getElementById('cameraInput').click();
-});
-document.getElementById('choosePhotoBtn').addEventListener('click', () => {
-  document.getElementById('libraryInput').click();
-});
-document.getElementById('cameraInput').addEventListener('change', (e) => {
-  addPhotos(e.target.files);
-  e.target.value = ''; // reset so the same input can fire again for another shot
-});
-document.getElementById('libraryInput').addEventListener('change', (e) => {
-  addPhotos(e.target.files);
-  e.target.value = '';
-});
+let lastSubmission = null;
+let correctionHistory = [];
 
-// Shared by both the initial submit and a "Not quite" resubmission, so the
-// two paths can never drift out of sync with each other.
+// This calls your real production Worker with the "demo" contractorId --
+// its CORS is wide open for that record (getCorsHeaders returns "*" for
+// status:"demo"), which is what makes this callable from here at all.
+// Same payload shape and result parsing as buildpath-estimator-tool.html,
+// so figures should match your website for the same inputs.
+
 async function runEstimate(payload, { isResubmit = false } = {}) {
   const submitBtn = document.getElementById('submitBtn');
   const updateBtn = document.getElementById('updateEstimateBtn');
   const loading = document.getElementById('loadingMsg');
 
-  if (isResubmit) {
-    updateBtn.disabled = true;
-    updateBtn.textContent = 'Updating...';
-  } else {
-    submitBtn.disabled = true;
-  }
+  if (isResubmit) { updateBtn.disabled = true; updateBtn.textContent = 'Updating...'; }
+  else { submitBtn.disabled = true; }
 
   show(loading, 'flex');
   startLoadingMessages(document.getElementById('loadingText'), ESTIMATE_LOADING_MSGS);
   hide(document.getElementById('resultCard'));
   hide(document.getElementById('reviewCard'));
   hide(document.getElementById('errorCard'));
-  hide(document.getElementById('leadForm'));
-  hide(document.getElementById('leadConfirm'));
   hide(document.getElementById('correctionBox'));
   hide(document.getElementById('confirmNote'));
 
@@ -1201,14 +534,10 @@ async function runEstimate(payload, { isResubmit = false } = {}) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-
     if (!res.ok) throw new Error('Request failed: ' + res.status);
     const data = await res.json();
 
     if (data.needsReview) {
-      // Applies whether this is a first-time submission or a resubmission —
-      // a correction can reveal something (e.g. asbestos) that pushes risk
-      // to "high" even if the original submission priced normally.
       document.getElementById('reviewReasons').textContent = data.reasonText ||
         'A few things about this job are worth a quick chat first — site access, scope, or timing.';
       show(document.getElementById('reviewCard'));
@@ -1223,12 +552,8 @@ async function runEstimate(payload, { isResubmit = false } = {}) {
     console.error('Estimate request failed:', err);
     show(document.getElementById('errorCard'));
   } finally {
-    if (isResubmit) {
-      updateBtn.disabled = false;
-      updateBtn.textContent = 'Update my estimate →';
-    } else {
-      submitBtn.disabled = false;
-    }
+    if (isResubmit) { updateBtn.disabled = false; updateBtn.textContent = 'Update my estimate →'; }
+    else { submitBtn.disabled = false; }
     stopLoadingMessages();
     hide(loading);
   }
@@ -1236,19 +561,16 @@ async function runEstimate(payload, { isResubmit = false } = {}) {
 
 document.getElementById('estimateForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (CONFIG_INCOMPLETE) {
-    show(document.getElementById('errorCard'));
+
+  if (!jobTypeSelect.value) {
+    jobTypeChoices.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    jobTypeChoices.style.outline = '2px solid #d97706';
+    jobTypeChoices.style.outlineOffset = '5px';
+    setTimeout(() => { jobTypeChoices.style.outline = ''; jobTypeChoices.style.outlineOffset = ''; }, 1800);
     return;
   }
 
   correctionHistory = [];
-
-  const photoFiles = selectedPhotos.slice(0, 3);
-  const photos = await Promise.all(photoFiles.map(async f => ({
-    mediaType: f.type,
-    data: await fileToBase64(f)
-  })));
-
   const payload = {
     action: 'estimate',
     contractorId: CONFIG.contractorId,
@@ -1265,45 +587,36 @@ document.getElementById('estimateForm').addEventListener('submit', async (e) => 
     siteType: document.getElementById('siteType').value,
     services: document.getElementById('services').value,
     finishLevel: document.getElementById('finishLevel').value,
-    photos
+    photos: []
   };
   lastSubmission = payload;
-
   await runEstimate(payload);
 });
 
-// "Does this look right?" — Yes / Not quite, and the correction loop.
 function handleConfirmYes() {
   hide(document.getElementById('confirmPrompt'));
   hide(document.getElementById('correctionBox'));
   const note = document.getElementById('confirmNote');
-  note.textContent = `Great — send your details below and ${CONFIG.contactPerson} will take a proper look and confirm everything.`;
+  note.textContent = 'Great — send your details below and we\'ll take a proper look and confirm everything.';
   show(note);
-  revealLeadForm();
+  show(document.getElementById('leadForm'));
 }
 document.getElementById('confirmYesBtn').addEventListener('click', handleConfirmYes);
 
 function handleConfirmNo() {
   show(document.getElementById('correctionBox'));
   document.getElementById('correctionText').focus();
-  document.getElementById('correctionBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 document.getElementById('confirmNoBtn').addEventListener('click', handleConfirmNo);
 
 async function handleUpdateEstimate() {
   const correction = document.getElementById('correctionText').value.trim();
-  if (!correction) {
-    document.getElementById('correctionText').focus();
-    return;
-  }
+  if (!correction) { document.getElementById('correctionText').focus(); return; }
   if (!lastSubmission) return;
-
   correctionHistory.push(correction);
   document.getElementById('correctionText').value = '';
-
   const payload = { ...lastSubmission, correctionNote: correctionHistory.join('\n\n') };
   lastSubmission = payload;
-
   await runEstimate(payload, { isResubmit: true });
 }
 document.getElementById('updateEstimateBtn').addEventListener('click', handleUpdateEstimate);
@@ -1311,113 +624,22 @@ document.getElementById('updateEstimateBtn').addEventListener('click', handleUpd
 function renderResult(text, riskLevel) {
   const tag = document.getElementById('confidenceTag');
   const siteVisitNeeded = riskLevel === 'elevated';
-
   tag.textContent = siteVisitNeeded ? 'Site visit recommended' : 'Standard confidence';
   tag.className = 'confidence-tag ' + (siteVisitNeeded ? 'confidence-review' : 'confidence-standard');
 
   document.getElementById('jobCategoryLabel').textContent = parseSection(text, 'JOB CATEGORY') || 'Job category';
   document.getElementById('rangeValue').textContent = parseSection(text, 'BALLPARK RANGE') || '—';
-
   renderBulletList(document.getElementById('whyList'), parseSection(text, 'WHY THIS RANGE'));
   renderBulletList(document.getElementById('scopeList'), parseSection(text, 'ASSUMED SCOPE'));
-
-  const otherTrades = parseSection(text, 'OTHER TRADES');
-  if (otherTrades) {
-    show(document.getElementById('otherTradesLabel'));
-    renderBulletList(document.getElementById('tradesList'), otherTrades);
-  } else {
-    hide(document.getElementById('otherTradesLabel'));
-    document.getElementById('tradesList').innerHTML = '';
-  }
-
   renderBulletList(document.getElementById('changeList'), parseSection(text, 'WHAT COULD CHANGE THIS PRICE'));
-  renderBulletList(document.getElementById('excludedList'), parseSection(text, "WHAT'S NOT INCLUDED") || parseSection(text, 'WHAT IS NOT INCLUDED'));
-
-  const siteVisitText = parseSection(text, 'WHY A SITE VISIT MAY HELP') || parseSection(text, 'WHY A SITE VISIT MAY BE NEEDED');
-  if (siteVisitNeeded && siteVisitText) {
-    show(document.getElementById('siteVisitLabel'));
-    renderBulletList(document.getElementById('siteVisitList'), siteVisitText);
-  } else {
-    hide(document.getElementById('siteVisitLabel'));
-    document.getElementById('siteVisitList').innerHTML = '';
-  }
+  renderBulletList(document.getElementById('excludedList'), parseSection(text, "WHAT'S NOT INCLUDED"));
 }
 
-function callContact() {
-  if (!CONFIG.contactPhone) {
-    // Buttons that call this are hidden at load time when no phone is configured
-    // (see the production safety check above), so this should never fire in
-    // practice — but never show internal config language to a customer if it does.
-    console.error('callContact() triggered with no CONFIG.contactPhone set.');
-    return;
-  }
-  window.location.href = 'tel:' + CONFIG.contactPhone;
-}
-document.getElementById('ctaBtn').addEventListener('click', callContact);
-document.getElementById('reviewCtaBtn').addEventListener('click', callContact);
-
-function revealLeadForm() {
-  show(document.getElementById('leadForm'));
-  document.getElementById('leadForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-document.getElementById('showLeadFormBtn').addEventListener('click', revealLeadForm);
-document.getElementById('reviewShowLeadFormBtn').addEventListener('click', revealLeadForm);
-
-document.getElementById('leadForm').addEventListener('submit', async (e) => {
+document.getElementById('leadForm').addEventListener('submit', (e) => {
   e.preventDefault();
-  if (CONFIG_INCOMPLETE) {
-    show(document.getElementById('errorCard'));
-    return;
-  }
-  const leadSubmitBtn = document.getElementById('leadSubmitBtn');
-  const leadLoading = document.getElementById('leadLoadingMsg');
-  leadSubmitBtn.disabled = true;
-  show(leadLoading, 'flex');
-  const payload = {
-    action: 'lead',
-    contractorId: CONFIG.contractorId,
-    name: document.getElementById('leadName').value,
-    phone: document.getElementById('leadPhone').value,
-    email: document.getElementById('leadEmail').value,
-    permission: document.getElementById('leadPermission').checked,
-    context: lastSubmission,
-    additionalInfo: document.getElementById('reviewAdditionalInfo').value
-  };
-  try {
-    await fetch(`${CONFIG.workerUrl}?c=${encodeURIComponent(CONFIG.contractorId)}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-  } catch (err) {
-    console.error('Lead submission failed:', err);
-    // Don't show a technical error here — the lead matters more than a perfect ack.
-  } finally {
-    leadSubmitBtn.disabled = false;
-    hide(leadLoading);
-  }
   hide(document.getElementById('leadForm'));
   show(document.getElementById('leadConfirm'));
 });
-</script>
-
-<nav class="site-footer-nav" aria-label="BuildPath site links">
-  <a href="index.html">Home</a>
-  <a href="buildpath-estimator-tool.html">Try the tool</a>
-  <a href="get-started.html">Get started</a>
-  <a href="terms-privacy.html">Terms &amp; Privacy</a>
-</nav>
-
-<script>
-(function(){
-  var btn = document.getElementById('siteNavToggle');
-  var menu = document.getElementById('siteNavMenu');
-  if (!btn || !menu) return;
-  btn.addEventListener('click', function(){
-    var open = menu.classList.toggle('open');
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-})();
 </script>
 </body>
 </html>
