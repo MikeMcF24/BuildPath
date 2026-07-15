@@ -53,16 +53,41 @@
     inset: 0;
     background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(62,107,255,0.14), transparent 70%);
   }
-  .wrap { max-width: 600px; margin: 0 auto; padding: 36px 20px 80px; position: relative; z-index: 1; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 36px 20px 80px; position: relative; z-index: 1; }
 
-  .hero { text-align: center; margin-bottom: 26px; }
+  .intro-box {
+    background: #fff;
+    border-radius: 22px;
+    padding: 32px 32px 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 24px 70px rgba(0,0,0,.20);
+  }
+  .demo-banner {
+    font-size: 14px;
+    color: var(--ink-mid);
+    line-height: 1.6;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero { text-align: left; }
+  .hero::before {
+    content: 'SMART PROJECT START';
+    display: block;
+    margin-bottom: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    color: var(--blue);
+  }
   .hero h1 {
     font-family: var(--font-display);
-    font-size: clamp(28px, 5.5vw, 38px);
-    font-weight: 700; line-height: 1.1; letter-spacing: -0.3px;
-    color: #F2F5FA; margin: 0 0 10px;
+    font-size: clamp(30px, 6vw, 46px);
+    font-weight: 700; line-height: 1.05; letter-spacing: -0.5px;
+    color: var(--ink); margin: 0 0 14px;
   }
-  .hero p { font-size: 14.5px; color: #A9B8D6; margin: 0; }
+  .hero p { font-size: 15px; color: var(--ink-muted); margin: 0; line-height: 1.55; }
 
   .card {
     background-color: var(--bg);
@@ -211,15 +236,121 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   }
+
+  /* ── Site nav bar (header, hamburger) ── */
+  .site-nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--blue);
+  }
+  .site-nav-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+  }
+  .site-nav-logo {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  .site-nav-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 28px;
+    height: 20px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .site-nav-toggle span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .site-nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+  .site-nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .site-nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+  .site-nav-menu {
+    max-height: 0;
+    overflow: hidden;
+    background: var(--blue-mid);
+    transition: max-height 0.25s ease;
+  }
+  .site-nav-menu.open { max-height: 260px; }
+  .site-nav-menu a {
+    display: block;
+    padding: 13px 20px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: #fff;
+    text-decoration: none;
+    border-top: 1px solid rgba(255,255,255,.16);
+  }
+  .site-nav-menu a:hover { background: rgba(255,255,255,.08); }
+
+  /* ── Site footer nav ── */
+  .site-footer-nav {
+    background: var(--blue);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+    padding: 16px 40px;
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .site-footer-nav a {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: #C5CBF5;
+    text-decoration: none;
+  }
+  .site-footer-nav a:hover { color: #fff; }
+  @media (max-width: 600px) {
+    .site-footer-nav { flex-direction: column; gap: 12px; padding: 16px 20px; }
+  }
 </style>
 </head>
 <body>
+<div class="site-nav-bar">
+  <div class="site-nav-inner">
+    <span class="site-nav-logo">BuildPath</span>
+    <button class="site-nav-toggle" id="siteNavToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="site-nav-menu" id="siteNavMenu" aria-label="BuildPath site links">
+    <a href="index.html">Home</a>
+    <a href="buildpath-estimator-tool.html">Try the tool</a>
+    <a href="get-started.html">Get started</a>
+  </nav>
+</div>
+
 <div class="blueprint-bg"></div>
 <div class="wrap">
 
-  <div class="hero">
-    <h1>Get a clear ballpark range before you book a quote.</h1>
-    <p>Tell us about your project, add a photo if you have one, and we'll give you a rough starting range.</p>
+  <div class="intro-box">
+    <div class="demo-banner">
+      This is the same type of form your customers will use on your website. Right now, it runs on general industry rates so you can test the flow for yourself. Once BuildPath is set up for your business, the ballpark range is guided by your own pricing, job categories, GST, and risk rules.
+    </div>
+    <div class="hero">
+      <h1>Get a clear ballpark range before<br>you book a quote.</h1>
+      <p>Tell us about your project, add a photo if you have one, and we'll give you a rough starting range. Final pricing is confirmed after a proper review.</p>
+    </div>
   </div>
 
   <!-- ===================== ESTIMATE FORM (single page, no steps) ===================== -->
@@ -640,6 +771,25 @@ document.getElementById('leadForm').addEventListener('submit', (e) => {
   hide(document.getElementById('leadForm'));
   show(document.getElementById('leadConfirm'));
 });
+</script>
+
+<nav class="site-footer-nav" aria-label="BuildPath site links">
+  <a href="index.html">Home</a>
+  <a href="buildpath-estimator-tool.html">Try the tool</a>
+  <a href="get-started.html">Get started</a>
+  <a href="terms-privacy.html">Terms &amp; Privacy</a>
+</nav>
+
+<script>
+(function(){
+  var btn = document.getElementById('siteNavToggle');
+  var menu = document.getElementById('siteNavMenu');
+  if (!btn || !menu) return;
+  btn.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
 </script>
 </body>
 </html>
