@@ -115,6 +115,29 @@
   label:first-of-type { margin-top: 0; }
   .hint { font-size: 12.5px; color: var(--ink-faint); margin: -3px 0 8px; }
 
+  .consent-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin: 18px 0 4px;
+  }
+  .consent-row input[type="checkbox"] {
+    width: 17px; height: 17px; min-width: 17px;
+    margin-top: 2px;
+    accent-color: var(--blue-mid);
+  }
+  .consent-row label {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 13px; font-weight: 400; letter-spacing: normal; text-transform: none;
+    color: var(--ink-mid);
+  }
+  .lead-error {
+    font-size: 13px;
+    color: var(--warn);
+    margin: 10px 0 0;
+  }
+
   select, input[type="text"], input[type="tel"], input[type="email"], textarea {
     width: 100%;
     min-height: 46px;
@@ -491,7 +514,12 @@
       <input type="tel" id="leadPhone" required>
       <label for="leadEmail">Email (optional)</label>
       <input type="email" id="leadEmail">
+      <div class="consent-row">
+        <input type="checkbox" id="leadPermission" required>
+        <label for="leadPermission">I'm happy for the builder to contact me about this enquiry.</label>
+      </div>
       <button type="submit" class="btn-secondary" id="leadSubmitBtn">Send my details</button>
+      <p class="lead-error" id="leadError" style="display:none;">Couldn't send your details just now — please try again in a moment.</p>
     </form>
     <div class="card" id="leadConfirm" style="display:none;">Thanks — we'll be in touch about this job.</div>
   </div>
@@ -636,8 +664,59 @@ document.getElementById('choosePhotoBtn').addEventListener('click', () => docume
 document.getElementById('cameraInput').addEventListener('change', (e) => { addPhotos(e.target.files); e.target.value = ''; });
 document.getElementById('libraryInput').addEventListener('change', (e) => { addPhotos(e.target.files); e.target.value = ''; });
 
+// Resizes an image file down to a max dimension and re-encodes it as a
+// JPEG, returning the shape the worker expects: { data, mediaType }.
+// Re-encoding to JPEG also sidesteps odd source formats (e.g. HEIC that
+// the browser has already normalised) and keeps the base64 payload well
+// under the worker's MAX_IMAGE_BASE64_CHARS drop threshold, so a phone
+// camera photo doesn't get silently skipped server-side.
+function resizeImageFile(file, maxDimension = 1600, quality = 0.82) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let { width, height } = img;
+      if (width > maxDimension || height > maxDimension) {
+        if (width >= height) {
+          height = Math.round(height * (maxDimension / width));
+          width = maxDimension;
+        } else {
+          width = Math.round(width * (maxDimension / height));
+          height = maxDimension;
+        }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      const dataUrl = canvas.toDataURL('image/jpeg', quality);
+      resolve({ data: dataUrl.split(',')[1], mediaType: 'image/jpeg' });
+    };
+    img.onerror = (err) => { URL.revokeObjectURL(url); reject(err); };
+    img.src = url;
+  });
+}
+
+// Converts the selected File objects into the worker's photo payload shape.
+// A single bad/unreadable file is skipped rather than failing the whole
+// submission — the customer's estimate shouldn't be blocked by one photo.
+async function buildPhotoPayloads(files) {
+  const results = [];
+  for (const file of files) {
+    try {
+      results.push(await resizeImageFile(file));
+    } catch (err) {
+      console.error('Photo processing failed, skipping this photo:', err);
+    }
+  }
+  return results;
+}
+
 let lastSubmission = null;
 let correctionHistory = [];
+let lastEstimateResult = null;
+let lastRiskSeverity = null;
 
 // This calls your real production Worker with the "demo" contractorId --
 // its CORS is wide open for that record (getCorsHeaders returns "*" for
@@ -677,6 +756,8 @@ async function runEstimate(payload, { isResubmit = false } = {}) {
     } else if (data.error) {
       throw new Error('Worker returned an error');
     } else {
+      lastEstimateResult = data.result;
+      lastRiskSeverity = data.risk;
       renderResult(data.result, data.risk);
       show(document.getElementById('resultCard'));
       show(document.getElementById('confirmPrompt'));
@@ -704,6 +785,7 @@ document.getElementById('estimateForm').addEventListener('submit', async (e) => 
   }
 
   correctionHistory = [];
+  const photoPayloads = await buildPhotoPayloads(selectedPhotos);
   const payload = {
     action: 'estimate',
     contractorId: CONFIG.contractorId,
@@ -720,7 +802,7 @@ document.getElementById('estimateForm').addEventListener('submit', async (e) => 
     siteType: document.getElementById('siteType').value,
     services: document.getElementById('services').value,
     finishLevel: document.getElementById('finishLevel').value,
-    photos: []
+    photos: photoPayloads
   };
   lastSubmission = payload;
   await runEstimate(payload);
@@ -768,10 +850,67 @@ function renderResult(text, riskLevel) {
   renderBulletList(document.getElementById('excludedList'), parseSection(text, "WHAT'S NOT INCLUDED"));
 }
 
-document.getElementById('leadForm').addEventListener('submit', (e) => {
+document.getElementById('leadForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  hide(document.getElementById('leadForm'));
-  show(document.getElementById('leadConfirm'));
+  const submitBtn = document.getElementById('leadSubmitBtn');
+  const errorMsg = document.getElementById('leadError');
+  hide(errorMsg);
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending...';
+
+  // jobDetails carries the full picture of what was actually asked about —
+  // without it, a captured lead is just a name and phone number with no
+  // idea what job it was for. lastSubmission already holds every field the
+  // customer entered (plus the same encoded photos sent for the estimate),
+  // so this just reshapes it rather than re-collecting anything.
+  const jobDetails = lastSubmission ? {
+    jobType: lastSubmission.jobType,
+    description: lastSubmission.description,
+    size: lastSubmission.size,
+    siteAccess: lastSubmission.siteAccess,
+    timeline: lastSubmission.timeline,
+    location: lastSubmission.location,
+    floorArea: lastSubmission.floorArea,
+    bathrooms: lastSubmission.bathrooms,
+    garage: lastSubmission.garage,
+    plansDrawn: lastSubmission.plansDrawn,
+    siteType: lastSubmission.siteType,
+    services: lastSubmission.services,
+    finishLevel: lastSubmission.finishLevel,
+    correctionNote: lastSubmission.correctionNote || null
+  } : null;
+
+  const payload = {
+    action: 'lead',
+    contractorId: CONFIG.contractorId,
+    name: document.getElementById('leadName').value,
+    phone: document.getElementById('leadPhone').value,
+    email: document.getElementById('leadEmail').value,
+    permission: document.getElementById('leadPermission').checked,
+    jobDetails,
+    photos: (lastSubmission && lastSubmission.photos) || [],
+    estimateResult: lastEstimateResult,
+    riskSeverity: lastRiskSeverity
+  };
+
+  try {
+    const res = await fetch(`${CONFIG.workerUrl}?c=${encodeURIComponent(CONFIG.contractorId)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || data.error) throw new Error('Lead submission failed: ' + res.status);
+
+    hide(document.getElementById('leadForm'));
+    show(document.getElementById('leadConfirm'));
+  } catch (err) {
+    console.error('Lead submission failed:', err);
+    show(errorMsg);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send my details';
+  }
 });
 </script>
 
