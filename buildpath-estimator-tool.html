@@ -395,6 +395,7 @@
         <select id="size">
           <option>Small</option><option>Medium</option><option>Large</option><option>Not sure</option>
         </select>
+        <div class="hint" id="sizeHint">Pick a job type above to see size examples for that kind of job.</div>
       </div>
       <div>
         <label for="siteAccess">Site access</label>
@@ -494,6 +495,7 @@
 
     <div class="confirm-prompt" id="confirmPrompt">
       <p>Does this look right?</p>
+      <div class="hint">"Yes" takes you through to sending your details to the builder. "Not quite" lets you tell us what we've missed and get an updated range.</div>
       <div class="confirm-buttons">
         <button type="button" class="btn-confirm-yes" id="confirmYesBtn">✓ Yes, that's right</button>
         <button type="button" class="btn-confirm-no" id="confirmNoBtn">✗ Not quite</button>
@@ -584,6 +586,31 @@ CONFIG.jobTypes.forEach(jt => {
   opt.value = jt; opt.textContent = jt;
   jobTypeSelect.appendChild(opt);
 });
+
+// Size means something different for every job type, so a single generic
+// "Small/Medium/Large" hint either says nothing useful or, worse, gives an
+// example (like "one room") that doesn't make sense for the job type the
+// customer actually picked (a new build, a deck, a commercial fitout).
+// This keeps the dropdown's actual values unchanged (Small/Medium/Large/Not
+// sure) — only the explanatory text underneath changes — so none of the
+// Worker's risk logic, which checks for those exact strings, is affected.
+const SIZE_HINTS_BY_JOB_TYPE = {
+  "Home renovation or alteration": "Small: e.g. one room or a single area. Medium: e.g. a full room reno, or a couple of areas. Large: e.g. most of the home, or several rooms at once.",
+  "Bathroom, kitchen, or laundry renovation": "Small: e.g. a laundry or ensuite refresh. Medium: e.g. one full bathroom or kitchen. Large: e.g. bathroom and kitchen together, or changing the layout.",
+  "Deck, pergola, or outdoor structure": "Small: e.g. a compact deck or small pergola. Medium: e.g. a standard-size deck. Large: e.g. a large or multi-level deck, or one with a roof.",
+  "Extension or extra room": "Small: e.g. a small addition like a porch or nook. Medium: e.g. one extra room. Large: e.g. multiple rooms, or a second-storey addition.",
+  "Cabin, sleepout, or minor dwelling": "Small: e.g. a compact sleepout. Medium: e.g. a standard-size cabin or minor dwelling. Large: e.g. a bigger, self-contained unit with multiple rooms.",
+  "New home build": "This is just a general feel — the exact floor area you enter below is what actually shapes the range. Small: e.g. a compact or minimal-footprint home. Medium: e.g. a standard home. Large: e.g. a larger or multi-storey home.",
+  "Repairs, rot, leak, or remedial work": "Small: e.g. one small area or a minor repair. Medium: e.g. one or two areas needing work. Large: e.g. damage across several areas or a larger part of the home.",
+  "Commercial fitout or business premises": "Small: e.g. a single room or small tenancy. Medium: e.g. a standard-size commercial space. Large: e.g. a large tenancy or multiple areas.",
+  "Not sure / something else": "Small: a smaller or simpler job. Medium: a moderate, average-sized job. Large: a bigger or more involved job."
+};
+const DEFAULT_SIZE_HINT = "Pick a job type above to see size examples for that kind of job.";
+const sizeHint = document.getElementById('sizeHint');
+function syncSizeHint() {
+  sizeHint.textContent = SIZE_HINTS_BY_JOB_TYPE[jobTypeSelect.value] || DEFAULT_SIZE_HINT;
+}
+jobTypeSelect.addEventListener('change', syncSizeHint);
 
 const jobTypeChoices = document.getElementById('jobTypeChoices');
 CONFIG.jobTypes.forEach(jt => {
