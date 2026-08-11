@@ -115,6 +115,13 @@
   label:first-of-type { margin-top: 0; }
   .hint { font-size: 12.5px; color: var(--ink-faint); margin: -3px 0 8px; }
 
+  #contractorBackLink { max-width: 720px; margin: 0 auto; padding: 14px 20px 0; }
+  .contractor-back-link {
+    display: inline-block; font-size: 13.5px; font-weight: 500;
+    color: var(--ink-mid); text-decoration: none;
+  }
+  .contractor-back-link:hover { text-decoration: underline; }
+
   .consent-row {
     display: flex;
     align-items: flex-start;
@@ -350,7 +357,7 @@
 </style>
 </head>
 <body>
-<div class="site-nav-bar">
+<div class="site-nav-bar" id="siteNavBar">
   <div class="site-nav-inner">
     <span class="site-nav-logo">BuildPath</span>
     <button class="site-nav-toggle" id="siteNavToggle" aria-label="Open menu" aria-expanded="false">
@@ -363,6 +370,7 @@
     <a href="get-started.html">Get started</a>
   </nav>
 </div>
+<div id="contractorBackLink"></div>
 
 <div class="blueprint-bg"></div>
 <div class="wrap">
@@ -579,6 +587,32 @@ function getContractorIdFromUrl() {
 }
 const RESOLVED_CONTRACTOR_ID = getContractorIdFromUrl();
 
+// returnUrl / businessName: optional, only meaningful alongside a real
+// contractorId. These build the "← Back to [business]" link so a customer
+// who followed a button from a contractor's own website has an obvious way
+// back, rather than only the browser's back button.
+//
+// SECURITY: both values come straight from this page's own URL, which
+// means anyone could craft a link with an arbitrary returnUrl or
+// businessName. isSafeHttpUrl() rejects anything that isn't a plain
+// http(s) address (blocks javascript:/data: URIs being used as the href),
+// and the business name is inserted via textContent, never innerHTML, so
+// it can never be used to inject markup or a script. Only URLs you
+// yourself put on a contractor's button are ever expected here, but the
+// page has to be safe regardless of what a link actually contains.
+function isSafeHttpUrl(str) {
+  if (!str || !/^https?:\/\//i.test(str)) return false;
+  try {
+    const u = new URL(str);
+    return u.protocol === 'http:' || u.protocol === 'https:';
+  } catch (err) {
+    return false;
+  }
+}
+const urlParams = new URLSearchParams(window.location.search);
+const RETURN_URL = urlParams.get('returnUrl');
+const RETURN_BUSINESS_NAME = urlParams.get('businessName');
+
 const CONFIG = {
   workerUrl: "https://estimator-workerjs.mikey-mcf.workers.dev",
   contractorId: RESOLVED_CONTRACTOR_ID,
@@ -601,9 +635,34 @@ const CONFIG = {
 // link, the estimate genuinely IS built from their own rates, margins,
 // and job categories. Hidden purely on the frontend, from the resolved
 // contractorId above — no API round trip needed for this.
+//
+// BuildPath's own top/footer nav (Home / Try the tool / Get started) is
+// aimed at prospective CONTRACTORS considering BuildPath for their own
+// business — showing it to an end customer of a live contractor (someone
+// who just wants a price range) is confusing and irrelevant, so it's
+// hidden the same way, for the same reason.
 if (CONFIG.contractorId !== 'demo') {
   const demoBanner = document.getElementById('demoBanner');
   if (demoBanner) demoBanner.style.display = 'none';
+  const siteNavBar = document.getElementById('siteNavBar');
+  if (siteNavBar) siteNavBar.style.display = 'none';
+  const siteFooterNav = document.getElementById('siteFooterNav');
+  if (siteFooterNav) siteFooterNav.style.display = 'none';
+}
+
+// Personalized "← Back to [business]" link — only appears if a valid
+// http(s) returnUrl was actually given on the link. Built with
+// createElement/textContent throughout, never innerHTML, so a crafted
+// businessName value can never inject markup.
+if (RETURN_URL && isSafeHttpUrl(RETURN_URL)) {
+  const container = document.getElementById('contractorBackLink');
+  if (container) {
+    const link = document.createElement('a');
+    link.className = 'contractor-back-link';
+    link.href = RETURN_URL;
+    link.textContent = '\u2190 Back to ' + (RETURN_BUSINESS_NAME ? RETURN_BUSINESS_NAME.trim() : 'their website');
+    container.appendChild(link);
+  }
 }
 
 // Icons chosen to actually depict each job type rather than an arbitrary sequence.
@@ -980,7 +1039,7 @@ document.getElementById('leadForm').addEventListener('submit', async (e) => {
 });
 </script>
 
-<nav class="site-footer-nav" aria-label="BuildPath site links">
+<nav class="site-footer-nav" id="siteFooterNav" aria-label="BuildPath site links">
   <a href="index.html">Home</a>
   <a href="buildpath-estimator-tool.html">Try the tool</a>
   <a href="get-started.html">Get started</a>
