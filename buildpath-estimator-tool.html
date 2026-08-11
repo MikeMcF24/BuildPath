@@ -368,7 +368,7 @@
 <div class="wrap">
 
   <div class="intro-box">
-    <div class="demo-banner">
+    <div class="demo-banner" id="demoBanner">
       This is the same type of form your customers will use on your website. Right now, it runs on general industry rates so you can test the flow for yourself. Once BuildPath is set up for your business, the ballpark range is guided by your own pricing, job categories, GST, and risk rules.
     </div>
     <div class="hero">
@@ -551,9 +551,37 @@
    handle GST, contingency, risk rules and new-build pricing in code.
    ============================================================ */
 
+/* ============================================================
+   CONTRACTOR ID — read from THIS PAGE'S OWN URL (?contractorId=...)
+   rather than hardcoded below. This means one shared HTML file can
+   serve every contractor via a different link (e.g.
+   buildpath.nz/buildpath-estimator-tool.html?contractorId=borough-builders)
+   instead of needing a separate copy of this file per contractor —
+   the old "demo" hardcoded value only ever covered the single public
+   demo case, and manually keeping N copies of this file in sync as
+   fixes land (like the ones shipped today) is exactly the kind of
+   drift the multi-tenant Worker/CONTRACTORS_KV setup was built to
+   avoid on the backend. This brings the frontend in line with that
+   same principle.
+
+   Falls back to "demo" if the param is missing, blank, or the page is
+   opened without one at all — so a bare link, a mistyped param, or
+   someone just opening this file directly never breaks; it simply
+   shows the public demo experience instead of failing outright. This
+   value only decides WHICH contractor record the Worker looks up in
+   CONTRACTORS_KV — it carries no rates, margins, or business logic of
+   its own, exactly as before.
+   ============================================================ */
+function getContractorIdFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('contractorId');
+  return (id && id.trim()) ? id.trim() : 'demo';
+}
+const RESOLVED_CONTRACTOR_ID = getContractorIdFromUrl();
+
 const CONFIG = {
   workerUrl: "https://estimator-workerjs.mikey-mcf.workers.dev",
-  contractorId: "demo",
+  contractorId: RESOLVED_CONTRACTOR_ID,
   jobTypes: [
     "Home renovation or alteration",
     "Bathroom, kitchen, or laundry renovation",
@@ -566,6 +594,17 @@ const CONFIG = {
     "Not sure / something else"
   ]
 };
+
+// The demo banner ("this runs on general industry rates...") is only ever
+// true for the public demo experience — a real contractor's customers
+// should never see that line, since by the time a contractor has a live
+// link, the estimate genuinely IS built from their own rates, margins,
+// and job categories. Hidden purely on the frontend, from the resolved
+// contractorId above — no API round trip needed for this.
+if (CONFIG.contractorId !== 'demo') {
+  const demoBanner = document.getElementById('demoBanner');
+  if (demoBanner) demoBanner.style.display = 'none';
+}
 
 // Icons chosen to actually depict each job type rather than an arbitrary sequence.
 const jobTypeIcons = {
