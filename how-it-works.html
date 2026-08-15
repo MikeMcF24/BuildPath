@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="See how BuildPath turns website visitors into warmer, better-qualified enquiries — customers get a plain-language ballpark range, builders get more useful leads before they quote.">
 <title>How BuildPath works</title>
+<link rel="canonical" href="https://buildpath.nz/how-it-works.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -42,7 +43,6 @@
     overflow-x: hidden;
   }
 
-  /* ── Blueprint grid background ── */
   .blueprint-bg {
     position: fixed;
     inset: 0;
@@ -73,7 +73,6 @@
     .outcome-card { margin: 0 auto 28px; }
   }
 
-  /* ── Header ── */
   .header {
     text-align: center;
     max-width: 680px;
@@ -121,7 +120,6 @@
     color: var(--text-mid);
   }
 
-  /* ── Story grid ── */
   .story-grid {
     display: grid;
     grid-template-columns: 210px minmax(0, 1fr);
@@ -142,7 +140,6 @@
     transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.4s ease;
   }
 
-  /* ── Left: context panel ── */
   .context-panel {
     display: flex;
     flex-direction: column;
@@ -176,7 +173,6 @@
     color: var(--text-mid);
   }
 
-  /* visitor dots ambient flow (decorative only) */
   .visitor-dots {
     position: relative;
     height: 20px;
@@ -205,7 +201,6 @@
   }
   @media (max-width: 820px) { .visitor-dots { display: none; } }
 
-  /* ── Centre: mockup panel (hero) ── */
   .mockup-panel {
     padding: 0;
     overflow: hidden;
@@ -256,7 +251,6 @@
     opacity: 0.55;
   }
 
-  /* the BuildPath widget itself: the true hero */
   .widget-card {
     width: 100%;
     max-width: 320px;
@@ -377,7 +371,6 @@
   .photo-status { color: var(--text-faint); transition: color 0.35s ease, font-weight 0.35s ease; }
   .photo-status.added { color: var(--cyan); font-weight: 600; }
 
-  /* ── 5-step progress banner ── */
   .step-banner { margin-bottom: 48px; }
 
   .step-banner-track {
@@ -462,7 +455,6 @@
     .step-dot { flex-shrink: 0; }
   }
 
-  /* ── Final CTA ── */
   .final-cta {
     text-align: center;
     margin-top: 56px;
@@ -508,7 +500,6 @@
   }
   .final-cta-btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
 
-  /* ── Outcome + benefits ── */
   .outcome-wrap {
     text-align: center;
     opacity: 0;
@@ -587,7 +578,6 @@
     color: var(--text);
   }
 
-  /* ── Site nav (dark theme) ── */
   .site-nav-bar {
     position: sticky;
     top: 0;
@@ -654,7 +644,6 @@
   }
   .site-nav-menu a:hover { background: rgba(126,164,255,0.06); color: var(--text); }
 
-  /* ── Site footer (dark theme) ── */
   .site-footer-nav {
     display: flex;
     flex-wrap: wrap;
@@ -686,12 +675,10 @@
     .footer-bar { padding: 14px 20px 40px; }
   }
 
-  /* ── Reduced motion ── */
   @media (prefers-reduced-motion: reduce) {
     * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
   }
 
-  /* ── Sound toggle ── */
   .sound-toggle {
     position: absolute;
     top: 28px;
@@ -825,7 +812,6 @@
 
   <div class="story-grid">
 
-    <!-- LEFT: reduced-weight context -->
     <div class="panel context-panel">
       <div class="context-block">
         <span class="context-icon" aria-hidden="true">
@@ -855,7 +841,6 @@
       </div>
     </div>
 
-    <!-- CENTRE: the hero -->
     <div class="panel mockup-panel">
       <div class="browser-chrome">
         <span class="browser-dot" aria-hidden="true"></span><span class="browser-dot" aria-hidden="true"></span><span class="browser-dot" aria-hidden="true"></span>
@@ -894,7 +879,6 @@
 
   </div>
 
-  <!-- OUTCOME + BENEFITS -->
   <div class="outcome-wrap">
     <div class="outcome-card">
       <p class="outcome-text">Customers get price context before they call. Builders get clearer enquiries before they quote.</p>
@@ -974,9 +958,8 @@
 
   var RANGE_LOW = 9650;
   var RANGE_HIGH = 13800;
-  var FILL_STOPS = ['10%', '30%', '50%', '70%', '90%']; // dot centres for 5 equal columns
+  var FILL_STOPS = ['10%', '30%', '50%', '70%', '90%'];
 
-  /* ── Sound engine (Web Audio, no audio files) ── */
   var audioCtx = null;
   var soundOn = false;
   try { soundOn = localStorage.getItem('bp-sound') === 'on'; } catch (e) {}
@@ -1016,7 +999,6 @@
     osc.stop(startAt + duration + 0.05);
   }
 
-  // short filtered noise burst, gives clicks/shutters a tactile, non-electronic texture
   function noiseBurst(duration, opts) {
     if (!soundOn) return;
     var ctx = ensureAudioCtx();
@@ -1048,7 +1030,6 @@
     src.start(startAt);
   }
 
-  // layered pluck: fundamental + a quiet octave overtone, reads as a soft marimba-like note
   function pluck(freq, opts) {
     opts = opts || {};
     tone(freq, 0.15, { peak: opts.peak || 0.05, type: 'sine', delay: opts.delay || 0 });
@@ -1065,15 +1046,13 @@
     tone(300, 0.1, { peak: 0.05, type: 'square', delay: delay || 0 });
   }
 
-  // rising four-note run, timed to sit under the ballpark count-up
   function countRun() {
     [392, 440, 494, 523].forEach(function (f, i) {
       tone(f, 0.16, { peak: 0.032, type: 'triangle', delay: i * 0.17 });
     });
-    tone(880, 0.12, { peak: 0.03, type: 'sine', delay: 0.85 }); // the "sent" chip blip
+    tone(880, 0.12, { peak: 0.03, type: 'sine', delay: 0.85 });
   }
 
-  // resolved major triad, the payoff moment
   function outcomeChord() {
     [523, 659, 784].forEach(function (f, i) {
       tone(f, 0.55, { peak: 0.045, type: 'sine', delay: i * 0.05 });
@@ -1099,11 +1078,10 @@
     try { localStorage.setItem('bp-sound', soundOn ? 'on' : 'off'); } catch (e) {}
     if (soundOn) {
       ensureAudioCtx();
-      tone(720, 0.16, { peak: 0.06 }); // confirmation blip so unmuting always gives feedback
+      tone(720, 0.16, { peak: 0.06 });
     }
   });
 
-  /* ── Step banner progress ── */
   function activateStep(n) {
     stepItems.forEach(function (item) {
       if (parseInt(item.dataset.step, 10) <= n) item.classList.add('active');
@@ -1137,7 +1115,6 @@
     hero.classList.remove('benefits-ready');
   }
 
-  /* ── Loop engine: plays the 5-step story, pauses on scroll away, restarts on return ── */
   var cycleId = 0;
   var timeouts = [];
   function schedule(fn, delay, myCycle) {
@@ -1152,7 +1129,6 @@
     resetVisualState();
 
     if (reduceMotion) {
-      // static end state for reduced-motion users, no repeat, no flashing
       widgetCard.classList.add('glow');
       photoStatus.textContent = 'Added';
       photoStatus.classList.add('added');
@@ -1192,17 +1168,12 @@
       benefitTicks();
     }, 3550, myCycle);
 
-    // dwell on the finished state, then loop — extended dwell (was 2700ms)
-    // so the finished state has time to breathe before restarting.
     schedule(function () { playSequence(); }, 3550 + 5200, myCycle);
   }
 
   var heroObserverFired = false;
 
   if (!window.IntersectionObserver) {
-    // No IntersectionObserver support — skip the scroll-triggered animation
-    // entirely and just show the finished, static state so the page still
-    // communicates the same thing on very old/unusual browsers.
     hero.classList.add('in-view');
     resetVisualState();
     widgetCard.classList.add('glow');
@@ -1222,7 +1193,7 @@
           hero.classList.add('in-view');
           playSequence();
         } else {
-          cycleId++; // invalidates any pending scheduled callbacks
+          cycleId++;
           clearPending();
         }
       });
@@ -1230,13 +1201,6 @@
     heroObserver.observe(hero);
   }
 
-  // Safety net: on some mobile browsers, a fast scroll can carry the hero
-  // past the viewport before IntersectionObserver ever reports it as
-  // intersecting — with nothing else to add the 'in-view' class, the header
-  // and mockup would otherwise stay invisible (opacity: 0) permanently. If
-  // the animation hasn't triggered shortly after load, force the same
-  // static finished state used for reduced-motion/no-observer browsers,
-  // so content is never left permanently blank.
   setTimeout(function () {
     if (heroObserverFired) return;
     heroObserverFired = true;
