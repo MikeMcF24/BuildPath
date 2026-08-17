@@ -4,7 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BuildPath — Get a ballpark range</title>
+<meta name="description" content="Get a clear ballpark range for your building project in a couple of minutes. Not a quote, just a starting point before you get in touch.">
 <link rel="canonical" href="https://buildpath.nz/buildpath-estimator-tool.html">
+<meta property="og:title" content="BuildPath — Get a ballpark range">
+<meta property="og:description" content="Get a clear ballpark range for your building project in a couple of minutes. Not a quote, just a starting point before you get in touch.">
+<meta property="og:url" content="https://buildpath.nz/buildpath-estimator-tool.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://buildpath.nz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BuildPath — Get a ballpark range">
+<meta name="twitter:description" content="Get a clear ballpark range for your building project in a couple of minutes. Not a quote, just a starting point before you get in touch.">
+<meta name="twitter:image" content="https://buildpath.nz/og-image.png">
+<meta name="theme-color" content="#0A21C0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -352,7 +363,22 @@
     text-decoration: none;
   }
   .site-footer-nav a:hover { color: #fff; }
+  .footer-bar {
+    background: var(--blue);
+    padding: 0 40px 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .footer-bar p {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: #4ADE80;
+    margin: 0;
+  }
+  .footer-bar a { color: #4ADE80; text-decoration: underline; }
+  .footer-bar a:hover { color: #86EFAC; }
   @media (max-width: 600px) {
+    .footer-bar { padding: 0 20px 16px; }
     .site-footer-nav { flex-direction: column; gap: 12px; padding: 16px 20px; }
   }
 </style>
@@ -1048,6 +1074,10 @@ document.getElementById('leadForm').addEventListener('submit', async (e) => {
   <a href="get-started.html">Get started</a>
   <a href="terms-privacy.html">Terms &amp; Privacy</a>
 </nav>
+
+<div class="footer-bar">
+  <p>Powered by <a href="https://sheetfix.co.nz/" target="_blank" rel="noopener">SheetFix</a>, spreadsheet fixes for small business.</p>
+</div>
 
 <script>
 (function(){
