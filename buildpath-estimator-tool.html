@@ -4,18 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BuildPath — Get a ballpark range</title>
-<meta name="description" content="Get a clear ballpark range for your building project in a couple of minutes. Not a quote, just a starting point before you get in touch.">
 <link rel="canonical" href="https://buildpath.nz/buildpath-estimator-tool.html">
-<meta property="og:title" content="BuildPath — Get a ballpark range">
-<meta property="og:description" content="Get a clear ballpark range for your building project in a couple of minutes. Not a quote, just a starting point before you get in touch.">
-<meta property="og:url" content="https://buildpath.nz/buildpath-estimator-tool.html">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://buildpath.nz/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="BuildPath — Get a ballpark range">
-<meta name="twitter:description" content="Get a clear ballpark range for your building project in a couple of minutes. Not a quote, just a starting point before you get in touch.">
-<meta name="twitter:image" content="https://buildpath.nz/og-image.png">
-<meta name="theme-color" content="#0A21C0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -363,24 +352,493 @@
     text-decoration: none;
   }
   .site-footer-nav a:hover { color: #fff; }
-  .footer-bar {
-    background: var(--blue);
-    padding: 0 40px 18px;
-    position: relative;
-    z-index: 1;
-  }
-  .footer-bar p {
-    font-family: var(--font-mono);
-    font-size: 11.5px;
-    color: #4ADE80;
-    margin: 0;
-  }
-  .footer-bar a { color: #4ADE80; text-decoration: underline; }
-  .footer-bar a:hover { color: #86EFAC; }
   @media (max-width: 600px) {
-    .footer-bar { padding: 0 20px 16px; }
     .site-footer-nav { flex-direction: column; gap: 12px; padding: 16px 20px; }
   }
+
+  /* ==========================================================
+     2026 VISUAL SYSTEM: PRECISION DRAFTING STUDIO
+     A neo-minimal interface built around technical drawings,
+     editorial typography and a single high-visibility accent.
+     ========================================================== */
+  :root {
+    --blue: #0A21C0;
+    --blue-mid: #2B5EEB;
+    --blue-soft: #EEF1FF;
+    --blue-border: #B9C3FF;
+    --ink: #101217;
+    --ink-mid: #343842;
+    --ink-muted: #646A76;
+    --ink-faint: #8B919C;
+    --rule: #D9DCE2;
+    --bg: #F4F2EC;
+    --bg-tint: #ECEAE3;
+    --bg-field: #F8F7F3;
+    --signal: #5B8CFF;
+    --signal-ink: #07143E;
+    --warn: #9B4D00;
+    --warn-soft: #FFF0D9;
+    --warn-border: #E8B266;
+    --green: #155C43;
+    --green-soft: #DDF2E8;
+    --font-display: 'Big Shoulders Display', Arial, sans-serif;
+    --font-body: 'Inter', Arial, sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --radius: 2px;
+    --shadow: 12px 12px 0 rgba(16,18,23,.10);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--ink);
+    letter-spacing: -.01em;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      linear-gradient(90deg, transparent calc(50% - .5px), rgba(16,18,23,.07) 50%, transparent calc(50% + .5px)),
+      var(--bg);
+  }
+  ::selection { background: var(--signal); color: var(--signal-ink); }
+
+  /* --- Technical background and page frame --- */
+  .blueprint-bg {
+    inset: 0;
+    z-index: -1;
+    opacity: 1;
+    background-image:
+      linear-gradient(rgba(16,18,23,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(16,18,23,.045) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: linear-gradient(to bottom, #000 0, transparent 620px);
+  }
+  .blueprint-bg::after {
+    background: linear-gradient(135deg, rgba(23,56,245,.08), transparent 42%);
+  }
+  .wrap {
+    max-width: 980px;
+    padding: 56px 32px 112px;
+  }
+
+  /* --- Navigation --- */
+  .site-nav-bar {
+    background: rgba(16,18,23,.96);
+    border-bottom: 1px solid rgba(255,255,255,.14);
+    backdrop-filter: blur(16px);
+  }
+  .site-nav-inner { max-width: 1180px; min-height: 64px; padding: 0 28px; }
+  .site-nav-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    font-size: 23px;
+    letter-spacing: -.02em;
+  }
+  .site-nav-logo::before {
+    content: '';
+    width: 13px;
+    height: 13px;
+    background: var(--signal);
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 35% 35%, 35% 100%, 0 100%);
+  }
+  .site-nav-toggle { width: 30px; height: 18px; }
+  .site-nav-toggle span { height: 1px; background: var(--signal); border-radius: 0; }
+  .site-nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .site-nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+  .site-nav-menu { background: var(--ink); border-top: 1px solid rgba(255,255,255,.12); }
+  .site-nav-menu.open { max-height: 280px; }
+  .site-nav-menu a {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 15px 28px;
+    color: rgba(255,255,255,.78);
+    border-top-color: rgba(255,255,255,.08);
+  }
+  .site-nav-menu a:hover { color: var(--signal); background: transparent; }
+
+  #contractorBackLink { max-width: 980px; padding: 24px 32px 0; }
+  .contractor-back-link {
+    font: 500 11px/1.4 var(--font-mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  /* --- Editorial introduction --- */
+  .intro-box {
+    position: relative;
+    overflow: hidden;
+    min-height: 310px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 210px;
+    align-content: end;
+    gap: 38px;
+    margin: 0 0 28px;
+    padding: 42px 42px 40px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 0;
+    box-shadow: var(--shadow);
+  }
+  .intro-box::before {
+    content: '01';
+    position: absolute;
+    top: 22px;
+    right: 28px;
+    font: 500 11px var(--font-mono);
+    color: var(--signal);
+    letter-spacing: .12em;
+  }
+  .intro-box::after {
+    content: '';
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    top: -92px;
+    left: 54%;
+    border: 1px solid rgba(91,140,255,.56);
+    transform: rotate(45deg);
+  }
+  .demo-banner {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    margin: 0;
+    padding: 0 0 0 18px;
+    border: 0;
+    border-left: 1px solid rgba(255,255,255,.23);
+    color: rgba(255,255,255,.60);
+    font: 400 11px/1.65 var(--font-mono);
+  }
+  .hero { grid-column: 1; grid-row: 1; align-self: end; }
+  .hero::before { margin-bottom: 18px; color: var(--signal); letter-spacing: .16em; }
+  .hero h1 {
+    max-width: 650px;
+    margin: 0 0 18px;
+    color: #fff;
+    font-size: clamp(48px, 7.6vw, 78px);
+    font-weight: 600;
+    line-height: .88;
+    letter-spacing: -.035em;
+    text-wrap: balance;
+  }
+  .hero h1 br { display: none; }
+  .hero p { max-width: 580px; color: rgba(255,255,255,.68); font-size: 14px; line-height: 1.7; }
+
+  /* --- Primary working surface --- */
+  .card {
+    position: relative;
+    margin-bottom: 28px;
+    padding: 42px;
+    background: #fff;
+    background-image: none;
+    border: 1px solid var(--ink);
+    border-top: 1px solid var(--ink);
+    border-radius: 0;
+    box-shadow: var(--shadow);
+  }
+  #estimateForm::before {
+    content: 'PROJECT BRIEF / 01';
+    display: block;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ink);
+    font: 500 10px/1 var(--font-mono);
+    letter-spacing: .13em;
+    color: var(--blue);
+  }
+  label {
+    margin: 26px 0 9px;
+    color: var(--ink);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .12em;
+  }
+  label:first-of-type { margin-top: 0; }
+  .hint { color: var(--ink-muted); font-size: 12px; line-height: 1.55; }
+  .grid-2 { gap: 18px; }
+
+  /* --- Fields --- */
+  select, input[type="text"], input[type="tel"], input[type="email"], textarea {
+    min-height: 52px;
+    padding: 12px 14px;
+    border: 1px solid #C7CAD0;
+    border-radius: 0;
+    background: var(--bg-field);
+    color: var(--ink);
+    font-size: 14px;
+    transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
+  }
+  textarea { min-height: 112px; padding-top: 15px; }
+  select:hover, input:hover, textarea:hover { border-color: var(--ink-muted); }
+  select:focus, input:focus, textarea:focus {
+    border-color: var(--blue);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(23,56,245,.12);
+  }
+
+  /* --- BuildPath Scope Board: a bespoke, plan-inspired job selector --- */
+  .scope-board-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin: 0 0 16px;
+  }
+  .scope-board-heading label { margin: 0 0 5px; }
+  .scope-board-heading p { margin: 0; color: var(--ink-muted); font-size: 13px; }
+  .scope-board-heading > span {
+    flex: none;
+    padding: 6px 8px;
+    background: var(--ink);
+    color: var(--signal);
+    font: 500 9px/1 var(--font-mono);
+    letter-spacing: .12em;
+  }
+  .choice-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-flow: dense;
+    gap: 1px;
+    margin: 0;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+  }
+  .choice-card {
+    --drawing-shift: 0px;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    gap: 0;
+    justify-content: stretch;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
+    background: #fff;
+    color: var(--ink-mid);
+    font: 600 12px/1.3 var(--font-body);
+    transition: color .22s ease, background-color .22s ease;
+  }
+  .choice-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: .22;
+    background-image:
+      linear-gradient(rgba(16,18,23,.14) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(16,18,23,.14) 1px, transparent 1px);
+    background-size: 12px 12px;
+    mask-image: linear-gradient(to bottom, #000, transparent 72%);
+    pointer-events: none;
+  }
+  .choice-card::after {
+    content: '';
+    position: absolute;
+    top: 44px;
+    right: -16px;
+    width: 72px;
+    height: 1px;
+    background: var(--blue);
+    opacity: 0;
+    transform: rotate(-45deg) translateX(24px);
+    transition: opacity .2s ease, transform .24s ease;
+  }
+  .choice-card:hover { transform: none; border-color: transparent; box-shadow: none; background: #F4F5FF; color: var(--blue); }
+  .choice-card:hover::after { opacity: 1; transform: rotate(-45deg) translateX(0); }
+  .choice-card.selected { background: var(--ink); color: #fff; box-shadow: inset 0 0 0 1px var(--signal); }
+  .choice-card.selected::before {
+    opacity: .14;
+    background-image:
+      linear-gradient(rgba(91,140,255,.32) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,140,255,.32) 1px, transparent 1px);
+  }
+  .choice-card.selected::after { opacity: 1; background: var(--signal); transform: rotate(-45deg) translateX(0); }
+  .choice-drawing {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 112px;
+    display: grid;
+    place-items: center;
+    padding: 25px 20px 11px;
+  }
+  .choice-drawing::before,
+  .choice-drawing::after { content: ''; position: absolute; pointer-events: none; }
+  .choice-drawing::before { left: 15px; right: 15px; bottom: 18px; height: 1px; background: #CDD0D6; }
+  .choice-drawing::after {
+    left: 20px;
+    bottom: 14px;
+    width: calc(100% - 40px);
+    height: 9px;
+    border-left: 1px solid #A8ADB6;
+    border-right: 1px solid #A8ADB6;
+  }
+  .choice-icon {
+    width: 66px;
+    height: 66px;
+    color: var(--ink);
+    transform: translateX(var(--drawing-shift));
+    transition: color .2s ease, transform .3s cubic-bezier(.2,.8,.2,1);
+  }
+  .choice-icon svg { overflow: visible; }
+  .choice-icon svg * {
+    stroke-dasharray: 80;
+    stroke-dashoffset: 0;
+    vector-effect: non-scaling-stroke;
+    transition: stroke-dashoffset .55s cubic-bezier(.2,.8,.2,1);
+  }
+  .choice-card:hover .choice-icon { color: var(--blue); transform: translateX(var(--drawing-shift)) scale(1.08) rotate(-1deg); }
+  .choice-card:hover .choice-icon svg * { stroke-dashoffset: 160; }
+  .choice-card.selected .choice-icon { color: var(--signal); transform: translateX(var(--drawing-shift)) scale(1.04); }
+  .choice-card.selected .choice-drawing::before { background: rgba(91,140,255,.62); }
+  .choice-meta {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 14px;
+    width: 100%;
+    min-height: 64px;
+    padding: 12px 14px 14px;
+    border-top: 1px solid #D5D8DE;
+    text-align: left;
+  }
+  .choice-copy { min-width: 0; }
+  .choice-code {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--blue);
+    font: 500 8px/1 var(--font-mono);
+    letter-spacing: .14em;
+  }
+  .choice-name { display: block; max-width: 240px; color: currentColor; font: 650 12px/1.25 var(--font-body); }
+  .choice-number { color: #A0A5AE; font: 500 10px/1 var(--font-mono); letter-spacing: .08em; }
+  .choice-card.selected .choice-meta { border-top-color: rgba(91,140,255,.50); }
+  .choice-card.selected .choice-code, .choice-card.selected .choice-number { color: var(--signal); }
+  .choice-card.selected .choice-number::before { content: 'STAMPED / '; }
+  .choice-card .choice-icon { width: 70px; height: 70px; }
+
+  /* --- Upload controls and information notes --- */
+  .photo-buttons { gap: 1px; padding: 1px; background: var(--ink); }
+  .btn-photo {
+    min-height: 78px;
+    border: 0;
+    border-radius: 0;
+    background: #fff;
+    color: var(--ink);
+    font: 500 11px var(--font-mono);
+    letter-spacing: .04em;
+    transition: background-color .18s ease, color .18s ease;
+  }
+  .btn-photo:hover { background: var(--signal); color: var(--signal-ink); }
+  .disclaimer {
+    position: relative;
+    margin-top: 26px;
+    padding: 16px 18px 16px 44px;
+    border: 1px solid var(--rule);
+    border-radius: 0;
+    background: var(--bg-field);
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+  .disclaimer::before { content: 'i'; position: absolute; left: 17px; top: 15px; color: var(--blue); font: 600 12px var(--font-mono); }
+  .form-reassurance { margin: 18px 0 12px; color: var(--ink-muted); font: 400 11px var(--font-mono); }
+
+  /* --- Buttons and micro-interactions --- */
+  .btn-primary, .btn-secondary, .btn-update-estimate {
+    position: relative;
+    min-height: 56px;
+    border: 1px solid var(--ink);
+    border-radius: 0;
+    background: var(--signal);
+    color: var(--signal-ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    font: 700 12px var(--font-mono);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    transition: transform .14s ease, box-shadow .14s ease, background-color .14s ease;
+  }
+  .btn-primary:hover, .btn-secondary:hover, .btn-update-estimate:hover { background: #83A7FF; transform: translate(2px,2px); box-shadow: 4px 4px 0 var(--ink); }
+  .btn-primary:active, .btn-secondary:active, .btn-update-estimate:active { transform: translate(6px,6px); box-shadow: none; }
+  .btn-primary:focus-visible, .btn-secondary:focus-visible, .btn-photo:focus-visible, .choice-card:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  .btn-ghost, .btn-confirm-yes, .btn-confirm-no { border-radius: 0; }
+  .spinner { border-color: var(--blue-border); border-top-color: var(--blue); }
+
+  /* --- Results --- */
+  .result-card { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .result-eyebrow { color: var(--signal); }
+  .job-category-label { color: rgba(255,255,255,.55); }
+  .range { color: #fff; font-size: clamp(52px, 10vw, 84px); letter-spacing: -.025em; }
+  .section-label { margin-top: 28px; color: var(--signal); }
+  ul.bullets { color: rgba(255,255,255,.76); line-height: 1.65; }
+  .confirm-prompt { border-top-color: rgba(255,255,255,.18); }
+  .confirm-prompt p, .confirm-note { color: #fff; }
+  .confirm-prompt .hint { color: rgba(255,255,255,.58); }
+  .btn-confirm-yes, .btn-confirm-no { border-color: rgba(255,255,255,.25); background: transparent; color: #fff; }
+  .btn-confirm-yes:hover, .btn-confirm-no:hover { border-color: var(--signal); color: var(--signal); }
+  .correction-box textarea, .lead-form input { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.25); color: #fff; }
+  .correction-box label, .lead-form label { color: #fff; }
+  .lead-form-note { color: var(--signal); text-align: left; }
+  .consent-row label { color: rgba(255,255,255,.72); }
+
+  /* --- Footer --- */
+  .site-footer-nav {
+    justify-content: center;
+    gap: 12px 34px;
+    margin-top: 0;
+    padding: 28px 40px;
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,.12);
+  }
+  .site-footer-nav a { color: rgba(255,255,255,.58); }
+  .site-footer-nav a:hover { color: var(--signal); }
+
+  /* --- Responsive layout --- */
+  @media (max-width: 760px) {
+    .wrap { padding: 30px 18px 80px; }
+    #contractorBackLink { padding: 18px 18px 0; }
+    .intro-box { min-height: 0; grid-template-columns: 1fr; padding: 34px 26px 30px; box-shadow: 7px 7px 0 rgba(16,18,23,.10); }
+    .hero, .demo-banner { grid-column: 1; grid-row: auto; }
+    .hero h1 { font-size: clamp(46px, 14vw, 68px); }
+    .demo-banner { margin-top: 28px; padding: 16px 0 0; border-left: 0; border-top: 1px solid rgba(255,255,255,.20); }
+    .card { padding: 28px 22px; box-shadow: 7px 7px 0 rgba(16,18,23,.10); }
+    .choice-grid { grid-template-columns: repeat(3, 1fr); }
+    .choice-card { min-height: 0; }
+  }
+  @media (max-width: 520px) {
+    .site-nav-inner { padding: 0 18px; }
+    .grid-2 { grid-template-columns: 1fr; gap: 0; }
+    .choice-grid { grid-template-columns: repeat(2, 1fr); }
+    .photo-buttons { flex-direction: column; }
+    .btn-photo { flex: none; width: 100%; min-height: 58px; }
+    .confirm-buttons { flex-direction: column; }
+    .intro-box::after { left: 72%; }
+    .scope-board-heading { align-items: flex-start; }
+    .scope-board-heading > span { display: none; }
+    .choice-drawing { min-height: 100px; padding-top: 20px; }
+    .choice-icon { width: 56px; height: 56px; }
+    .choice-card .choice-icon { width: 58px; height: 58px; }
+    .choice-meta { min-height: 70px; padding: 11px 12px 13px; }
+  }
+  @media (max-width: 390px) {
+    .choice-grid { grid-template-columns: repeat(2, 1fr); }
+    .choice-card { min-height: 0; }
+  }
+
+  /* Fix: the icon hover shimmer above applies a shared dash pattern to every
+     stroke in every icon. That's fine for solid outlines, but a few icons
+     (renovation, extension) use their own dashed strokes on purpose, to mark
+     new work versus existing per real drawing convention. Without this, the
+     shimmer overrides those intentional dashes and they'd render solid. */
+  .choice-icon svg [stroke-dasharray] { stroke-dasharray: 3 3 !important; }
+  .choice-card:hover .choice-icon svg [stroke-dasharray],
+  .choice-card.selected .choice-icon svg [stroke-dasharray] { stroke-dashoffset: 0 !important; }
 </style>
 </head>
 <body>
@@ -409,14 +867,20 @@
     </div>
     <div class="hero">
       <h1>Get a clear ballpark range before<br>you book a quote.</h1>
-      <p>Tell us about your project, add a photo if you have one, and we'll give you a rough starting range. Final pricing is confirmed after a proper review.</p>
+      <p>Tell us about your project, add a photo if you have one, and we'll give you a clear starting range. Final pricing is confirmed after a proper review.</p>
     </div>
   </div>
 
   <!-- ===================== ESTIMATE FORM (single page, no steps) ===================== -->
   <form class="card" id="estimateForm">
 
-    <label for="jobType">Job type</label>
+    <div class="scope-board-heading">
+      <div>
+        <label for="jobType">Job type</label>
+        <p>Choose the drawing that feels closest. It does not need to be exact.</p>
+      </div>
+      <span>9 PROJECT PATHS</span>
+    </div>
     <select id="jobType" class="native-job-select" aria-label="Job type">
       <option value="">Select…</option>
     </select>
@@ -497,7 +961,7 @@
     <div class="photo-preview" id="photoPreview"></div>
 
     <div class="disclaimer">
-      This is a rough ballpark range generated automatically from the details provided — it hasn't been
+      This is a clear starting range generated automatically from the details provided. It hasn't been
       reviewed by a person yet. It's not a quote, offer, or fixed price.
     </div>
 
@@ -693,17 +1157,30 @@ if (RETURN_URL && isSafeHttpUrl(RETURN_URL)) {
   }
 }
 
-// Icons chosen to actually depict each job type rather than an arbitrary sequence.
+// Bespoke BuildPath mini-drawings. These are intentionally closer to marked-up
+// construction details than an off-the-shelf icon set.
 const jobTypeIcons = {
-  "Home renovation or alteration": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M14 21v-6h-4v6"/><path d="M9 3.5l2 2M15 3.5l-2 2" stroke-linecap="round"/></svg>`,
-  "Bathroom, kitchen, or laundry renovation": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16v3a4 4 0 01-4 4H8a4 4 0 01-4-4v-3z"/><path d="M4 12V7a2 2 0 012-2h2"/><path d="M8 5V3"/><circle cx="18" cy="8" r="1.2" fill="currentColor" stroke="none"/></svg>`,
-  "Deck, pergola, or outdoor structure": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V9l8-6 8 6v12"/><path d="M4 15h16M4 18h16"/><path d="M9 21v-6M15 21v-6"/></svg>`,
-  "Extension or extra room": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21V10l6-4 6 4v11"/><path d="M9 21v-7h6v7"/><path d="M15 13l5-3 4 3v8h-9"/></svg>`,
-  "Cabin, sleepout, or minor dwelling": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20V11l7-5 7 5v9"/><path d="M3 20h14"/><path d="M9 20v-6h4v6"/></svg>`,
-  "New home build": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-8h6v8"/><path d="M3 21h18"/><path d="M7 9v3M17 9v3" stroke-linecap="round"/></svg>`,
-  "Repairs, rot, leak, or remedial work": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.5 3.5a3 3 0 00-4.24 4.24L4 14v3h3l6.26-6.26a3 3 0 004.24-4.24l-2.1 2.1-1.9-.5-.5-1.9 2.1-2.1z"/><path d="M12 17c0 1.7-1.3 3-3 3s-3-1.3-3-3c0-2 3-5 3-5s3 3 3 5z"/></svg>`,
-  "Commercial fitout or business premises": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V8l4-4h8l4 4v13"/><path d="M4 21h16"/><path d="M9 21v-5h6v5"/><path d="M9 10h.01M13 10h.01M9 14h.01M13 14h.01"/></svg>`,
-  "Not sure / something else": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.5-2 1.8-2 3.5" stroke-linecap="round"/><circle cx="12" cy="17" r=".6" fill="currentColor" stroke="none"/></svg>`
+  "Home renovation or alteration": `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35"><path d="M8 9h48v46H8V9Z"/><path d="M8 31h16m9 0h23M35 9v15m0 15v16M20 9v12M20 28v3M20 21a7 7 0 0 1 7 7"/><path d="M29 25l12 12m0-12L29 37" stroke-dasharray="3 3"/><path d="M25 45c8 5 18 3 23-5m0 0-1 6m1-6-6 1"/></svg>`,
+  "Bathroom, kitchen, or laundry renovation": `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35"><path d="M9 35h46v7c0 7-6 13-13 13H22c-7 0-13-6-13-13v-7Z"/><path d="M15 35V20c0-5 3-8 8-8h5M28 12V7M22 55v4M46 55v4"/><path d="M12 30h40M50 17c0 3-2 5-5 5s-5-2-5-5 5-9 5-9 5 6 5 9Z"/></svg>`,
+  "Deck, pergola, or outdoor structure": `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35"><path d="M8 52h48M12 52V18M52 52V18M7 18h50M13 13h38"/><path d="m17 52 7-20m2 20 7-20m2 20 7-20m2 20 7-20M12 32h40"/><path d="M8 57h48M8 55v4M56 55v4"/></svg>`,
+  "Extension or extra room": `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35"><path d="M8 13h28v38H8V13Z"/><path d="M36 25h20v26H36M15 13v14m0 8v16M8 31h28"/><path d="M40 29h12v18H40V29Z" stroke-dasharray="3 3"/><path d="M39 17h14M46 10v14M43 13l6 8m0-8-6 8"/></svg>`,
+  "Cabin, sleepout, or minor dwelling": `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35"><path d="m10 28 22-14 22 14-22 14-22-14Z"/><path d="M10 28v20l22 11V42M54 28v20L32 59"/><path d="M18 52v6m28-6v6M27 56v5m10-5v5"/><path d="M17 32v13l10 5V37M39 38l9-5v10l-9 5V38Z"/></svg>`,
+  "New home build": `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35"><path d="M7 55h50M11 51h42M14 51V27m9 24V27m18 24V27m9 24V27"/><path d="m10 27 22-18 22 18H10ZM18 21l5 6 9-18 9 18 5-6"/><path d="M23 37h18M23 40h18M27 51V40m10 11V40"/><path d="M7 59h50M7 57v4M57 57v4"/></svg>`,
+  "Repairs, rot, leak, or remedial work": `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35"><path d="M10 48 36 22a11 11 0 0 1 15-14l-8 8 2 7 7 2 8-8a11 11 0 0 1-14 15L20 58H10V48Z"/><path d="M31 34 44 47M38 27l13 13"/><path d="M25 47c0 5-4 9-9 9s-9-4-9-9c0-6 9-16 9-16s9 10 9 16Z"/></svg>`,
+  "Commercial fitout or business premises": `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35"><path d="M8 55V15h48v40H8Z"/><path d="M16 15V8h32v7M17 55V25h30v30M25 55V42h14v13"/><path d="M22 30h5m10 0h5M22 36h5m10 0h5M5 59h54"/><path d="M12 11h40M12 8v6M52 8v6"/></svg>`,
+  "Not sure / something else": `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.35"><path d="M9 49 32 8l23 41H9Z"/><path d="M32 22c7 0 11 4 11 9 0 8-11 8-11 15M32 53h.1" stroke-linecap="round"/><path d="M6 56h52M6 54v4M58 54v4"/></svg>`
+};
+
+const JOB_TYPE_CODES = {
+  "Home renovation or alteration": "REN / EXISTING",
+  "Bathroom, kitchen, or laundry renovation": "WET / SERVICES",
+  "Deck, pergola, or outdoor structure": "EXT / OUTDOOR",
+  "Extension or extra room": "ADD / ENVELOPE",
+  "Cabin, sleepout, or minor dwelling": "MIN / DWELLING",
+  "New home build": "NEW / GROUND-UP",
+  "Repairs, rot, leak, or remedial work": "RMD / INVESTIGATE",
+  "Commercial fitout or business premises": "COM / FITOUT",
+  "Not sure / something else": "OPEN / DEFINE"
 };
 
 const jobTypeSelect = document.getElementById('jobType');
@@ -739,13 +1216,24 @@ function syncSizeHint() {
 jobTypeSelect.addEventListener('change', syncSizeHint);
 
 const jobTypeChoices = document.getElementById('jobTypeChoices');
-CONFIG.jobTypes.forEach(jt => {
+CONFIG.jobTypes.forEach((jt, index) => {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'choice-card';
   button.dataset.value = jt;
   button.setAttribute('aria-pressed', 'false');
-  button.innerHTML = `<span class="choice-icon" aria-hidden="true">${jobTypeIcons[jt] || jobTypeIcons["Not sure / something else"]}</span><span>${jt}</span>`;
+  const drawingNumber = String(index + 1).padStart(2, '0');
+  button.innerHTML = `
+    <span class="choice-drawing" aria-hidden="true">
+      <span class="choice-icon">${jobTypeIcons[jt] || jobTypeIcons["Not sure / something else"]}</span>
+    </span>
+    <span class="choice-meta">
+      <span class="choice-copy">
+        <span class="choice-code">${JOB_TYPE_CODES[jt]}</span>
+        <span class="choice-name">${jt}</span>
+      </span>
+      <span class="choice-number">${drawingNumber}</span>
+    </span>`;
   button.addEventListener('click', () => {
     jobTypeSelect.value = jt;
     jobTypeSelect.dispatchEvent(new Event('change', { bubbles: true }));
@@ -1074,10 +1562,6 @@ document.getElementById('leadForm').addEventListener('submit', async (e) => {
   <a href="get-started.html">Get started</a>
   <a href="terms-privacy.html">Terms &amp; Privacy</a>
 </nav>
-
-<div class="footer-bar">
-  <p>Powered by <a href="https://sheetfix.co.nz/" target="_blank" rel="noopener">SheetFix</a>, spreadsheet fixes for small business.</p>
-</div>
 
 <script>
 (function(){
