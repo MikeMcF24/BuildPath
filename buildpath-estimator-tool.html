@@ -613,7 +613,6 @@
     --drawing-shift: 0px;
     min-width: 0;
     min-height: 0;
-    aspect-ratio: 1 / 1;
     padding: 0;
     gap: 0;
     justify-content: stretch;
@@ -825,10 +824,12 @@
     .choice-icon { width: 56px; height: 56px; }
     .choice-card .choice-icon { width: 58px; height: 58px; }
     .choice-meta { min-height: 70px; padding: 11px 12px 13px; }
+    .choice-card:last-child { grid-column: 1 / -1; }
   }
   @media (max-width: 390px) {
     .choice-grid { grid-template-columns: repeat(2, 1fr); }
     .choice-card { min-height: 0; }
+    .choice-card:last-child { grid-column: 1 / -1; }
   }
 
   /* Fix: the icon hover shimmer above applies a shared dash pattern to every
