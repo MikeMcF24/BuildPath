@@ -6,16 +6,6 @@
 <meta name="description" content="Get started with BuildPath — pick your tier and tell us about your business.">
 <title>Get Started — BuildPath</title>
 <link rel="canonical" href="https://buildpath.nz/get-started.html">
-<meta property="og:title" content="Get Started — BuildPath">
-<meta property="og:description" content="Get started with BuildPath — pick your tier and tell us about your business.">
-<meta property="og:url" content="https://buildpath.nz/get-started.html">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://buildpath.nz/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Get Started — BuildPath">
-<meta name="twitter:description" content="Get started with BuildPath — pick your tier and tell us about your business.">
-<meta name="twitter:image" content="https://buildpath.nz/og-image.png">
-<meta name="theme-color" content="#0A21C0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -346,10 +336,10 @@
   }
   .footer-bar p {
     font-size: 12.5px;
-    color: #4ADE80;
+    color: #C5CBF5;
   }
-  .footer-bar a { color: #4ADE80; text-decoration: underline; }
-  .footer-bar a:hover { color: #86EFAC; }
+  .footer-bar a { color: #fff; text-decoration: underline; }
+  .footer-bar a:hover { color: #fff; }
   @media (max-width: 600px) {
     .footer-bar { padding: 16px 20px; }
   }
@@ -426,6 +416,96 @@
     border-top: 1px solid rgba(255,255,255,.16);
   }
   .site-nav-menu a:hover { background: rgba(255,255,255,.08); }
+
+  /* ==========================================================
+     BUILDPATH 2026: CONTRACTOR SETUP WORKSHEET
+     Formspree action, field names, IDs and workflow preserved.
+     ========================================================== */
+  :root {
+    --blue: #0A21C0;
+    --blue-mid: #2B5EEB;
+    --blue-soft: #EEF1FF;
+    --blue-border: #B9C3FF;
+    --highlight: #5B8CFF;
+    --paper: #F4F2EC;
+    --ink: #101217;
+    --ink-mid: #343842;
+    --ink-muted: #646A76;
+    --ink-faint: #8B919C;
+    --rule: #D2D4D9;
+    --bg: var(--paper);
+    --bg-tint: #ECEAE3;
+    --bg-field: #F8F7F3;
+    --radius: 0;
+    --max: 820px;
+  }
+  body { background-color: var(--paper); background-image: linear-gradient(rgba(16,18,23,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(16,18,23,.045) 1px,transparent 1px); background-size: 24px 24px; letter-spacing: -.01em; }
+  ::selection { background: var(--highlight); color: #07143E; }
+  .top-strip { display: none; }
+  .wrap { padding: 0 32px 100px; }
+  .site-nav-bar { background: rgba(16,18,23,.97); border-bottom: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(16px); }
+  .site-nav-inner { max-width: 1180px; min-height: 64px; padding: 0 28px; }
+  .site-nav-logo { display: inline-flex; align-items: center; gap: 11px; font-size: 23px; }
+  .site-nav-logo::before { content: ''; width: 13px; height: 13px; background: var(--highlight); clip-path: polygon(0 0,100% 0,100% 35%,35% 35%,35% 100%,0 100%); }
+  .site-nav-toggle { width: 30px; height: 18px; }
+  .site-nav-toggle span { height: 1px; background: var(--highlight); border-radius: 0; }
+  .site-nav-menu { background: var(--ink); border-top: 1px solid rgba(255,255,255,.10); }
+  .site-nav-menu a { max-width: 1180px; margin: 0 auto; padding: 15px 28px; color: rgba(255,255,255,.72); }
+  .site-nav-menu a:hover { color: var(--highlight); background: transparent; }
+  .eyebrow-bar { display: flex; align-items: center; justify-content: space-between; padding: 26px 0 18px; border-bottom: 1px solid var(--ink); }
+  .eyebrow-logo { height: 34px; margin: 0; }
+  .back-link { color: var(--ink); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+  .setup-intro { position: relative; margin: 28px 0 40px; padding: 48px 44px 42px; overflow: hidden; background: var(--ink); border: 1px solid var(--ink); box-shadow: 10px 10px 0 rgba(16,18,23,.10); }
+  .setup-intro::after { content: ''; position: absolute; right: -70px; top: -100px; width: 200px; height: 200px; border: 1px solid rgba(91,140,255,.46); transform: rotate(45deg); }
+  .setup-kicker { display: block; margin-bottom: 18px; color: var(--highlight); font: 500 9px var(--font-mono); letter-spacing: .14em; }
+  h1 { max-width: 650px; margin-bottom: 18px; color: #fff; font-size: clamp(48px,7vw,72px); font-weight: 600; line-height: .92; letter-spacing: -.03em; }
+  .subhead { max-width: 620px; margin: 0; color: rgba(255,255,255,.65); font-size: 14px; line-height: 1.7; }
+  .step-block { margin: 0 0 32px; padding: 34px; border: 1px solid var(--ink); background: #fff; box-shadow: 8px 8px 0 rgba(16,18,23,.08); }
+  .step-label { margin-bottom: 22px; color: var(--blue); letter-spacing: .13em; }
+  .step-label::after { background: var(--ink); }
+  .tier-options { gap: 1px; padding: 1px; background: var(--ink); }
+  .tier-option { position: relative; min-height: 210px; padding: 26px; border: 0; border-radius: 0; background: #fff; background-image: linear-gradient(rgba(16,18,23,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(16,18,23,.055) 1px,transparent 1px); background-size: 12px 12px; }
+  .tier-option::before { display: block; margin-bottom: 38px; color: var(--blue); font: 500 9px var(--font-mono); letter-spacing: .12em; }
+  .tier-option:first-child::before { content: 'TIER / 01'; }
+  .tier-option:last-child::before { content: 'TIER / 02'; }
+  .tier-option::after { content: 'SELECT'; position: absolute; right: 16px; top: 16px; color: var(--ink-faint); font: 500 8px var(--font-mono); letter-spacing: .12em; }
+  .tier-option:hover { background-color: var(--blue-soft); }
+  .tier-option.selected { background-color: var(--ink); color: #fff; box-shadow: inset 0 0 0 1px var(--highlight); }
+  .tier-option.selected::after { content: 'SELECTED'; color: var(--highlight); }
+  .tier-option.selected .tier-option-name, .tier-option.selected .tier-option-price { color: #fff; }
+  .tier-option.selected .tier-option-desc { color: rgba(255,255,255,.62); }
+  .tier-option.selected::before { color: var(--highlight); }
+  .tier-option-name { font-size: 12px; letter-spacing: .13em; }
+  .tier-option-price { margin: 10px 0; font-size: 14px; }
+  .setup-note { padding: 16px 18px; border: 1px solid var(--blue-border); border-left: 4px solid var(--blue); border-radius: 0; background: var(--blue-soft); }
+  form { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--rule); }
+  label { margin: 22px 0 8px; color: var(--ink); font-size: 10px; letter-spacing: .11em; }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="url"], select, textarea { min-height: 52px; padding: 12px 14px; border: 1px solid #C7CAD0; border-radius: 0; background: var(--bg-field); }
+  textarea { min-height: 110px; padding-top: 14px; }
+  input:hover, select:hover, textarea:hover { border-color: var(--ink-muted); }
+  input:focus, select:focus, textarea:focus { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(43,94,235,.13); }
+  .checkbox-row { gap: 11px; padding: 14px; border: 1px solid var(--rule); background: var(--bg-field); }
+  .checkbox-row + .checkbox-row { margin-top: 8px; }
+  .checkbox-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--blue); }
+  .btn-submit { min-height: 56px; border: 1px solid var(--ink); border-radius: 0; background: var(--highlight); color: #07143E; box-shadow: 6px 6px 0 var(--ink); font-size: 11px; letter-spacing: .08em; transition: transform .14s ease,box-shadow .14s ease,background .14s ease; }
+  .btn-submit:hover { background: #83A7FF; transform: translate(2px,2px); box-shadow: 4px 4px 0 var(--ink); }
+  .thanks-box { border: 1px solid var(--ink); border-radius: 0; background: #fff; box-shadow: 8px 8px 0 rgba(16,18,23,.08); }
+  .placeholder { border-radius: 0; }
+  .site-footer-nav { justify-content: center; gap: 12px 34px; margin-top: 0; padding: 28px 40px; background: var(--ink); border-top: 1px solid rgba(255,255,255,.12); }
+  .site-footer-nav a { color: rgba(255,255,255,.55); }
+  .site-footer-nav a:hover { color: var(--highlight); }
+  .footer-bar { padding: 0 40px 34px; background: var(--ink); text-align: center; }
+  .footer-bar p { color: rgba(255,255,255,.46); }
+  .footer-bar a { color: var(--highlight); }
+  @media (max-width: 600px) {
+    .wrap { padding: 0 18px 74px; }
+    .site-nav-inner { padding: 0 18px; }
+    .eyebrow-bar { align-items: flex-start; flex-direction: column; gap: 12px; }
+    .setup-intro { margin-top: 18px; padding: 44px 22px 30px; box-shadow: 7px 7px 0 rgba(16,18,23,.10); }
+    h1 { font-size: clamp(48px,14vw,64px); }
+    .step-block { padding: 26px 20px; }
+    .tier-options { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -453,8 +533,11 @@
     <a href="index.html" class="back-link">&larr; Back to BuildPath</a>
   </div>
 
-  <h1>Let's get your BuildPath tool set up.</h1>
-  <p class="subhead">Pick a tier, answer a couple of quick questions, and leave your details. I'll review your setup and come back with the best next step.</p>
+  <div class="setup-intro">
+    <span class="setup-kicker">CONTRACTOR SETUP / START HERE</span>
+    <h1>Let's get your BuildPath tool set up.</h1>
+    <p class="subhead">Pick a tier, answer a short set of questions, and leave your details. I'll review your setup and come back with the best next step.</p>
+  </div>
 
   <!-- ===================== STEP 1: TIER SELECTION ===================== -->
   <div class="step-block">
@@ -661,7 +744,7 @@ document.getElementById('getStartedForm').addEventListener('submit', async (e) =
 </nav>
 
 <div class="footer-bar">
-  <p>Powered by <a href="https://sheetfix.co.nz/" target="_blank" rel="noopener">SheetFix</a>, spreadsheet fixes for small business.</p>
+  <p>Need help cleaning up your pricing spreadsheet? <a href="https://sheetfix.co.nz/" target="_blank" rel="noopener">Visit SheetFix</a>.</p>
 </div>
 
 <script>

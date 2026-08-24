@@ -6,16 +6,6 @@
 <meta name="description" content="BuildPath gives customers a clear price starting point before they contact you, so website enquiries are better informed and easier to follow up.">
 <title>BuildPath: Stop wasting time on vague website enquiries.</title>
 <link rel="canonical" href="https://buildpath.nz/">
-<meta property="og:title" content="BuildPath: Stop wasting time on vague website enquiries.">
-<meta property="og:description" content="BuildPath gives customers a clear price starting point before they contact you, so website enquiries are better informed and easier to follow up.">
-<meta property="og:url" content="https://buildpath.nz/">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://buildpath.nz/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="BuildPath: Stop wasting time on vague website enquiries.">
-<meta name="twitter:description" content="BuildPath gives customers a clear price starting point before they contact you, so website enquiries are better informed and easier to follow up.">
-<meta name="twitter:image" content="https://buildpath.nz/og-image.png">
-<meta name="theme-color" content="#0A21C0">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -726,16 +716,6 @@
     max-width: 480px;
   }
 
-  .footer-sheetfix {
-    font-size: 13px;
-    line-height: 1.5;
-    color: #4ADE80;
-    max-width: 480px;
-    margin-top: 10px;
-  }
-  .footer-sheetfix a { color: #4ADE80; text-decoration: underline; }
-  .footer-sheetfix a:hover { color: #86EFAC; }
-
   @media (max-width: 600px) {
     .footer-bar {
       flex-direction: column;
@@ -1042,6 +1022,132 @@
   .final-cta .btn-primary {
     display: inline-block;
   }
+
+  /* ==========================================================
+     BUILDPATH 2026: PRECISION DRAFTING STUDIO
+     Homepage visual system aligned with the estimator tool.
+     ========================================================== */
+  :root {
+    --blue: #0A21C0;
+    --blue-mid: #2B5EEB;
+    --blue-soft: #EEF1FF;
+    --blue-border: #B9C3FF;
+    --highlight: #5B8CFF;
+    --paper: #F4F2EC;
+    --ink: #101217;
+    --ink-mid: #343842;
+    --ink-muted: #646A76;
+    --ink-faint: #8B919C;
+    --rule: #D2D4D9;
+    --bg: var(--paper);
+    --bg-tint: #ECEAE3;
+    --radius: 0;
+    --max: 1120px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(rgba(16,18,23,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(16,18,23,.045) 1px, transparent 1px);
+    background-size: 24px 24px;
+    letter-spacing: -.01em;
+  }
+  ::selection { background: var(--highlight); color: #07143E; }
+  .top-strip { display: none; }
+  .wrap { padding: 0 32px; }
+  .site-nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(16,18,23,.97); border-bottom: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(16px); }
+  .site-nav-inner { max-width: 1180px; min-height: 64px; padding: 0 28px; }
+  .site-nav-logo { display: inline-flex; align-items: center; gap: 11px; font-size: 23px; }
+  .site-nav-logo::before { content: ''; width: 13px; height: 13px; background: var(--highlight); clip-path: polygon(0 0,100% 0,100% 35%,35% 35%,35% 100%,0 100%); }
+  .site-nav-toggle { width: 30px; height: 18px; }
+  .site-nav-toggle span { height: 1px; background: var(--highlight); border-radius: 0; }
+  .site-nav-menu { background: var(--ink); border-top: 1px solid rgba(255,255,255,.10); }
+  .site-nav-menu a { max-width: 1180px; margin: 0 auto; padding: 15px 28px; color: rgba(255,255,255,.72); }
+  .site-nav-menu a:hover { color: var(--highlight); background: transparent; }
+  .eyebrow-bar { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding: 26px 0 18px; margin: 0; border-bottom: 1px solid var(--ink); }
+  .eyebrow-logo { height: 34px; margin: 0; }
+  .eyebrow-tagline { color: var(--ink); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+  .hero-demo { position: relative; margin: 28px 0 0; padding: 56px; overflow: hidden; border: 1px solid var(--ink); background: var(--ink); box-shadow: 12px 12px 0 rgba(16,18,23,.10); }
+  .hero-demo::before { content: 'BUILDPATH / 01'; position: absolute; top: 22px; left: 24px; color: var(--highlight); font: 500 9px/1 var(--font-mono); letter-spacing: .14em; }
+  .hero-demo::after { content: ''; position: absolute; top: -100px; right: 31%; width: 190px; height: 190px; border: 1px solid rgba(91,140,255,.42); transform: rotate(45deg); pointer-events: none; }
+  .hero-demo-grid { grid-template-columns: minmax(0,1.05fr) 420px; gap: 54px; align-items: center; }
+  .hero-demo-copy { text-align: left; }
+  .hero-badge { margin-bottom: 22px; border: 0; border-radius: 0; background: var(--highlight); color: #07143E; }
+  h1 { max-width: 660px; margin: 0 0 22px; color: #fff; font-size: clamp(54px,7.2vw,86px); font-weight: 600; line-height: .90; letter-spacing: -.035em; text-wrap: balance; }
+  .subhead { max-width: 620px; color: rgba(255,255,255,.68); font-size: 15px; line-height: 1.72; }
+  .hero-credibility { max-width: 520px; margin: 34px 0 0; color: rgba(255,255,255,.54); border-top-color: rgba(255,255,255,.18); }
+  .hero-ctas { justify-content: flex-start; }
+  .btn-primary, .demo-cta-btn { border: 1px solid var(--highlight); border-radius: 0; background: var(--highlight); color: #07143E; box-shadow: 5px 5px 0 #fff; font-family: var(--font-mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; transition: transform .14s ease, box-shadow .14s ease, background .14s ease; }
+  .btn-primary:hover, .demo-cta-btn:hover { background: #83A7FF; transform: translate(2px,2px); box-shadow: 3px 3px 0 #fff; }
+  .btn-secondary { border-radius: 0; border-color: rgba(255,255,255,.30); color: #fff; background: transparent; }
+  .btn-secondary:hover { border-color: var(--highlight); color: var(--highlight); background: transparent; }
+  .mockup-panel { border: 1px solid rgba(255,255,255,.28); border-radius: 0; box-shadow: 8px 8px 0 var(--highlight); }
+  .browser-chrome { border-bottom: 1px solid var(--rule); }
+  .widget-card { border-radius: 0; }
+  .section { padding: 84px 0; border-bottom: 1px solid var(--ink); }
+  .section--grouped { padding-top: 88px; }
+  .section--grouped-tight { padding-top: 56px; }
+  .section--loose { padding: 96px 0; }
+  .section-label { color: var(--blue); letter-spacing: .14em; }
+  .section-label::after { background: var(--ink); }
+  .section-title { max-width: 760px; font-size: clamp(42px,5.5vw,66px); font-weight: 600; line-height: .94; letter-spacing: -.025em; text-wrap: balance; }
+  .lede { max-width: 800px; font-size: 16px; line-height: 1.72; }
+  .feature-grid, .trust-grid, .preview-grid, .pricing-grid { gap: 1px; padding: 1px; background: var(--ink); }
+  .feature-card, .trust-item, .preview-card, .tier { border: 0; border-radius: 0; background: #fff; box-shadow: none; }
+  .feature-card, .trust-item { min-height: 210px; padding: 28px; }
+  .feature-card::before, .trust-item::before { display: block; margin-bottom: 42px; color: var(--blue); font: 500 10px var(--font-mono); letter-spacing: .12em; }
+  .feature-card:nth-child(1)::before { content: '01 / RANGE'; }
+  .feature-card:nth-child(2)::before { content: '02 / DETAIL'; }
+  .feature-card:nth-child(3)::before { content: '03 / CONTROL'; }
+  .trust-item:nth-child(1)::before { content: '01 / CLARITY'; }
+  .trust-item:nth-child(2)::before { content: '02 / RISK'; }
+  .trust-item:nth-child(3)::before { content: '03 / AUTHORITY'; }
+  .section-note { border-radius: 0; border-color: var(--ink); background: var(--blue-soft); }
+  .preview-card { min-height: 330px; padding: 32px; }
+  .preview-card-label { color: var(--blue); letter-spacing: .13em; }
+  .preview-mock-range { font-size: clamp(30px,4vw,42px); }
+  .demo-cta { border-radius: 0; border-color: var(--ink); background: #fff; box-shadow: 7px 7px 0 rgba(16,18,23,.10); }
+  .demo-cta-btn { box-shadow: 4px 4px 0 var(--ink); }
+  .demo-cta-btn:hover { box-shadow: 2px 2px 0 var(--ink); }
+  .steps-4 { gap: 1px; padding: 1px; background: var(--ink); }
+  .step { min-height: 250px; padding: 26px; border: 0; background: #fff; }
+  .step-num { color: var(--blue); font-size: 10px; letter-spacing: .14em; }
+  .step-title { margin-top: 56px; font-size: 16px; }
+  .tier { padding: 36px; }
+  .tier.featured { background: var(--ink); color: #fff; box-shadow: inset 0 0 0 1px var(--highlight); }
+  .tier.featured .tier-name, .tier.featured .tier-price, .tier.featured li { color: #fff; }
+  .tier.featured .tier-renewal, .tier.featured .tier-tagline, .tier.featured .tier-payment { color: rgba(255,255,255,.62); }
+  .tier.featured .tier-includes, .tier.featured li::before { color: var(--highlight); }
+  .addon-note, .annual-note { border-radius: 0; }
+  .final-cta { position: relative; overflow: hidden; border-radius: 0; padding: 58px 44px; background: var(--blue); text-align: left; }
+  .final-cta::after { content: ''; position: absolute; right: -70px; top: -90px; width: 210px; height: 210px; border: 1px solid rgba(255,255,255,.35); transform: rotate(45deg); }
+  .final-cta-title { max-width: 720px; font-size: clamp(42px,6vw,68px); font-weight: 600; line-height: .94; }
+  .final-cta-sub { max-width: 620px; color: rgba(255,255,255,.72); }
+  .site-footer-nav { justify-content: center; gap: 12px 34px; margin-top: 0; padding: 28px 40px; background: var(--ink); border-top: 1px solid rgba(255,255,255,.12); }
+  .site-footer-nav a { color: rgba(255,255,255,.58); }
+  .site-footer-nav a:hover { color: var(--highlight); }
+  .footer-bar { background: var(--ink); border-top-color: rgba(255,255,255,.10); }
+  .footer-credibility { color: rgba(255,255,255,.46); }
+  @media (max-width: 900px) {
+    .hero-demo { padding: 54px 34px 40px; }
+    .hero-demo-grid { grid-template-columns: 1fr; }
+    .mockup-panel { max-width: 520px; }
+    .steps-4 { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 680px) {
+    .wrap { padding: 0 18px; }
+    .site-nav-inner { padding: 0 18px; }
+    .eyebrow-bar { align-items: flex-start; flex-direction: column; gap: 10px; }
+    .hero-demo { margin-top: 18px; padding: 48px 22px 28px; box-shadow: 7px 7px 0 rgba(16,18,23,.10); }
+    h1 { font-size: clamp(50px,14vw,68px); }
+    .hero-ctas { align-items: stretch; }
+    .hero-ctas a { text-align: center; }
+    .section, .section--loose { padding: 66px 0; }
+    .feature-grid, .trust-grid, .preview-grid, .pricing-grid, .steps-4 { grid-template-columns: 1fr; }
+    .feature-card, .trust-item { min-height: 190px; }
+    .final-cta { padding: 42px 24px; }
+  }
 </style>
 </head>
 <body>
@@ -1199,7 +1305,7 @@
           <p class="preview-mock-lead-detail">2 photos attached</p>
         </div>
         <p class="preview-line">Name, phone, and job type &mdash; not a guess</p>
-        <p class="preview-line">Scope notes and photos, enough to put a quote together</p>
+        <p class="preview-line">Scope notes and photos, enough to decide the right follow-up</p>
         <p class="preview-line">Complex jobs flagged before they land in your inbox</p>
       </div>
     </div>
@@ -1346,9 +1452,6 @@
   <p class="footer-credibility">
     Built with hands-on construction industry experience and calibrated against real
     completed jobs, not guesswork.
-  </p>
-  <p class="footer-sheetfix">
-    Powered by <a href="https://sheetfix.co.nz/" target="_blank" rel="noopener">SheetFix</a>, spreadsheet fixes for small business.
   </p>
 </div>
 
