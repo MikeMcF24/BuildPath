@@ -252,7 +252,7 @@
   .btn-submit:hover { background: var(--blue-mid); }
   .btn-submit:disabled { opacity: 0.55; cursor: default; }
 
-  #intakeSection, #thanksSection, #errorSection { display: none; }
+  #thanksSection, #errorSection { display: none; }
 
   .thanks-box.error-box {
     border-color: var(--warn-border);
@@ -469,7 +469,10 @@
   .tier-option:first-child::before { content: 'TIER / 01'; }
   .tier-option:last-child::before { content: 'TIER / 02'; }
   .tier-option::after { content: 'SELECT'; position: absolute; right: 16px; top: 16px; color: var(--ink-faint); font: 500 8px var(--font-mono); letter-spacing: .12em; }
+  #soleTierOption::before { content: 'PLAN'; }
+  #soleTierOption::after { content: none; }
   .tier-option:hover { background-color: var(--blue-soft); }
+  #soleTierOption:hover { background-color: inherit; }
   .tier-option.selected { background-color: var(--ink); color: #fff; box-shadow: inset 0 0 0 1px var(--highlight); }
   .tier-option.selected::after { content: 'SELECTED'; color: var(--highlight); }
   .tier-option.selected .tier-option-name, .tier-option.selected .tier-option-price { color: #fff; }
@@ -536,35 +539,29 @@
   <div class="setup-intro">
     <span class="setup-kicker">CONTRACTOR SETUP / START HERE</span>
     <h1>Let's get your BuildPath tool set up.</h1>
-    <p class="subhead">Pick a tier, answer a short set of questions, and leave your details. I'll review your setup and come back with the best next step.</p>
+    <p class="subhead">Confirm your setup, answer a short set of questions, and leave your details. I'll review your setup and come back with the best next step.</p>
   </div>
 
-  <!-- ===================== STEP 1: TIER SELECTION ===================== -->
+  <!-- ===================== STEP 1: PLAN SUMMARY ===================== -->
   <div class="step-block">
-    <p class="step-label">Step 1 &mdash; choose your tier</p>
-    <div class="tier-options" id="tierOptions">
-      <div class="tier-option" data-tier="Standard">
-        <p class="tier-option-name">Standard</p>
-        <p class="tier-option-price">$449 setup incl. GST<br>then $149/year from renewal</p>
-        <p class="tier-option-desc">Live on your site fast &mdash; your rate, margin and job categories built in.</p>
-      </div>
-      <div class="tier-option" data-tier="Premium">
-        <p class="tier-option-name">Premium</p>
-        <p class="tier-option-price">$900 setup incl. GST<br>then $149/year from renewal</p>
-        <p class="tier-option-desc">Tuned to your exact rates, margins, and risk rules.</p>
+    <p class="step-label">Step 1 &mdash; your plan</p>
+    <div class="tier-options" id="tierOptions" style="grid-template-columns:1fr;max-width:360px">
+      <div class="tier-option selected" id="soleTierOption" data-tier="BuildPath" style="cursor:default">
+        <p class="tier-option-name">BuildPath</p>
+        <p class="tier-option-price">$1,499 setup incl. GST<br>then $300/year from renewal</p>
+        <p class="tier-option-desc">Everything included to get a calibrated, branded estimator live on your site.</p>
       </div>
     </div>
-    <p class="hint" style="margin-top:12px;">First year included in setup. The $149/year (incl. GST) fee then keeps your BuildPath page live, covering hosting, lead capture, and minor maintenance &mdash; it starts at your 12-month renewal, not on day one.</p>
-    <div class="setup-note">Not sure if your pricing information is ready? That is fine. Once you submit this form, I will send through the right setup sheet for either Standard or Premium and let you know what is needed.</div>
+    <p class="hint" style="margin-top:12px;">First year included in setup. The $300/year (incl. GST) fee then keeps your BuildPath page live, covering hosting, lead capture, and minor maintenance &mdash; it starts at your 12-month renewal, not on day one.</p>
+    <div class="setup-note">Not sure if your pricing information is ready? That is fine. Once you submit this form, I will send through the right setup sheet and let you know what is needed.</div>
   </div>
 
   <!-- ===================== STEP 2: INTAKE FORM ===================== -->
   <div class="step-block" id="intakeSection">
     <p class="step-label">Step 2 &mdash; your details</p>
-    <div class="setup-note">Not sure which tier fits? Choose the closest option. I'll review your setup and let you know if Standard is enough or if Premium makes more sense.</div>
     <form id="getStartedForm" action="https://formspree.io/f/mojoyopb" method="POST">
 
-      <input type="hidden" name="selectedTier" id="selectedTierInput">
+      <input type="hidden" name="selectedTier" id="selectedTierInput" value="BuildPath">
 
       <label for="contactName">Your name</label>
       <input type="text" id="contactName" name="name" autocomplete="name" required>
@@ -651,9 +648,8 @@
 // ============================================================
 const SUPPORT_EMAIL = "mikey.mcf@gmail.com";
 
-let selectedTier = null;
+let selectedTier = 'BuildPath';
 
-const tierOptions = document.getElementById('tierOptions');
 const intakeSection = document.getElementById('intakeSection');
 const getStartedForm = document.getElementById('getStartedForm');
 
@@ -683,21 +679,6 @@ if (SETUP_INCOMPLETE) {
 
 document.getElementById('supportEmailFallback').textContent =
   PLACEHOLDER_PATTERN.test(SUPPORT_EMAIL) ? '[EMAIL]' : SUPPORT_EMAIL;
-
-tierOptions.addEventListener('click', (e) => {
-  const card = e.target.closest('.tier-option');
-  if (!card) return;
-  tierOptions.querySelectorAll('.tier-option').forEach(c => c.classList.remove('selected'));
-  card.classList.add('selected');
-  selectedTier = card.dataset.tier;
-  document.getElementById('selectedTierInput').value = selectedTier;
-  revealIntake();
-});
-
-function revealIntake() {
-  intakeSection.style.display = 'block';
-  intakeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
 
 document.getElementById('getStartedForm').addEventListener('submit', async (e) => {
   e.preventDefault();
