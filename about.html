@@ -3,9 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Meet the builder behind BuildPath, a practical enquiry tool designed to give customers clearer price context and builders more useful project details.">
+<meta name="description" content="Meet the builder behind BuildPath. Built by a builder, for builders, so your website enquiries turn into real, signed jobs.">
 <title>About BuildPath: the builder behind the numbers.</title>
 <link rel="canonical" href="https://buildpath.nz/about.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://buildpath.nz/about.html">
+<meta property="og:title" content="About BuildPath: the builder behind the numbers.">
+<meta property="og:description" content="Meet the builder behind BuildPath. Built by a builder, for builders, so your website enquiries turn into real, signed jobs.">
+<meta property="og:image" content="https://buildpath.nz/ogimage.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -31,8 +37,8 @@
     --ink-muted:   #5B5D68;
     --ink-faint:   #8C8F99;
     --rule:        #DADCE3;
-    --bg:          #FFFFFF;
-    --bg-tint:     #F7F8FD;
+    --bg:          #F4F2EC;
+    --bg-tint:     #ECEAE3;
     --font-display: 'Big Shoulders Display', Arial, sans-serif;
     --font-body:    'Inter', Arial, sans-serif;
     --font-mono:    'IBM Plex Mono', monospace;
@@ -46,8 +52,8 @@
     font-family: var(--font-body);
     background-color: var(--bg);
     background-image:
-      linear-gradient(rgba(10,33,192,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(10,33,192,0.05) 1px, transparent 1px);
+      linear-gradient(rgba(16,18,23,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(16,18,23,0.045) 1px, transparent 1px);
     background-size: 48px 48px;
     color: var(--ink);
     line-height: 1.5;
@@ -90,7 +96,9 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: var(--blue);
+    background: rgba(16,18,23,.97);
+    border-bottom: 1px solid rgba(255,255,255,.14);
+    backdrop-filter: blur(16px);
   }
   .site-nav-inner {
     max-width: 640px;
@@ -133,7 +141,7 @@
   .site-nav-menu {
     max-height: 0;
     overflow: hidden;
-    background: var(--blue-mid);
+    background: var(--ink);
     transition: max-height 0.25s ease;
   }
   .site-nav-menu.open { max-height: 260px; }
@@ -332,92 +340,6 @@
   @media (max-width: 600px) {
     .site-footer-nav { flex-direction: column; gap: 12px; padding: 16px 20px; }
   }
-
-  /* ==========================================================
-     BUILDPATH 2026: BUILDER PROFILE / ORIGIN STORY
-     The original animated checklist and reveal are preserved.
-     ========================================================== */
-  :root {
-    --blue: #0A21C0;
-    --blue-mid: #2B5EEB;
-    --blue-soft: #EEF1FF;
-    --blue-border: #B9C3FF;
-    --highlight: #5B8CFF;
-    --paper: #F4F2EC;
-    --ink: #101217;
-    --ink-mid: #343842;
-    --ink-muted: #646A76;
-    --ink-faint: #8B919C;
-    --rule: #D2D4D9;
-    --bg: var(--paper);
-    --bg-tint: #ECEAE3;
-    --radius: 0;
-    --max: 1120px;
-  }
-  body { background-color: var(--paper); background-image: linear-gradient(rgba(16,18,23,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(16,18,23,.045) 1px,transparent 1px); background-size: 24px 24px; letter-spacing: -.01em; }
-  ::selection { background: var(--highlight); color: #07143E; }
-  .top-strip { display: none; }
-  .wrap { padding: 0 32px; }
-  .site-nav-bar { background: rgba(16,18,23,.97); border-bottom: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(16px); }
-  .site-nav-inner { max-width: 1180px; min-height: 64px; padding: 0 28px; }
-  .site-nav-logo { display: inline-flex; align-items: center; gap: 11px; font-size: 23px; }
-  .site-nav-logo::before { content: ''; width: 13px; height: 13px; background: var(--highlight); clip-path: polygon(0 0,100% 0,100% 35%,35% 35%,35% 100%,0 100%); }
-  .site-nav-toggle { width: 30px; height: 18px; }
-  .site-nav-toggle span { height: 1px; background: var(--highlight); border-radius: 0; }
-  .site-nav-menu { background: var(--ink); border-top: 1px solid rgba(255,255,255,.10); }
-  .site-nav-menu a { max-width: 1180px; margin: 0 auto; padding: 15px 28px; color: rgba(255,255,255,.72); }
-  .site-nav-menu a:hover { color: var(--highlight); background: transparent; }
-  .eyebrow-bar { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding: 26px 0 18px; margin: 0; border-bottom: 1px solid var(--ink); }
-  .eyebrow-logo { height: 34px; margin: 0; }
-  .eyebrow-tagline { color: var(--ink); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
-  .section--loose { padding: 70px 0 90px; }
-  .section-label { justify-content: flex-start; margin-bottom: 20px; color: var(--blue); letter-spacing: .14em; }
-  .about-title { max-width: 850px; margin: 0 0 42px; color: var(--ink); text-align: left; font-size: clamp(54px,7.5vw,88px); font-weight: 600; line-height: .90; letter-spacing: -.035em; }
-  .about-panel-wrap { display: block; }
-  .about-panel { position: relative; display: grid; grid-template-columns: minmax(0,1fr) 290px; width: 100%; max-width: none; min-height: 430px; padding: 42px; border: 1px solid var(--ink); border-radius: 0; background: var(--ink); box-shadow: 12px 12px 0 rgba(16,18,23,.10); overflow: hidden; }
-  .about-panel::before { content: 'PROFILE / BUILDER-FOUNDER'; position: absolute; top: 18px; left: 20px; color: var(--highlight); font: 500 9px var(--font-mono); letter-spacing: .14em; }
-  .checklist { justify-content: center; gap: 20px; margin: 20px 34px 0 0; }
-  .check-row { max-width: 590px; font-size: 14px; line-height: 1.6; color: #8EA7FF; }
-  .check-row.done { color: rgba(255,255,255,.78); }
-  .check-row .txt:after { background: var(--highlight); }
-  .check-icon .spinner { border-color: rgba(255,255,255,.20); border-top-color: var(--highlight); }
-  .check-icon svg path { stroke: var(--highlight); }
-  .about-reveal { justify-content: center; padding: 20px 0 0 34px; border-top: 0; border-left: 1px solid rgba(255,255,255,.16); }
-  .about-frame { width: 230px; border-radius: 0; border-color: rgba(255,255,255,.25); box-shadow: 7px 7px 0 var(--highlight); }
-  .about-idtag { color: rgba(255,255,255,.55); text-align: center; line-height: 1.5; }
-  .about-idtag b { color: var(--highlight); }
-  .about-watch-again { margin: 26px 0 0; color: var(--ink-muted); font: 500 10px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
-  .about-story { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; padding: 96px 0 20px; }
-  .about-story-label { color: var(--blue); font: 500 10px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; }
-  .about-story h2 { max-width: 430px; margin-top: 16px; font: 600 clamp(40px,5.5vw,64px)/.96 var(--font-display); letter-spacing: -.025em; }
-  .about-story-copy > p { max-width: 650px; margin-bottom: 18px; color: var(--ink-mid); font-size: 16px; line-height: 1.72; }
-  .principle-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; margin-top: 36px; padding: 1px; background: var(--ink); }
-  .principle { min-height: 190px; padding: 24px; background: #fff; }
-  .principle-num { display: block; margin-bottom: 48px; color: var(--blue); font: 500 9px var(--font-mono); letter-spacing: .12em; }
-  .principle strong { display: block; margin-bottom: 8px; font-size: 14px; }
-  .principle p { color: var(--ink-muted); font-size: 12.5px; line-height: 1.55; }
-  .site-footer-nav { justify-content: center; gap: 12px 34px; padding: 28px 40px; background: var(--ink); border-top-color: rgba(255,255,255,.12); }
-  .site-footer-nav a { color: rgba(255,255,255,.55); }
-  .site-footer-nav a:hover { color: var(--highlight); }
-  .footer-bar { justify-content: center; padding: 0 40px 34px; background: var(--ink); }
-  .footer-credibility { max-width: 680px; color: rgba(255,255,255,.46); text-align: center; }
-  @media (max-width: 780px) {
-    .about-panel { grid-template-columns: 1fr; }
-    .checklist { margin-right: 0; }
-    .about-reveal { margin-top: 30px; padding: 34px 0 0; border-left: 0; border-top: 1px solid rgba(255,255,255,.16); }
-    .about-story { grid-template-columns: 1fr; gap: 34px; }
-    .principle-grid { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 600px) {
-    .wrap { padding: 0 18px; }
-    .site-nav-inner { padding: 0 18px; }
-    .eyebrow-bar { align-items: flex-start; flex-direction: column; gap: 10px; }
-    .section--loose { padding: 54px 0 70px; }
-    .about-title { font-size: clamp(50px,14vw,68px); }
-    .about-panel { padding: 48px 22px 28px; box-shadow: 7px 7px 0 rgba(16,18,23,.10); }
-    .check-row { font-size: 12.5px; }
-    .about-story { padding-top: 72px; }
-  }
 </style>
 </head>
 <body>
@@ -474,7 +396,7 @@
 
         <div class="about-reveal" id="aboutReveal">
           <div class="about-frame" id="aboutFrame">
-            <img src="mike-buildpath.jpg" alt="Mike, founder of BuildPath">
+            <img src="mikebuildpath.jpg" alt="Mike, founder of BuildPath">
           </div>
           <p class="about-idtag" id="aboutIdtag"><b>Mike</b> &mdash; BuildPath, Wellington, New Zealand</p>
         </div>
@@ -482,22 +404,6 @@
     </div>
 
     <button class="about-watch-again" id="aboutWatchBtn">&#8635; Watch again</button>
-  </section>
-
-  <section class="about-story" aria-label="Why BuildPath exists">
-    <div>
-      <p class="about-story-label">Why BuildPath exists</p>
-      <h2>A better first conversation, before the first call.</h2>
-    </div>
-    <div class="about-story-copy">
-      <p>Builders do not need another lead-generation promise. They need customers to arrive with a more realistic idea of the job, the likely investment and what happens next.</p>
-      <p>BuildPath applies practical construction experience to that first website interaction. It gives customers useful context without turning an early enquiry into a fixed quote, while keeping the contractor in control of final scope and pricing.</p>
-      <div class="principle-grid">
-        <div class="principle"><span class="principle-num">01 / USEFUL</span><strong>Useful before clever</strong><p>The tool should make the next conversation easier, not add another system to manage.</p></div>
-        <div class="principle"><span class="principle-num">02 / HONEST</span><strong>A range, not a promise</strong><p>Customers get context while the limits of an early estimate stay visible.</p></div>
-        <div class="principle"><span class="principle-num">03 / YOURS</span><strong>Your pricing stays yours</strong><p>Contractor settings, judgement and final review remain at the centre.</p></div>
-      </div>
-    </div>
   </section>
 
 </div><!-- /wrap -->
