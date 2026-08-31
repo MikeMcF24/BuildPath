@@ -201,12 +201,22 @@
     padding: 12px 20px;
   }
   .site-nav-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
     font-family: var(--font-display);
     font-size: 19px;
     font-weight: 700;
     color: #fff;
     letter-spacing: -0.01em;
     text-decoration: none;
+  }
+  .site-nav-logo::before {
+    content: '';
+    width: 13px;
+    height: 13px;
+    background: #5B8CFF;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 35% 35%, 35% 100%, 0 100%);
   }
   .site-nav-toggle {
     background: none;
@@ -254,20 +264,6 @@
     border-top: 1px solid rgba(255,255,255,.16);
   }
   .site-nav-menu a:hover { background: rgba(255,255,255,.08); }
-
-  /* ── Nav bar aligned to buildpath-estimator-tool.html (master look) ── */
-  .site-nav-bar { background: rgba(16,18,23,.96); }
-  .site-nav-inner { max-width: 1180px; min-height: 64px; padding: 0 28px; }
-  .site-nav-logo { display: inline-flex; align-items: center; gap: 11px; font-size: 23px; letter-spacing: -.02em; }
-  .site-nav-logo::before { content: ''; width: 13px; height: 13px; background: #5B8CFF; clip-path: polygon(0 0, 100% 0, 100% 35%, 35% 35%, 35% 100%, 0 100%); }
-  .site-nav-toggle { width: 30px; height: 18px; }
-  .site-nav-toggle span { height: 1px; background: #5B8CFF; }
-  .site-nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-  .site-nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-  .site-nav-menu { border-top: 1px solid rgba(255,255,255,.12); }
-  .site-nav-menu.open { max-height: 280px; }
-  .site-nav-menu a { max-width: 1180px; margin: 0 auto; padding: 15px 28px; color: rgba(255,255,255,.78); border-top-color: rgba(255,255,255,.08); }
-  .site-nav-menu a:hover { color: #5B8CFF; background: transparent; }
 </style>
 </head>
 <body>
