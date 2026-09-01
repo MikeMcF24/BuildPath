@@ -447,19 +447,15 @@
   }
   body { background-color: var(--paper); background-image: linear-gradient(rgba(16,18,23,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(16,18,23,.045) 1px,transparent 1px); background-size: 24px 24px; letter-spacing: -.01em; }
   ::selection { background: var(--highlight); color: #07143E; }
-  .top-strip { display: none; }
   .wrap { padding: 0 32px 100px; }
-  .site-nav-bar { background: rgba(16,18,23,.96); border-bottom: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(16px); }
+  .site-nav-bar { background: rgba(16,18,23,.97); border-bottom: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(16px); }
   .site-nav-inner { max-width: 1180px; min-height: 64px; padding: 0 28px; }
-  .site-nav-logo { display: inline-flex; align-items: center; gap: 11px; font-size: 23px; letter-spacing: -.02em; }
+  .site-nav-logo { display: inline-flex; align-items: center; gap: 11px; font-size: 23px; }
   .site-nav-logo::before { content: ''; width: 13px; height: 13px; background: var(--highlight); clip-path: polygon(0 0,100% 0,100% 35%,35% 35%,35% 100%,0 100%); }
   .site-nav-toggle { width: 30px; height: 18px; }
   .site-nav-toggle span { height: 1px; background: var(--highlight); border-radius: 0; }
-  .site-nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-  .site-nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-  .site-nav-menu { background: var(--ink); border-top: 1px solid rgba(255,255,255,.12); }
-  .site-nav-menu.open { max-height: 280px; }
-  .site-nav-menu a { max-width: 1180px; margin: 0 auto; padding: 15px 28px; color: rgba(255,255,255,.78); border-top-color: rgba(255,255,255,.08); }
+  .site-nav-menu { background: var(--ink); border-top: 1px solid rgba(255,255,255,.10); }
+  .site-nav-menu a { max-width: 1180px; margin: 0 auto; padding: 15px 28px; color: rgba(255,255,255,.72); }
   .site-nav-menu a:hover { color: var(--highlight); background: transparent; }
   .eyebrow-bar { display: flex; align-items: center; justify-content: space-between; padding: 26px 0 18px; border-bottom: 1px solid var(--ink); }
   .eyebrow-logo { height: 34px; margin: 0; }
