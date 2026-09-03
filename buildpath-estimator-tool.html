@@ -276,8 +276,6 @@
     *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   }
 
-  .top-strip { height: 5px; background: var(--blue); }
-
   /* ── Site nav bar (header, hamburger) ── */
   .site-nav-bar {
     position: sticky;
@@ -807,6 +805,27 @@
   .site-footer-nav a { color: rgba(255,255,255,.58); }
   .site-footer-nav a:hover { color: var(--signal); }
 
+  /* Powered by BuildPath: separate from siteFooterNav on purpose, since
+     that nav is hidden for real contractors (it's aimed at prospective
+     contractors, not their customers). This small line is brand
+     attribution and stays visible for every contractorId, demo or live. */
+  .powered-by-bar {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,.10);
+    padding: 14px 40px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .powered-by-bar a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .04em;
+    color: rgba(255,255,255,.42);
+    text-decoration: none;
+  }
+  .powered-by-bar a:hover { color: var(--signal); }
+
   /* --- Responsive layout --- */
   @media (max-width: 760px) {
     .wrap { padding: 30px 18px 80px; }
@@ -866,7 +885,6 @@
     <a href="get-started.html">Get started</a>
   </nav>
 </div>
-<div class="top-strip"></div>
 <div id="contractorBackLink"></div>
 
 <div class="blueprint-bg"></div>
@@ -1573,6 +1591,10 @@ document.getElementById('leadForm').addEventListener('submit', async (e) => {
   <a href="get-started.html">Get started</a>
   <a href="terms-privacy.html">Terms &amp; Privacy</a>
 </nav>
+
+<div class="powered-by-bar">
+  <a href="https://buildpath.nz" target="_blank" rel="noopener">Powered by BuildPath</a>
+</div>
 
 <script>
 (function(){
