@@ -788,10 +788,78 @@
   .confirm-prompt .hint { color: rgba(255,255,255,.58); }
   .btn-confirm-yes, .btn-confirm-no { border-color: rgba(255,255,255,.25); background: transparent; color: #fff; }
   .btn-confirm-yes:hover, .btn-confirm-no:hover { border-color: var(--signal); color: var(--signal); }
+
+  /* --- Loading: an extending/retracting tape measure, since a plain
+     spinner next to the button is too easy to miss on mobile. The fill
+     bar extends across the ruler track then snaps back, like a real
+     tape measure, while the step text underneath reports real progress
+     rather than a vague "please wait". */
+  .loading {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 22px;
+    padding: 26px 24px;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+  }
+  .loading-ruler {
+    position: relative;
+    height: 20px;
+    overflow: hidden;
+    background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.28) 0 1px, transparent 1px 12px);
+    background-position: bottom;
+    background-size: 100% 9px;
+    background-repeat: repeat-x;
+    border-bottom: 1px solid rgba(255,255,255,.3);
+  }
+  .loading-ruler-fill {
+    position: absolute;
+    top: 0; bottom: 1px; left: 0;
+    width: 0%;
+    background: var(--signal);
+    animation: rulerExtend 2.6s cubic-bezier(.65,0,.35,1) infinite;
+  }
+  .loading-ruler-tab {
+    position: absolute;
+    right: -1px; top: 50%;
+    transform: translateY(-50%);
+    width: 7px; height: 18px;
+    background: #fff;
+  }
+  @keyframes rulerExtend {
+    0%   { width: 0%; }
+    55%  { width: 100%; }
+    65%  { width: 100%; }
+    78%  { width: 3%; }
+    100% { width: 0%; }
+  }
+  .loading-text {
+    font: 600 12.5px var(--font-mono);
+    letter-spacing: .03em;
+    color: #fff;
+  }
   .correction-box textarea, .lead-form input { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.25); color: #fff; }
   .correction-box label, .lead-form label { color: #fff; }
   .lead-form-note { color: var(--signal); text-align: left; }
   .consent-row label { color: rgba(255,255,255,.72); }
+
+  /* #leadConfirm reuses the generic .card class for layout, but that class
+     sets an explicit white background — wrong here, since this card sits
+     inside the dark .result-card, which sets color:#fff on everything
+     below it. White text on a white background is invisible, which is
+     exactly what was happening. Styling #leadConfirm directly (an ID
+     selector, so it can't lose this fight again) fixes the contrast and
+     matches the result card's own dark, signal-accented look. */
+  #leadConfirm {
+    background: var(--ink);
+    background-image: none;
+    border: 1px solid rgba(255,255,255,.25);
+    border-top: 3px solid var(--signal);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.55;
+  }
 
   /* --- Footer --- */
   .site-footer-nav {
@@ -998,8 +1066,10 @@
     <button type="submit" class="btn-primary" id="submitBtn">Show my ballpark →</button>
 
     <div class="loading" id="loadingMsg">
-      <div class="spinner"></div>
-      <span id="loadingText">Working out a range from what you've shared…</span>
+      <div class="loading-ruler" aria-hidden="true">
+        <div class="loading-ruler-fill"><span class="loading-ruler-tab"></span></div>
+      </div>
+      <span class="loading-text" id="loadingText">Working out a range from what you've shared…</span>
     </div>
   </form>
 
@@ -1052,7 +1122,7 @@
       <button type="submit" class="btn-secondary" id="leadSubmitBtn">Send my details</button>
       <p class="lead-error" id="leadError" style="display:none;">Couldn't send your details just now — please try again in a moment.</p>
     </form>
-    <div class="card" id="leadConfirm" style="display:none;">Thanks — we'll be in touch about this job.</div>
+    <div class="card" id="leadConfirm" style="display:none;"></div>
   </div>
 
   <!-- ===================== NEEDS REVIEW CARD ===================== -->
@@ -1162,6 +1232,18 @@ const CONFIG = {
 // business — showing it to an end customer of a live contractor (someone
 // who just wants a price range) is confusing and irrelevant, so it's
 // hidden the same way, for the same reason.
+// The lead-sent confirmation message also differs by context: the public
+// demo is a prospective contractor trying the tool out for themselves, so
+// it gets a warmer, more personal line from Mike. A live contractor's own
+// customer gets the plain, generic confirmation — there's no real person
+// on the other end of the demo form to promise a callback from.
+const leadConfirmEl = document.getElementById('leadConfirm');
+if (leadConfirmEl) {
+  leadConfirmEl.textContent = (CONFIG.contractorId === 'demo')
+    ? "Cheers, got it! I'll give you a call soon to talk through your building dreams. Me and the team look forward to working with you :)"
+    : "Thanks — we'll be in touch about this job.";
+}
+
 if (CONFIG.contractorId !== 'demo') {
   const demoBanner = document.getElementById('demoBanner');
   if (demoBanner) demoBanner.style.display = 'none';
