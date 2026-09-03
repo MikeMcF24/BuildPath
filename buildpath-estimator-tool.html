@@ -1497,19 +1497,28 @@ async function runEstimate(payload, { isResubmit = false } = {}) {
     if (data.needsReview) {
       document.getElementById('reviewReasons').textContent = data.reasonText ||
         'A few things about this job are worth a quick chat first — site access, scope, or timing.';
-      show(document.getElementById('reviewCard'));
+      const reviewCardEl = document.getElementById('reviewCard');
+      show(reviewCardEl);
+      // Scrolled while the loading overlay still covers the screen, so the
+      // page is already in the right spot the instant the overlay lifts —
+      // no visible jump, and no scrolling for the customer to do themselves.
+      reviewCardEl.scrollIntoView({ behavior: 'auto', block: 'start' });
     } else if (data.error) {
       throw new Error('Worker returned an error');
     } else {
       lastEstimateResult = data.result;
       lastRiskSeverity = data.risk;
       renderResult(data.result, data.risk);
-      show(document.getElementById('resultCard'));
+      const resultCardEl = document.getElementById('resultCard');
+      show(resultCardEl);
       show(document.getElementById('confirmPrompt'));
+      resultCardEl.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
   } catch (err) {
     console.error('Estimate request failed:', err);
-    show(document.getElementById('errorCard'));
+    const errorCardEl = document.getElementById('errorCard');
+    show(errorCardEl);
+    errorCardEl.scrollIntoView({ behavior: 'auto', block: 'start' });
   } finally {
     if (isResubmit) { updateBtn.disabled = false; updateBtn.textContent = 'Update my estimate →'; }
     else { submitBtn.disabled = false; }
