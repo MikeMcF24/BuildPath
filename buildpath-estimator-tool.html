@@ -124,7 +124,6 @@
   .hint { font-size: 12.5px; color: var(--ink-faint); margin: -3px 0 8px; }
 
   #contractorBackLink { max-width: 720px; margin: 0 auto; padding: 14px 20px 0; }
-  .contractor-logo { display: block; height: 28px; width: auto; margin: 0 0 8px; }
   .contractor-back-link {
     display: inline-block; font-size: 13.5px; font-weight: 500;
     color: var(--ink-mid); text-decoration: none;
@@ -470,7 +469,6 @@
   .site-nav-menu a:hover { color: var(--signal); background: transparent; }
 
   #contractorBackLink { max-width: 980px; padding: 24px 32px 0; }
-  .contractor-logo { height: 34px; margin: 0 0 10px; }
   .contractor-back-link {
     font: 500 11px/1.4 var(--font-mono);
     letter-spacing: .08em;
@@ -503,6 +501,17 @@
     font: 500 11px var(--font-mono);
     color: var(--signal);
     letter-spacing: .12em;
+  }
+  /* When a contractor logo is shown in this corner, the "01" step marker
+     steps aside so the two don't overlap. */
+  .intro-box.has-logo::before { display: none; }
+  .intro-box-logo {
+    position: absolute;
+    top: 20px;
+    right: 28px;
+    height: 60px;
+    width: auto;
+    z-index: 2;
   }
   .intro-box::after {
     content: '';
@@ -901,6 +910,7 @@
     .wrap { padding: 30px 18px 80px; }
     #contractorBackLink { padding: 18px 18px 0; }
     .intro-box { min-height: 0; grid-template-columns: 1fr; padding: 34px 26px 30px; box-shadow: 7px 7px 0 rgba(16,18,23,.10); }
+    .intro-box-logo { top: 18px; right: 20px; height: 38px; }
     .hero, .demo-banner { grid-column: 1; grid-row: auto; }
     .hero h1 { font-size: clamp(46px, 14vw, 68px); }
     .demo-banner { margin-top: 28px; padding: 16px 0 0; border-left: 0; border-top: 1px solid rgba(255,255,255,.20); }
@@ -1259,19 +1269,20 @@ if (CONFIG.contractorId !== 'demo') {
   if (siteFooterNav) siteFooterNav.style.display = 'none';
 }
 
-// Contractor logo — shown above the back link when a safe image URL is
-// passed via ?logoUrl=. Same isSafeHttpUrl() validation as returnUrl,
-// same createElement approach, never innerHTML. Independent of whether
-// returnUrl is also present, though in practice a contractor's real link
-// will always carry both together.
+// Contractor logo — shown in the top right corner of the dark intro box,
+// next to the contractor's own heading, when a safe image URL is passed
+// via ?logoUrl=. Same isSafeHttpUrl() validation as returnUrl, same
+// createElement approach, never innerHTML. The "01" step marker in that
+// same corner is hidden via the has-logo class so the two never overlap.
 if (LOGO_URL && isSafeHttpUrl(LOGO_URL)) {
-  const logoContainer = document.getElementById('contractorBackLink');
-  if (logoContainer) {
+  const introBox = document.querySelector('.intro-box');
+  if (introBox) {
+    introBox.classList.add('has-logo');
     const logo = document.createElement('img');
-    logo.className = 'contractor-logo';
+    logo.className = 'intro-box-logo';
     logo.src = LOGO_URL;
     logo.alt = RETURN_BUSINESS_NAME ? RETURN_BUSINESS_NAME.trim() : 'Contractor logo';
-    logoContainer.appendChild(logo);
+    introBox.appendChild(logo);
   }
 }
 
@@ -1718,7 +1729,7 @@ document.getElementById('leadForm').addEventListener('submit', async (e) => {
 </nav>
 
 <div class="powered-by-bar">
-  <a href="https://buildpath.nz" target="_blank" rel="noopener">Powered by BuildPath</a>
+  <a href="https://buildpath.nz" target="_blank" rel="noopener">Powered by our friends at BuildPath</a>
 </div>
 
 <script>
