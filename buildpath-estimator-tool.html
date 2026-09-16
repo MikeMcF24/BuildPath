@@ -509,7 +509,7 @@
     position: absolute;
     top: 20px;
     right: 28px;
-    height: 60px;
+    height: 80px;
     width: auto;
     z-index: 2;
   }
@@ -910,7 +910,7 @@
     .wrap { padding: 30px 18px 80px; }
     #contractorBackLink { padding: 18px 18px 0; }
     .intro-box { min-height: 0; grid-template-columns: 1fr; padding: 34px 26px 30px; box-shadow: 7px 7px 0 rgba(16,18,23,.10); }
-    .intro-box-logo { top: 18px; right: 20px; height: 38px; }
+    .intro-box-logo { top: 18px; right: 20px; height: 50px; }
     .hero, .demo-banner { grid-column: 1; grid-row: auto; }
     .hero h1 { font-size: clamp(46px, 14vw, 68px); }
     .demo-banner { margin-top: 28px; padding: 16px 0 0; border-left: 0; border-top: 1px solid rgba(255,255,255,.20); }
@@ -953,7 +953,7 @@
 <body>
 <div class="site-nav-bar" id="siteNavBar">
   <div class="site-nav-inner">
-    <span class="site-nav-logo">BuildPath</span>
+    <a class="site-nav-logo" href="https://buildpath.nz">BuildPath</a>
     <button class="site-nav-toggle" id="siteNavToggle" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -1263,8 +1263,15 @@ if (leadConfirmEl) {
 if (CONFIG.contractorId !== 'demo') {
   const demoBanner = document.getElementById('demoBanner');
   if (demoBanner) demoBanner.style.display = 'none';
-  const siteNavBar = document.getElementById('siteNavBar');
-  if (siteNavBar) siteNavBar.style.display = 'none';
+  // The BuildPath logo stays visible and clickable even for a live
+  // contractor's customers (links back to buildpath.nz) — Borough
+  // Builders were fine with the attribution. What's still hidden is the
+  // hamburger menu itself: "Home / Try the tool / About / Get started"
+  // is aimed at prospective contractors, not this customer.
+  const siteNavToggle = document.getElementById('siteNavToggle');
+  if (siteNavToggle) siteNavToggle.style.display = 'none';
+  const siteNavMenu = document.getElementById('siteNavMenu');
+  if (siteNavMenu) siteNavMenu.style.display = 'none';
   const siteFooterNav = document.getElementById('siteFooterNav');
   if (siteFooterNav) siteFooterNav.style.display = 'none';
 }
