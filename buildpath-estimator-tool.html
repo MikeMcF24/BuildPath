@@ -790,6 +790,34 @@
   /* --- Results --- */
   .result-card { background: var(--ink); color: #fff; border-color: var(--ink); }
   .result-eyebrow { color: var(--signal); }
+  .result-reminder { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 14px; }
+  .range-finder-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--signal);
+    color: var(--signal-ink);
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.4;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+  }
+  .range-finder-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(7,20,62,.18);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font: 700 12px var(--font-mono);
+  }
+  @media (max-width: 760px) {
+    .range-finder-banner { font-size: 14px; padding: 11px 14px; }
+  }
   .job-category-label { color: rgba(255,255,255,.55); }
   .range { color: #fff; font-size: clamp(52px, 10vw, 84px); letter-spacing: -.025em; }
   .section-label { margin-top: 28px; color: var(--signal); }
@@ -1080,6 +1108,10 @@
   <!-- ===================== RESULT CARD ===================== -->
   <div class="card result-card" id="resultCard">
     <div class="result-eyebrow">Your ballpark</div>
+    <div class="range-finder-banner" id="rangeFinderBanner">
+      <span class="range-finder-icon" aria-hidden="true">i</span>
+      This is a range to show where the job could land, not a quote.
+    </div>
     <div class="job-category-label" id="jobCategoryLabel">Job category</div>
     <div class="range" id="rangeValue">—</div>
     <span class="confidence-tag confidence-standard" id="confidenceTag">Standard confidence</span>
