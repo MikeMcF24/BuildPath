@@ -919,7 +919,7 @@
   </div>
 
   <div class="trust-bar">
-    <strong>Free analysis included</strong> — no commitment needed. Quick Fix $149 · Full Fix or Build $299 · Full Build + Brand $499 (all incl GST).
+    <strong>Free analysis included</strong> — no commitment needed. Quick Fix <span data-price="149">$149</span> · Full Fix or Build <span data-price="299">$299</span> · Full Build + Brand <span data-price="499">$499</span> (all incl GST).
   </div>
 
   <div class="progress-wrap">
@@ -1474,7 +1474,13 @@ Calibrate language to their comfort level — simple for beginners, technical fo
   // To end it early, change the line below to: window.SALE_ON = false;
   var SALE_END = new Date('2026-11-01T00:00:00+13:00');
   window.SALE_ON = new Date() < SALE_END;
-  if (window.SALE_ON) document.body.classList.add('sale-on');
+  if (window.SALE_ON) {
+    document.body.classList.add('sale-on');
+    document.querySelectorAll('span[data-price]').forEach(function(el) {
+      var full = Number(el.getAttribute('data-price'));
+      el.innerHTML = '<s>$' + full + '</s> $' + Math.round(full / 2);
+    });
+  }
 </script>
 </body>
 </html>
