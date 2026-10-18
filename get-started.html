@@ -514,6 +514,12 @@
     .step-block { padding: 26px 20px; }
     .tier-options { grid-template-columns: 1fr; }
   }
+  .tester-box { margin: 0 0 24px; padding: 22px 24px; background: var(--highlight); color: #07143E; border: 1px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); }
+  .tester-box[hidden] { display: none; }
+  .tester-box-kicker { margin: 0 0 6px; font: 500 11px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
+  .tester-box-title { margin: 0 0 12px; font: 700 34px/1 var(--font-display); text-transform: uppercase; color: var(--ink); }
+  .tester-box-text { margin: 0; font-size: 14.5px; line-height: 1.55; }
+  .tester-box-text + .tester-box-text { margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -550,6 +556,12 @@
   <!-- ===================== STEP 1: PLAN SUMMARY ===================== -->
   <div class="step-block">
     <p class="step-label">Step 1 &mdash; your plan</p>
+    <div class="tester-box" id="testerBox" hidden>
+      <p class="tester-box-kicker">Tester spot &middot; 3 only</p>
+      <p class="tester-box-title">Free for 3 months</p>
+      <p class="tester-box-text">No pressure, opt out at any stage. All I ask is some honest feedback, like a quick chat partway through and another at the end.</p>
+      <p class="tester-box-text">If you keep it after that, setup is half price: <strong>$749 instead of $1,499</strong>. That covers your next 12 months, then it's $300/year.</p>
+    </div>
     <div class="tier-options" id="tierOptions" style="grid-template-columns:1fr;max-width:360px">
       <div class="tier-option selected" id="soleTierOption" data-tier="BuildPath" style="cursor:default">
         <p class="tier-option-name">BuildPath</p>
@@ -601,7 +613,7 @@
   <!-- ===================== ERROR ===================== -->
   <div id="errorSection">
     <div class="thanks-box error-box">
-      <p>Something went wrong sending the form. Please email me directly at <span class="placeholder" id="supportEmailFallback">[EMAIL]</span> and I'll come back to you.</p>
+      <p>Something went wrong sending the form. Please email me directly at <span class="placeholder" id="supportEmailFallback">hello@buildpath.nz</span> and I'll come back to you.</p>
     </div>
   </div>
 
@@ -609,16 +621,25 @@
 
 <script>
 // ============================================================
-// SUPPORT CONTACT — the real email shown if the form ever fails
-// to submit. TODO: replace this with your real contact email
-// before this page goes live.
+// SUPPORT CONTACT: the email shown if the form ever fails to submit.
 // ============================================================
-const SUPPORT_EMAIL = "mikey.mcf@gmail.com";
+const SUPPORT_EMAIL = "hello@buildpath.nz";
 
 let selectedTier = 'BuildPath';
 
 const intakeSection = document.getElementById('intakeSection');
 const getStartedForm = document.getElementById('getStartedForm');
+
+// ============================================================
+// TESTER SPOTS: the homepage "Grab a spot" links add ?spot=tester.
+// Shows the tester offer and tags the enquiry as "BuildPath tester"
+// so it stands out in Formspree. Everyone else sees the normal page.
+// ============================================================
+if (new URLSearchParams(window.location.search).get('spot') === 'tester') {
+  selectedTier = 'BuildPath tester';
+  document.getElementById('selectedTierInput').value = selectedTier;
+  document.getElementById('testerBox').hidden = false;
+}
 
 // ============================================================
 // PRODUCTION SAFETY CHECK
