@@ -146,11 +146,20 @@
       line.textContent = 'Pop your numbers in to see what dud visits cost you.';
       return;
     }
-    var trips = Math.ceil(SETUP / perVisit);
-    var v = Math.round(visits * 10) / 10;
-    line.innerHTML = 'At <strong>' + money(rate) + '/hr</strong>, ' + v + ' dud visit' + (v === 1 ? '' : 's') +
-      ' a month ' + (v === 1 ? 'costs' : 'cost') + ' you <strong>' + money(year) + ' a year</strong>. BuildPath\'s setup is covered after <strong>' +
-      trips + ' trip' + (trips === 1 ? '' : 's') + '</strong> you don\'t have to make. That\'s before fuel.';
+    // Show the lost time in hours, then as weeks (40 hrs) or days (8 hrs) of work
+    var hrs = Math.round(visits * hours * MONTHS);
+    var worth = '';
+    if (hrs >= 40) {
+      var weeks = hrs / 40, whole = Math.floor(weeks);
+      if (weeks === whole) worth = (whole === 1 ? 'a full week' : whole + ' weeks') + ' of work';
+      else worth = 'over ' + (whole === 1 ? 'a week' : whole + ' weeks') + ' of work';
+    } else if (hrs >= 8) {
+      var days = Math.round(hrs / 8);
+      worth = 'about ' + days + ' day' + (days === 1 ? '' : 's') + ' of work';
+    }
+    line.innerHTML = 'That\'s <strong>' + hrs + ' hour' + (hrs === 1 ? '' : 's') + ' a year</strong>' +
+      (worth ? ', ' + worth + ',' : '') + ' on jobs that were never going ahead. BuildPath is ' +
+      money(SETUP) + ' to set up, then $300 a year.';
   }
   [rateEl, visitsEl, hoursEl].forEach(function (el) {
     el.addEventListener('input', update);
