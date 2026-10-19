@@ -530,10 +530,11 @@
     margin: 0;
     padding: 0 0 0 18px;
     border: 0;
-    border-left: 1px solid rgba(255,255,255,.23);
-    color: rgba(255,255,255,.60);
-    font: 400 11px/1.65 var(--font-mono);
+    border-left: 2px solid #E8A33D;
+    color: #E8A33D;
+    font: 400 12.5px/1.65 var(--font-mono);
   }
+  .demo-banner-label { display: block; margin-bottom: 8px; font: 600 10.5px/1.3 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
   .hero { grid-column: 1; grid-row: 1; align-self: end; }
   .hero::before { margin-bottom: 18px; color: var(--signal); letter-spacing: .16em; }
   .hero h1 {
@@ -934,7 +935,7 @@
     .intro-box-logo { top: 18px; right: 20px; height: 50px; }
     .hero, .demo-banner { grid-column: 1; grid-row: auto; }
     .hero h1 { font-size: clamp(46px, 14vw, 68px); }
-    .demo-banner { margin-top: 28px; padding: 16px 0 0; border-left: 0; border-top: 1px solid rgba(255,255,255,.20); }
+    .demo-banner { margin-top: 28px; padding: 16px 0 0; border-left: 0; border-top: 2px solid #E8A33D; }
     .card { padding: 28px 22px; box-shadow: 7px 7px 0 rgba(16,18,23,.10); }
     .choice-grid { grid-template-columns: repeat(3, 1fr); }
     .choice-card { min-height: 0; }
@@ -993,11 +994,12 @@
 
   <div class="intro-box">
     <div class="demo-banner" id="demoBanner">
-      This is the same type of form your customers will use on your website. Right now, it runs on general industry rates so you can test the flow for yourself. Once BuildPath is set up for your business, the ballpark range is guided by your own pricing, job categories, GST, and risk rules.
+      <span class="demo-banner-label">For builders</span>
+      This is the same type of form your customers will use on your website. Right now, it runs on general industry rates so you can test the flow for yourself. Once BuildPath is set up for your business, the ballpark range is guided by your own pricing, job categories, GST and risk rules.
     </div>
     <div class="hero">
-      <h1 id="heroHeading">Get a clear ballpark range before<br>you book a quote.</h1>
-      <p id="heroSubtext">Tell us about your project, add a photo if you have one, and we'll give you a clear starting range. Final pricing is confirmed after a proper review.</p>
+      <h1 id="heroHeading">Get a clear ballpark range before you book a quote.</h1>
+      <p id="heroSubtext">Tell us about your project and add a photo if you have one. We'll give you a clear starting range. Final pricing is confirmed after a proper review.</p>
     </div>
   </div>
 
