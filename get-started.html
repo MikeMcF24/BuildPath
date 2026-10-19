@@ -494,6 +494,7 @@
   <nav class="site-nav-menu" id="siteNavMenu" aria-label="BuildPath site links">
     <a href="index.html">Home</a>
     <a href="buildpath-estimator-tool.html">Try the tool</a>
+    <a href="pricing.html">Pricing</a>
     <a href="about.html">About</a>
     <a href="get-started.html">Get started</a>
   </nav>
@@ -517,7 +518,7 @@
       <p class="tester-box-kicker">Tester spot &middot; 5 only</p>
       <p class="tester-box-title">Free for 6 months from go-live</p>
       <p class="tester-box-text">Walk away at any stage and you owe nothing. In return, put the tool where your customers will see it and have a few chats with me about how it's going and what would make it better. If it's working for you, I'd like a short quote and your logo for the site.</p>
-      <p class="tester-box-text">Keep it after that for <strong>$300/year</strong>, the same as everyone's renewal. You skip the $1,499 setup fee and pay nothing upfront.</p>
+      <p class="tester-box-text">Keep it after that for <strong>$300/year incl. GST</strong>, the same as everyone's renewal. You skip the $1,499 setup fee and pay nothing upfront.</p>
       <p class="tester-box-text">Setup is easy: fill in the template I send you and that sets up your tool around your business. I'm after builders around NZ whose websites get some enquiries, so spots go on fit. Apply below or email <a href="mailto:hello@buildpath.nz">hello@buildpath.nz</a>.</p>
     </div>
     <div class="tier-options" id="tierOptions" style="grid-template-columns:1fr;max-width:360px">
@@ -527,7 +528,7 @@
         <p class="tier-option-desc">Everything included to get a calibrated, branded ballpark tool live on your site.</p>
       </div>
     </div>
-    <p class="hint" style="margin-top:12px;">First year included in setup. The $300/year (incl. GST) fee then keeps your BuildPath page live, covering hosting, lead capture and minor maintenance. It starts at your 12-month renewal, not on day one.</p>
+    <p class="hint" id="planHint" style="margin-top:12px;">First year included in setup. Setup is paid 50% upfront and 50% before go-live. The $300/year (incl. GST) fee then keeps your BuildPath page live, covering hosting, lead capture and minor maintenance. It starts at your 12-month renewal, not on day one.</p>
     <div class="setup-note">Not sure if your pricing information is ready? That is fine. Once you submit this form, I will send through the right setup sheet and let you know what is needed.</div>
   </div>
 
@@ -597,6 +598,9 @@ if (new URLSearchParams(window.location.search).get('spot') === 'tester') {
   selectedTier = 'BuildPath tester';
   document.getElementById('selectedTierInput').value = selectedTier;
   document.getElementById('testerBox').hidden = false;
+  // Testers skip the setup fee, so hide the $1,499 plan card and its note
+  document.getElementById('tierOptions').style.display = 'none';
+  document.getElementById('planHint').style.display = 'none';
 }
 
 // ============================================================
@@ -672,6 +676,7 @@ document.getElementById('getStartedForm').addEventListener('submit', async (e) =
     <nav class="footer-links" aria-label="Footer">
       <a href="index.html">Home</a>
       <a href="buildpath-estimator-tool.html">Try the tool</a>
+      <a href="pricing.html">Pricing</a>
       <a href="about.html">About</a>
       <a href="get-started.html">Get started</a>
       <a href="terms-privacy.html">Terms &amp; Privacy</a>
