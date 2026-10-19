@@ -894,6 +894,23 @@
     line-height: 1.55;
   }
 
+  /* Demo only: shown instead of the lead form on the public demo, since
+     demo leads never get sent anywhere. Explains what a builder's own
+     version does and points them to hello@buildpath.nz. */
+  .demo-contact p { margin: 0 0 12px; font-size: 14px; line-height: 1.55; color: rgba(255,255,255,.76); }
+  .demo-contact .demo-contact-panel {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.18);
+    border-top: 3px solid var(--signal);
+    padding: 18px 20px;
+  }
+  .demo-contact .demo-contact-panel p { color: #fff; }
+  .demo-contact .demo-contact-panel p:last-child { margin-bottom: 0; }
+  .demo-contact .demo-contact-panel .demo-contact-heading { font-size: 18px; font-weight: 600; line-height: 1.35; color: var(--signal); }
+  .demo-contact .demo-contact-ask { margin-top: 18px; color: #fff; font-weight: 600; }
+  .demo-contact .btn-secondary { display: flex; align-items: center; justify-content: center; text-decoration: none; margin: 4px 0 18px; }
+  .demo-contact .demo-contact-email { margin: 0; text-align: center; font: 600 12.5px var(--font-mono); color: rgba(255,255,255,.58); }
+
   /* --- Footer --- */
   .site-footer-nav {
     justify-content: center;
@@ -1162,6 +1179,15 @@
       <p class="lead-error" id="leadError" style="display:none;">Couldn't send your details just now — please try again in a moment.</p>
     </form>
     <div class="card" id="leadConfirm" style="display:none;"></div>
+    <div class="demo-contact" id="demoContact" style="display:none;">
+      <div class="demo-contact-panel">
+        <p class="demo-contact-heading">This is where your customer leaves their details</p>
+        <p>On your own version, their enquiry lands straight in your inbox with the job, the range they saw and any photos. Hit reply and you're talking to them.</p>
+      </div>
+      <p class="demo-contact-ask">Keen to set one up for your business?</p>
+      <a class="btn-secondary" href="mailto:hello@buildpath.nz?subject=BuildPath%20demo%20enquiry">Get in touch</a>
+      <p class="demo-contact-email">hello@buildpath.nz</p>
+    </div>
   </div>
 
   <!-- ===================== NEEDS REVIEW CARD ===================== -->
@@ -1708,6 +1734,12 @@ document.getElementById('estimateForm').addEventListener('submit', async (e) => 
 function handleConfirmYes() {
   hide(document.getElementById('confirmPrompt'));
   hide(document.getElementById('correctionBox'));
+  // Demo leads never get sent anywhere, so the demo shows a short
+  // explainer and a contact button instead of the lead form.
+  if (CONFIG.contractorId === 'demo') {
+    show(document.getElementById('demoContact'));
+    return;
+  }
   const note = document.getElementById('confirmNote');
   note.textContent = 'Great — send your details below and we\'ll take a proper look and confirm everything.';
   show(note);
