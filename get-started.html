@@ -481,6 +481,7 @@
   .tester-box-text { margin: 0; font-size: 14.5px; line-height: 1.55; }
   .tester-box-text + .tester-box-text { margin-top: 8px; }
   .tester-box-text a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+  .hint a { color: var(--blue); font-weight: 600; text-underline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -515,20 +516,21 @@
   <div class="step-block">
     <p class="step-label">Step 1 &middot; Your plan</p>
     <div class="tester-box" id="testerBox" hidden>
-      <p class="tester-box-kicker">Tester spot &middot; 5 only</p>
+      <p class="tester-box-kicker">Tester spot &middot; 5 of 6 left</p>
       <p class="tester-box-title">Free for 6 months from go-live</p>
       <p class="tester-box-text">Walk away at any stage and you owe nothing. In return, put the tool where your customers will see it and have a few chats with me about how it's going and what would make it better. If it's working for you, I'd like a short quote and your logo for the site.</p>
-      <p class="tester-box-text">Keep it after that for <strong>$300/year incl. GST</strong>, the same as everyone's renewal. You skip the $1,499 setup fee and pay nothing upfront.</p>
+      <p class="tester-box-text">Keep it after that for <strong>$300/year incl. GST</strong>, the same as everyone's renewal. You skip the $899 setup fee and pay nothing upfront.</p>
+      <p class="tester-box-text">Plus a free SheetFix spreadsheet worth $350, a new one or a fix of one you've already got. Just fill in the <a href="https://sheetfix.co.nz/get-started.html" target="_blank" rel="noopener">SheetFix get started form</a> and mention BuildPath.</p>
       <p class="tester-box-text">Setup is easy: fill in the template I send you and that sets up your tool around your business. I'm after builders around NZ whose websites get some enquiries, so spots go on fit. Apply below or email <a href="mailto:hello@buildpath.nz">hello@buildpath.nz</a>.</p>
     </div>
     <div class="tier-options" id="tierOptions" style="grid-template-columns:1fr;max-width:360px">
       <div class="tier-option selected" id="soleTierOption" data-tier="BuildPath" style="cursor:default">
         <p class="tier-option-name">BuildPath</p>
-        <p class="tier-option-price">$1,499 setup incl. GST<br>then $300/year from renewal</p>
-        <p class="tier-option-desc">Everything included to get a calibrated, branded ballpark tool live on your site.</p>
+        <p class="tier-option-price">$899 setup incl. GST<br>then $300/year from renewal</p>
+        <p class="tier-option-desc">Everything included to get a calibrated, branded ballpark tool live on your site. Plus a free SheetFix spreadsheet worth $350.</p>
       </div>
     </div>
-    <p class="hint" id="planHint" style="margin-top:12px;">First year included in setup. Setup is paid 50% upfront and 50% before go-live. The $300/year (incl. GST) fee then keeps your BuildPath page live, covering hosting, lead capture and minor maintenance. It starts at your 12-month renewal, not on day one.</p>
+    <p class="hint" id="planHint" style="margin-top:12px;">First year included in setup. Setup is paid $360 upfront and $539 before go-live. The $300/year (incl. GST) fee then keeps your BuildPath page live, covering hosting, lead capture and minor maintenance. It starts at your 12-month renewal, not on day one. For your free spreadsheet, a new one or a fix of one you've already got, fill in the <a href="https://sheetfix.co.nz/get-started.html" target="_blank" rel="noopener">SheetFix get started form</a> and mention BuildPath.</p>
     <div class="setup-note">Not sure if your pricing information is ready? That is fine. Once you submit this form, I will send through the right setup sheet and let you know what is needed.</div>
   </div>
 
@@ -598,7 +600,7 @@ if (new URLSearchParams(window.location.search).get('spot') === 'tester') {
   selectedTier = 'BuildPath tester';
   document.getElementById('selectedTierInput').value = selectedTier;
   document.getElementById('testerBox').hidden = false;
-  // Testers skip the setup fee, so hide the $1,499 plan card and its note
+  // Testers skip the setup fee, so hide the $899 plan card and its note
   document.getElementById('tierOptions').style.display = 'none';
   document.getElementById('planHint').style.display = 'none';
 }
